@@ -1,0 +1,22 @@
+{
+
+    "VerifyAPIKey":"Scenario: Verify API Key\nGiven I set query parameters to\n| parameter   | value      |\n| apikey      | `clientId` |\nWhen I GET /verifyapikey\nThen response code should be 200",
+
+    "VerifyIncorrectAPIKey":"Scenario: Verify Incorrect API Key\nGiven I set query parameters ton\n| parameter | value |\n| apikey |  abcdefghijklmnopqrstuvwxyz1234567 |\nWhen I GET /verifyapikey\nThen response code should be 401",
+
+    "AuthorizeAPIKey":"Scenario: Authorize API Key\nGiven I have basic authentication credentials `clientId` and `clientSecret`\nAnd I set query parameters to\n| parameter | value |\n| grant_type | client_credentials |\nWhen I GET /authorizeapikey\nThen response code should be 200\nAnd I store the value of body path $.access_token as valid_token in global scope",
+
+    "AuthorizeInvalidAPIKey":"Scenario: Fail to authorize invalid API Key\nGiven I have basic authentication credentials abcdefghijklmnopqrstuvwxyz1234567 and abcdefg123456\nAnd I set query parameters to\n| parameter  | value |\n| grant_type | client_credentials  |\nWhen I GET /authorizeapikey\nThen response code should be 401",
+
+    "VerifyAccessToken":"Scenario: Verify Access Token\nGiven I set Authorization header to Bearer `valid_token`\nWhen I GET /verifyoauth\nThen response code should be 200",
+
+    "VerifyInvalidAccessToken":"Scenario: Restrict access with invalid Access Token\nGiven I set Authorization header to Bearer abcdefghijklmnopqrstuvwxyz12\nWhen I GET /verifyoauth\nThen response code should be 401",
+
+    "VerifyOAuthScope":"Scenario: Verify OAuth Scope\nGiven I set Authorization header to Bearer `valid_token`\nWhen I GET /oauthscope\nThen response code should be 200",
+
+    "VerifyInvalidOAuthScope":"Scenario: Restrict access with Invalid Access Token scope\nGiven I set Authorization header to Bearer abcdefghijklmnopqrstuvwxyz12\nWhen I GET /oauthscope\nThen response code should be 401",
+
+    "VerifySQLProtection":"Scenario: Deny requests when malicious SQL code is sent as Query Param\nGiven I set query parameters to\n| parameter | value |\n| sqlcode   | SELECT * FROM Users; DROP TABLE Users |\nWhen I GET /sql\nThen response code should be 500",
+
+    "VerifyAPIKeyLogging":"Scenario: Log requests with API Keys\nGiven I set User-Agent header to apickli\nAnd I set query parameters to\n| parameter | value |\n| apikey | `clientId` |\nWhen I GET /logapikey\nThen response code should be 200"
+}

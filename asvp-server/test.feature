@@ -1,0 +1,1 @@
+"Scenario: Verify API Key\nGiven I set query parameters to\n| parameter   | value      |\n| apikey      | `clientId` |\nWhen I GET /verifyapikey\nThen response code should be 200\nundefined"
