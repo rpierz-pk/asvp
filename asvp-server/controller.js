@@ -41,7 +41,9 @@ router.post('/generate', (req, res) =>{
 
   console.log('Generating feature file at ./features/test.feature');     
   fs.writeFileSync('./features/test.feature', (outputTests), function(err, file) {
-     
+     if (err){
+       console.log(err)
+     }
   });
   res.send(input);
 })
