@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <title>Cucumber Test Generator</title>
+    </head>
+
+    <body>
+        <h1>Cucumber Test Generator</h1>
+        <form action="http://24.252.37.21:8000/responsetest">
+            URL: <input type="text" id="TargetURL"><br>
+            Client ID: <input type="text" id="ClientID"><br>
+            Client Secret: <input type = "text" id="ClientSecret">
+        <br>
+        <br>
+        <table>
+            <tr>
+                <th>Test</th>
+                <th>Include</th>
+            </tr>
+            <tr>
+                <td>Verify API Key</td>
+                <td><input id="VerifyAPIKey" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Authorize API Key</td>
+                <td><input id="AuthorizeAPIKey" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Verify Access Token API Key</td>
+                <td><input id="VerifyAccessToken" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Verify OAuth Scope API Key</td>
+                <td><input id="VerifyOAuthScope" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Verify SQL Protection API Key</td>
+                <td><input id="VerifySQLProtection" type="checkbox"></td>
+            </tr>
+            <tr>
+                <td>Verify API Key Logging</td>
+                <td><input id="VerifyAPIKeyLogging" type="checkbox"></td>
+            </tr>
+        </table>
+        <br>
+
+        <button name="GenerateTests" type="submit" formmethod="POST" onclick="sendRequest()">Generate Tests</button>
+        
+        </form>
+        <p id="serverResponse"></p> 
+    </body>
+
+    <script type="text/javascript">
+        const xhr = new XMLHttpRequest();
+
+        var sendRequest = function() {
+            const serverResponse = document.getElementById("serverResponse");
+            serverResponse.innerHTML = this.responseText;
+        }
+
+        const TargetURL = document.getElementById("TargetURL");
+        const ClientID = document.getElementById("ClientID");
+        const ClientSecret = document.getElementById("ClientSecret");
+
+        const VerifyAPIKey = document.getElementById("VerifyAPIKey");
+        const AuthorizeAPIKey = document.getElementById("AuthorizeAPIKey");
+        const VerifyAccessToken = document.getElementById("VerifyAccessToken");
+        const VerifyOAuthScope = document.getElementById("VerifyOAuthScope");
+        const VerifySQLProtection = document.getElementById("VerifySQLProtection");
+        const VerifyAPIKeyLogging = document.getElementById("VerifyAPIKeyLogging");
+
+        xhr.open("POST", "http://24.252.37.21:8000/responsetest");
+        xhr.setRequestHeader("Content-Type","application/json");
+        xhr.send(
+            {
+                "testKey":"testValue"
+                // "tests":{
+                //     "AuthenticateAPIKey":VerifyAPIKey.checked,
+                //     "AuthorizeAPIKey":AuthorizeAPIKey.checked,
+                //     "VerifyAccessToken":VerifyAccessToken.checked,
+                //     "VerifyOAuthScope":VerifyOAuthScope.checked,
+                //     "VerifySQLProtection":VerifySQLProtection.checked,
+                //     "VerifyAPIKeyLogging":VerifyAPIKeyLogging.checked
+                // },
+                // "url":TargetURL.value,
+                // "client":{
+                //     "id":ClientID.value,
+                //     "secret":ClientSecret.value
+                // }
+            }
+        )
+    </script>
+</html>
