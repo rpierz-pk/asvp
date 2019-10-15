@@ -2,6 +2,10 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
+router.get('/index', (req, res) => {
+  res.sendFile('index.html', {root:'../frontend/html'});
+});
+
 router.post('/generate', (req, res) =>{
   // Open premade test features
   //
