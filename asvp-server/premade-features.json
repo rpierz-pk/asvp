@@ -2,7 +2,7 @@
 
     "VerifyAPIKey":"Scenario: Verify API Key\nGiven I set query parameters to\n| parameter   | value      |\n| apikey      | `clientId` |\nWhen I GET /verifyapikey\nThen response code should be 200",
 
-    "VerifyInvalidAPIKey":"Scenario: Verify Incorrect API Key\nGiven I set query parameters ton\n| parameter | value |\n| apikey |  abcdefghijklmnopqrstuvwxyz1234567 |\nWhen I GET /verifyapikey\nThen response code should be 401",
+    "VerifyInvalidAPIKey":"Scenario: Verify Incorrect API Key\nGiven I set query parameters to\n| parameter | value |\n| apikey |  abcdefghijklmnopqrstuvwxyz1234567 |\nWhen I GET /verifyapikey\nThen response code should be 401",
 
     "AuthorizeAPIKey":"Scenario: Authorize API Key\nGiven I have basic authentication credentials `clientId` and `clientSecret`\nAnd I set query parameters to\n| parameter | value |\n| grant_type | client_credentials |\nWhen I GET /authorizeapikey\nThen response code should be 200\nAnd I store the value of body path $.access_token as valid_token in global scope",
 
