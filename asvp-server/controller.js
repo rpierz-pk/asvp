@@ -2,18 +2,13 @@ const express = require('express');
 const router = express.Router();
 const fs = require('fs');
 
-
 router.post('/generate', (req, res) =>{
   // Open premade test features
   //
   let premadeTests = JSON.parse(fs.readFileSync('./premade-features.json'));
   let outputTests = "Feature: Test Apigee Proxy for security implementations\n";
   
-
-
   let input =  req.body;
-  
-
 
   // Append all tests that are requested from the premade JSON file
   //
