@@ -7,7 +7,6 @@
 
     <body>
         <h1>Cucumber Test Generator</h1>
-        <form action="http://24.252.37.21:8000/responsetest">
             URL: <input type="text" id="TargetURL"><br>
             Client ID: <input type="text" id="ClientID"><br>
             Client Secret: <input type = "text" id="ClientSecret">
@@ -45,19 +44,15 @@
         </table>
         <br>
 
-        <button name="GenerateTests" type="submit" formmethod="POST" onclick="sendRequest()">Generate Tests</button>
-        
-        </form>
-        <p id="serverResponse"></p> 
+        <button name="GenerateTests" onclick="sendRequest()">Generate Tests</button>
+        <br><br>
+        <textarea id="serverResponse" rows="10" cols="50"></textarea>
     </body>
 
     <script type="text/javascript">
         const xhr = new XMLHttpRequest();
 
-        var sendRequest = function() {
-            const serverResponse = document.getElementById("serverResponse");
-            serverResponse.innerHTML = this.responseText;
-        }
+        
 
         const TargetURL = document.getElementById("TargetURL");
         const ClientID = document.getElementById("ClientID");
@@ -69,26 +64,35 @@
         const VerifyOAuthScope = document.getElementById("VerifyOAuthScope");
         const VerifySQLProtection = document.getElementById("VerifySQLProtection");
         const VerifyAPIKeyLogging = document.getElementById("VerifyAPIKeyLogging");
+        
+        
 
-        xhr.open("POST", "http://24.252.37.21:8000/responsetest");
+        xhr.open("POST", "http://24.252.37.21:8000/generate");
         xhr.setRequestHeader("Content-Type","application/json");
-        xhr.send(
-            {
-                "testKey":"testValue"
-                // "tests":{
-                //     "AuthenticateAPIKey":VerifyAPIKey.checked,
-                //     "AuthorizeAPIKey":AuthorizeAPIKey.checked,
-                //     "VerifyAccessToken":VerifyAccessToken.checked,
-                //     "VerifyOAuthScope":VerifyOAuthScope.checked,
-                //     "VerifySQLProtection":VerifySQLProtection.checked,
-                //     "VerifyAPIKeyLogging":VerifyAPIKeyLogging.checked
-                // },
-                // "url":TargetURL.value,
-                // "client":{
-                //     "id":ClientID.value,
-                //     "secret":ClientSecret.value
-                // }
-            }
-        )
+        var sendRequest = function() {
+            xhr.send(
+                JSON.stringify({
+                    "tests":{
+                        "AuthenticateAPIKey":VerifyAPIKey.checked,
+                        "AuthorizeAPIKey":AuthorizeAPIKey.checked,
+                        "VerifyAccessToken":VerifyAccessToken.checked,
+                        "VerifyOAuthScope":VerifyOAuthScope.checked,
+                        "VerifySQLProtection":VerifySQLProtection.checked,
+                        "VerifyAPIKeyLogging":VerifyAPIKeyLogging.checked
+                    },
+                    "url":TargetURL.value,
+                    "client":{
+                        "id":ClientID.value,
+                        "secret":ClientSecret.value
+                    }
+                })
+            )
+        }
+        xhr.onreadystatechange = function() {     
+            if (xhr.readyState === xhr.DONE) {
+                const serverResponse = document.getElementById("serverResponse");
+                serverResponse.innerHTML = xhr.responseText;
+            };
+        }
     </script>
 </html>
