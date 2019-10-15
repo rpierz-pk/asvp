@@ -12,6 +12,7 @@
   "devDependencies": {
     "apickli": "^2.3.3",
     "cucumber": "^6.0.2",
-    "morgan": "^1.9.1"
+    "morgan": "^1.9.1",
+    "serve-favicon": "^2.5.0"
   }
 }
