@@ -73,10 +73,6 @@ router.post('/generate', (req, res) =>{
     });
   });
 
-
-
-
-
   res.send(input);
 })
 
