@@ -46,13 +46,11 @@
 
         <button name="GenerateTests" onclick="sendRequest()">Generate Tests</button>
         <br><br>
-        <textarea id="serverResponse" rows="10" cols="50"></textarea>
+        <textarea id="serverResponse" rows="10" cols="50">Request Data</textarea>
     </body>
 
     <script type="text/javascript">
         const xhr = new XMLHttpRequest();
-
-        
 
         const TargetURL = document.getElementById("TargetURL");
         const ClientID = document.getElementById("ClientID");
