@@ -57,21 +57,13 @@
         <br><br>
         <h2>Generate Jenkinsfile Stage</h2><br>
         Folder Location: <input type="text" id="folderLocationInput"></input>
-        <button id="JenkinsWindows"
-                onclick="loadJenkinsWindows()">Windows</button>
         <button id="JenkinsLinux"
-                onclick="loadJenkinsLinux()">Linux</button>
+                onclick="loadJenkinsLinux()">Generate Jenkins Stage</button>
         <br><br>
-        <textarea id="jenkinsfileTextArea" rows="20" cols="50">JenkinsfileOutput</textarea>
+        <textarea id="jenkinsfileTextArea" rows="20" cols="100"></textarea>
     </body>
 
     <script type="text/javascript">
-      var loadJenkinsWindows = function() {
-        const jenkinsfileTextArea = document.getElementById("jenkinsfileTextArea");
-
-        jenkinsfileTextArea.value="TextWindows";
-      }
-
       var loadJenkinsLinux = function() {
         const folderLocationInput = document.getElementById("folderLocationInput");
         const jenkinsfileTextArea = document.getElementById("jenkinsfileTextArea");
@@ -80,7 +72,7 @@
           "http://24.252.37.21:8000/jenkins?location="+folderLocationInput.value);
         xhrJenkins.send();
         xhrJenkins.onreadystatechange = function() {
-          if (xhrJenkins.readyState === xhr.DONE){
+          if (xhrJenkins.readyState === xhrJenkins.DONE){
             jenkinsfileTextArea.innerHTML = xhrJenkins.responseText;
           }
         }
@@ -122,13 +114,13 @@
               "secret":ClientSecret.value
             }
           })
-        )
-      }
-      xhr.onreadystatechange = function() {     
-        if (xhr.readyState === xhr.DONE) {
-          const serverResponse = document.getElementById("serverResponse");
-          serverResponse.innerHTML = xhr.responseText;
-        };
-      }
+        );
+        xhr.onreadystatechange = function() {     
+          if (xhr.readyState === xhr.DONE) {
+            const serverResponse = document.getElementById("serverResponse");
+            serverResponse.innerHTML = xhr.responseText;
+          };
+        }
+      };
     </script>
 </html>
