@@ -47,9 +47,48 @@
         <button name="GenerateTests" onclick="sendRequest()">Generate Tests</button>
         <br><br>
         <textarea id="serverResponse" rows="10" cols="50">Request Data</textarea>
+        <br><br>
+        <a href="/init" download="init.js">
+          <button id="DownloadTests">Download Init File</button>
+        </a>
+        <a href="/feature" download="test.feature">
+          <button id="DownloadFeature">Download Feature File</button>
+        </a>
+        <br><br>
+        <h2>Generate Jenkinsfile Stage</h2><br>
+        Folder Location: <input type="text" id="folderLocationInput"></input>
+        <button id="JenkinsWindows"
+                onclick="loadJenkinsWindows()">Windows</button>
+        <button id="JenkinsLinux"
+                onclick="loadJenkinsLinux()">Linux</button>
+        <br><br>
+        <textarea id="jenkinsfileTextArea" rows="20" cols="50">JenkinsfileOutput</textarea>
     </body>
 
     <script type="text/javascript">
+      var loadJenkinsWindows = function() {
+        const jenkinsfileTextArea = document.getElementById("jenkinsfileTextArea");
+
+        jenkinsfileTextArea.value="TextWindows";
+      }
+
+      var loadJenkinsLinux = function() {
+        const folderLocationInput = document.getElementById("folderLocationInput");
+        const jenkinsfileTextArea = document.getElementById("jenkinsfileTextArea");
+        const xhrJenkins = new XMLHttpRequest();
+        xhrJenkins.open("GET",
+          "http://24.252.37.21:8000/jenkins?location="+folderLocationInput.value);
+        xhrJenkins.send();
+        xhrJenkins.onreadystatechange = function() {
+          if (xhrJenkins.readyState === xhr.DONE){
+            jenkinsfileTextArea.innerHTML = xhrJenkins.responseText;
+          }
+        }
+      };
+        
+
+      var sendRequest = function() {
+      
         const xhr = new XMLHttpRequest();
 
         const TargetURL = document.getElementById("TargetURL");
@@ -62,35 +101,34 @@
         const VerifyOAuthScope = document.getElementById("VerifyOAuthScope");
         const VerifySQLProtection = document.getElementById("VerifySQLProtection");
         const VerifyAPIKeyLogging = document.getElementById("VerifyAPIKeyLogging");
-        
-        
+
+
 
         xhr.open("POST", "http://24.252.37.21:8000/generate");
         xhr.setRequestHeader("Content-Type","application/json");
-        var sendRequest = function() {
-            xhr.send(
-                JSON.stringify({
-                    "tests":{
-                        "AuthenticateAPIKey":VerifyAPIKey.checked,
-                        "AuthorizeAPIKey":AuthorizeAPIKey.checked,
-                        "VerifyAccessToken":VerifyAccessToken.checked,
-                        "VerifyOAuthScope":VerifyOAuthScope.checked,
-                        "VerifySQLProtection":VerifySQLProtection.checked,
-                        "VerifyAPIKeyLogging":VerifyAPIKeyLogging.checked
-                    },
-                    "url":TargetURL.value,
-                    "client":{
-                        "id":ClientID.value,
-                        "secret":ClientSecret.value
-                    }
-                })
-            )
-        }
-        xhr.onreadystatechange = function() {     
-            if (xhr.readyState === xhr.DONE) {
-                const serverResponse = document.getElementById("serverResponse");
-                serverResponse.innerHTML = xhr.responseText;
-            };
-        }
+        xhr.send(
+          JSON.stringify({
+            "tests":{
+              "AuthenticateAPIKey":VerifyAPIKey.checked,
+              "AuthorizeAPIKey":AuthorizeAPIKey.checked,
+              "VerifyAccessToken":VerifyAccessToken.checked,
+              "VerifyOAuthScope":VerifyOAuthScope.checked,
+              "VerifySQLProtection":VerifySQLProtection.checked,
+              "VerifyAPIKeyLogging":VerifyAPIKeyLogging.checked
+            },
+            "url":TargetURL.value,
+            "client":{
+              "id":ClientID.value,
+              "secret":ClientSecret.value
+            }
+          })
+        )
+      }
+      xhr.onreadystatechange = function() {     
+        if (xhr.readyState === xhr.DONE) {
+          const serverResponse = document.getElementById("serverResponse");
+          serverResponse.innerHTML = xhr.responseText;
+        };
+      }
     </script>
 </html>

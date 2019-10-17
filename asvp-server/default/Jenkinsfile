@@ -1,0 +1,24 @@
+stage('Cucumber Tests') {
+  steps {
+    script {
+      try { 
+        sh "cd $WORKSPACE && mkdir features && mkdir features/support && mkdir features/step_definitions"
+        sh "echo \"module.exports = require('apickli/apickli-gherkin');\" > features/step_defintions"
+      } catch(e){
+        sh "echo \"Failed to bootstrap\" >> $WORKSPACE/log.txt"
+      }
+      try {
+        sh "cp <FOLDER_LOCATION>/init.js $WORKSPACE/features/support/"
+          sh "cp <FOLDER_LOCATION>/test.feature $WORKSPACE/features/"
+      } catch(e) {
+        sh "echo \"Failed to copy files\" >> $WORKSPACE/log.txt"
+      }
+      try {
+        sh "npm install cucumber"
+        sh "npm install apickli"
+      } catch(e) {
+        sh "echo \"Failed to install cucumber and apickli\" $WORKSPACE/log.txt"
+      }
+    }
+  }
+}
