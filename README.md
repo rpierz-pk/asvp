@@ -77,6 +77,7 @@ As can be seen, by the flow diagram, this program expedites the test creation pr
 ## Setup
 Here are the different setups that we used to verify the framework.
 |	|Think Pad	|Raspberry Pi 3 B+|
+|-------|---------------|-----------------|
 |Operating Systems	|Windows 10 Pro	|Raspbian (Linux) September 2019 Version|
 |ISA	X86 64 Bit	|ARM V8 64 Bit|
 |Kernel Version	N.A	|4.19|
@@ -243,6 +244,7 @@ The preceding logic may be applied to the outcome of all tests. The tests are no
  
 To clarify: the developer should look at the cross-section of test results in order to determine whether the security policy is correctly implemented. Below
 	|	||||Valid API Key|
+	|--|--|--|--|--|
 |	|	|200	|Invalid API Key Error	|Other Error|
 |Invalid API Key	|200	|Policy not correctly configured	|Fatal Error	|Policy not correctly configured|
 |	|Invalid API Key Error	|Success	|API Key is not correct	|Possibly working, interference by other policy|
