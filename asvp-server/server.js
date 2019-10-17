@@ -5,6 +5,7 @@ const favicon = require('serve-favicon');
 
 const app = express();
 
+app.use(morgan(':date[web]'));
 app.use(morgan('dev'));
 app.use(express.json());
 app.use(favicon(__dirname+'/favicon.ico'));

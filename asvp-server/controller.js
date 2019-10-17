@@ -6,6 +6,29 @@ router.get('/index', (req, res) => {
   res.sendFile('index.html', {root:'../frontend/html'});
 });
 
+router.get('/init', (req,res) => {
+  res.sendFile('init.js', {root:'./features/support'});
+});
+
+router.get('/feature', (req,res) => {
+  res.sendFile('test.feature', {root:'./features'});
+});
+
+router.get('/jenkins', (req, res) => {
+  console.log(' GET /jenkins');
+  fs.readFile('./default/Jenkinsfile', 'utf8', function(err, file) {
+    if (err){
+      console.log(err);
+    }
+    if (req.query.location == "") {
+      res.send("Please include the folder path for the test.feature file and init.js file");
+      return -1;
+    };
+    let inputData = file.replace(/<FOLDER_LOCATION>/g, req.query.location);
+    res.send(inputData);
+  });
+});
+
 router.post('/generate', (req, res) =>{
   // Open premade test features
   //
