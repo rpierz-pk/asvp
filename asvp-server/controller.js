@@ -17,18 +17,14 @@ router.get('/feature', (req,res) => {
 router.get('/jenkins', (req, res) => {
   console.log(' GET /jenkins');
   fs.readFile('./default/Jenkinsfile', 'utf8', function(err, file) {
-    console.log('File was opened');
     if (err){
-      console.log(err)
+      console.log(err);
     }
-    console.log('req.query.location = '+req.query.location);
     if (req.query.location == "") {
-      console.log('No location query param found');
       res.send("Please include the folder path for the test.feature file and init.js file");
+      return -1;
     };
-    console.log('Found LOCATION query param');
     let inputData = file.replace(/<FOLDER_LOCATION>/g, req.query.location);
-    console.log('Replaced text in document');
     res.send(inputData);
   });
 });
