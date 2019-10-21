@@ -37,26 +37,7 @@ router.post('/generate', (req, res) =>{
   let input =  req.body;
 
   // Gherkin-Tests.json provides the Gherkin Syntax 
-  let gherkinTests = {
-    "Given": {
-      "BasicAuth": "I have basic authentication credentials <BASIC_USR> and <BASIC_PSW>\n",
-      "HeaderStart":"I set headers to\n| name | value |\n",
-      "HeaderUnit":"| <HEADER_KEY> | <HEADER_VALUE> |\n",
-      "QueryParamStart":"I set query parameters to\n| parameter | value |\n",
-      "QueryParamUnit":"| <QUERY_KEY> | <QUERY_VALUE> |\n",
-      "FormParamStart":"I set form parameters to\n| parameter | value |\n",
-      "FormParamUnit":"| <FORM_KEY> | <FORM_VALUE> |\n",
-      "Body":"I set body to <BODY>\n"
-    },
-    "When": {
-      "RequestEndpoint":"I <REQUEST_METHOD> <REQUEST_URL>\n"
-    },
-    "Then": {
-      "ResponseCode":"response code should be <RESPONSE_CODE>\n",
-      "ResponseHeader":"response header <HEADER_KEY> should be <HEADER_VALUE>\n",
-      "ResponseBody":"response body path <BODY_PATH> should be <BODY_VALUE>\n"
-    }
-  };
+  let gherkinTests = JSON.parse(fs.readFileSync("./gherkin-tests.json"));
 
   var tests = input.tests;
 
@@ -178,7 +159,7 @@ router.post('/generate', (req, res) =>{
   // Change the placeholder variables in init.js with data from the request
   //
   console.log('Writing -->  URL, ClientID, ClientSecret @ ./features/support/init.js');
-  fs.readFile('./features/support/default_init.js', 'utf8', function(err, file) {
+  fs.readFile('./default/default_init.js', 'utf8', function(err, file) {
     if (err) {
       console.log(err);
     };
