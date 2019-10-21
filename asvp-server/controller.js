@@ -165,10 +165,7 @@ router.post('/generate', (req, res) =>{
     };
 
     let inputData = file
-      // .replace(/INPUT_URL/g,'\''+input.url+'\'')
-      // .replace(/INPUT_CLIENTID/g,'\''+input.client.id+'\'')
-      // .replace(/INPUT_CLIENTSECRET/g,'\''+input.client.secret+'\'');
-    
+      .replace(/INPUT_URL/g,'\''+input.global.ProxyURL+'\'')
     fs.writeFileSync('./features/support/init.js', inputData, function(err){
       if (err){
         outputTests = outputTests.concat(err);
