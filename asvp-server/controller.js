@@ -158,7 +158,7 @@ router.post('/generate', (req, res) =>{
 
   // Change the placeholder variables in init.js with data from the request
   //
-  console.log('Writing -->  URL, ClientID, ClientSecret @ ./features/support/init.js');
+  console.log('Writing --> Proxy URL @ ./features/support/init.js');
   fs.readFile('./default/default_init.js', 'utf8', function(err, file) {
     if (err) {
       console.log(err);
