@@ -113,7 +113,7 @@ router.post('/generate', (req, res) =>{
     };
     this.setHeaders = function(config){
       for (var header in config){
-        this.addheader(header,config[header]);
+        this.addHeader(header,config[header]);
       };
     };
 
@@ -223,17 +223,18 @@ router.post('/generate', (req, res) =>{
   };
 
   var globalConfig = new Config();
-  globalConfig.setMetadata(req.global);
-  globalConfig.addParameters(req.global.Parameters);
-  globalConfig.setExpectedOutput(req.global.ExpectedOutput);
+  if (input.global != null){
+    globalConfig.setMetadata(input.global);
+    globalConfig.addParameters(input.global.Parameters);
+    globalConfig.setExpectedOutput(input.global.ExpectedOutput);
+  }
 
-  for (var test in req.tests){
+  for (var test in input.tests){
     var currentTest = new Config()
     currentTest.setConfig(globalConfig);
-    currentTest.setMetadata(req.tests[test]);
-    currentTest.addParameters(req.tests[test].Parameters);
-    currentTest.setExpectedOutput(req.tests[test].ExpectedOutput);
-    console.log(currentTest);
+    currentTest.setMetadata(input.tests[test]);
+    currentTest.addParameters(input.tests[test].Parameters);
+    currentTest.setExpectedOutput(input.tests[test].ExpectedOutput);
 
 
 
@@ -298,9 +299,9 @@ router.post('/generate', (req, res) =>{
     
 
     // Begin WHEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
-    outputTests = outputTests.concat("When ",gherkinTests.When.reqEndpoint
-      .replace(/<req_METHOD>/,currentTest.method)
-      .replace(/<req_URL>/,currentTest.endpoint));
+    outputTests = outputTests.concat("When ",gherkinTests.When.RequestEndpoint
+      .replace(/<REQUEST_METHOD>/,currentTest.method)
+      .replace(/<REQUEST_URL>/,currentTest.endpoint));
     // End WHEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^
 
 
@@ -360,7 +361,7 @@ router.post('/generate', (req, res) =>{
     };
 
     let inputData = file
-      .replace(/INPUT_URL/g,'\''+req.global.ProxyURL+'\'')
+      .replace(/INPUT_URL/g,'\''+input.global.ProxyURL+'\'')
     fs.writeFileSync('./features/support/init.js', inputData, function(err){
       if (err){
         outputTests = outputTests.concat(err);
