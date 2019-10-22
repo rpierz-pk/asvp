@@ -403,7 +403,6 @@ router.post('/generate', (req, res) =>{
       }
     });
   });
-  console.log(outputTests);
   res.send(outputTests);
 })
 
