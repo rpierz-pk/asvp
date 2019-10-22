@@ -76,6 +76,9 @@ router.post('/generate', (req, res) =>{
     this.getBasicAuth = function() {
       return this.parameters.basicAuth;
     };
+    this.hasBasicAuth = function() {
+      return (!(Object.entries(this.parameters.basicAuth).length === 0));
+    };
 
     this.setEndpoint = function(value){
       this.endpoint = value;
@@ -90,6 +93,11 @@ router.post('/generate', (req, res) =>{
     this.getBody = function() {
       return this.parameters.body;
     };
+    this.hasBody = function() {
+      if (this.parameters.body != "")
+        return true;
+      return false;
+    };
 
 
     this.addQueryParam = function(key, value){
@@ -102,6 +110,9 @@ router.post('/generate', (req, res) =>{
     };
     this.getQueryParams = function() {
       return this.parameters.queryParams;
+    };
+    this.hasQueryParam = function() {
+      return (!(Object.entries(this.parameters.queryParams).length === 0));
     };
 
 
@@ -116,6 +127,9 @@ router.post('/generate', (req, res) =>{
         this.addHeader(header,config[header]);
       };
     };
+    this.hasHeader = function() {
+      return (!(Object.entries(this.parameters.headers).length === 0));
+    };
 
 
     this.addFormParam = function(key, value){
@@ -129,6 +143,9 @@ router.post('/generate', (req, res) =>{
         this.addFormParam(formParam,config[formParam]);
       };
     };
+    this.hasFormParam = function() {
+      return (!(Object.entries(this.parameters.formParams).length === 0));
+    };
 
 
     this.setOutputCode = function(value){
@@ -136,6 +153,11 @@ router.post('/generate', (req, res) =>{
     };
     this.getOutputCode = function() {
       return this.output.code;
+    };
+    this.hasOutputCode = function() {
+      if (this.output.code != "")
+        return true;
+      return false;
     };
 
     this.addOutputHeader = function(key, value){
@@ -147,6 +169,9 @@ router.post('/generate', (req, res) =>{
     this.setOutputHeader = function(value) {
       this.output.headers = value;
     }
+    this.hasOutputHeader = function() {
+      return (!(Object.entries(this.output.headers).length === 0));
+    };
 
     this.setOutputBody = function(value) {
       this.output.body = value;
@@ -154,6 +179,9 @@ router.post('/generate', (req, res) =>{
     this.getOutputBody = function() {
       return this.body;
     }
+    this.hasOutputBody = function() {
+      return (!(Object.entries(this.output.body).length === 0));
+    };
 
 
     this.setConfig = function(config) {
@@ -244,6 +272,12 @@ router.post('/generate', (req, res) =>{
     // Append all requirements for the req as GIVEN statements
     // Begin GIVEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
     var parameters = currentTest.parameters;
+    for (var parameterType in parameters) {
+      if (Object.entries(parameters[parameterType]).length === 0){
+        console.log('deleting '+parameterType);
+        delete parameters[parameterType];
+      }
+    };
     for (var parameterType in parameters){
       
       // Write the GIVEN lines for each test
@@ -308,6 +342,10 @@ router.post('/generate', (req, res) =>{
     // Begin THEN lines -v-v-v--v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
     first = true;
     var expectedOutput = currentTest.output;
+    for (var expectedResponseType in expectedOutput){
+      if (Object.entries(expectedOutput[expectedResponseType]).length === 0)
+        delete expectedOutput[expectedResponseType];
+    }
     for (var expectedResponseType in expectedOutput){
       if (first) outputTests = outputTests.concat("Then ");
       else outputTests = outputTests.concat("And ");
