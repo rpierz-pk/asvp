@@ -16,15 +16,15 @@ router.get('/feature', (req,res) => {
 });
 
 router.get('/run', (req, res) =>{
-  var script = exec('node_modules/cucumber/bin/cucumber-js features/test.feature',
+  var script = exec('npm test',
   (error, stdout, stderr) =>{
-    console.log(stdout);
+    
+    res.send(stdout);
     console.log(stderr);
     if(error !== null) {
       console.log(`exec error: ${error}`);
     }
   })
-  res.send("output");
 });
 
 router.get('/jenkins', (req, res) => {
