@@ -1,5 +1,6 @@
 const express = require('express');
 const router = express.Router();
+const exec = require('child_process').exec;
 const fs = require('fs');
 
 router.get('/index', (req, res) => {
@@ -12,6 +13,18 @@ router.get('/init', (req,res) => {
 
 router.get('/feature', (req,res) => {
   res.sendFile('test.feature', {root:'./features'});
+});
+
+router.get('/run', (req, res) =>{
+  var script = exec('node_modules/cucumber/bin/cucumber-js features/test.feature',
+  (error, stdout, stderr) =>{
+    console.log(stdout);
+    console.log(stderr);
+    if(error !== null) {
+      console.log(`exec error: ${error}`);
+    }
+  })
+  res.send("output");
 });
 
 router.get('/jenkins', (req, res) => {
@@ -37,7 +50,7 @@ router.post('/generate', (req, res) =>{
   let input =  req.body;
 
   // Gherkin-Tests.json provides the Gherkin Syntax 
-  let gherkinTests = JSON.parse(fs.readFileSync("./gherkin-tests.json"));
+  let gherkinTests = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
 
   var Config = function() {
     this.proxyURL = "";
@@ -380,7 +393,7 @@ router.post('/generate', (req, res) =>{
   // Generate the feature file from the parameters desired by the user
   //
   console.log('Generating --> feature file @ ./features/test.feature');     
-  fs.writeFileSync('./features/test.feature', (outputTests), function(err, file) {
+  fs.writeFileSync(__dirname+'/features/test.feature', (outputTests), function(err, file) {
      if (err){
        console.log(err)
      }
@@ -390,14 +403,14 @@ router.post('/generate', (req, res) =>{
   // Change the placeholder variables in init.js with data from the req
   //
   console.log('Writing --> Proxy URL @ ./features/support/init.js');
-  fs.readFile('./default/default_init.js', 'utf8', function(err, file) {
+  fs.readFile(__dirname+'/default/default_init.js', 'utf8', function(err, file) {
     if (err) {
       console.log(err);
     };
 
     let inputData = file
       .replace(/INPUT_URL/g,'\''+input.global.ProxyURL+'\'')
-    fs.writeFileSync('./features/support/init.js', inputData, function(err){
+    fs.writeFileSync(__dirname+'/features/support/init.js', inputData, function(err){
       if (err){
         console.log(err);
       }
