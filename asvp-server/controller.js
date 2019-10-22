@@ -376,15 +376,13 @@ router.post('/generate', (req, res) =>{
   // End THEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^
   
   }
-  console.log(outputTests);
- 
 
   // Generate the feature file from the parameters desired by the user
   //
   console.log('Generating --> feature file @ ./features/test.feature');     
   fs.writeFileSync('./features/test.feature', (outputTests), function(err, file) {
      if (err){
-       outputTests = outputTests.concat(err)
+       console.log(err)
      }
   });
 
@@ -401,12 +399,12 @@ router.post('/generate', (req, res) =>{
       .replace(/INPUT_URL/g,'\''+input.global.ProxyURL+'\'')
     fs.writeFileSync('./features/support/init.js', inputData, function(err){
       if (err){
-        outputTests = outputTests.concat(err);
+        console.log(err);
       }
     });
   });
 
-  res.send(input);
+  res.send(outputTests);
 })
 
 module.exports = router;
