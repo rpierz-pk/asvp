@@ -16,7 +16,7 @@ router.get('/feature', (req,res) => {
 });
 
 router.get('/run', (req, res) =>{
-  var script = exec('npm test',
+  var script = exec('cd '+__dirname+' && npm test',
   (error, stdout, stderr) =>{
     
     res.send(stdout);
