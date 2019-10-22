@@ -274,7 +274,6 @@ router.post('/generate', (req, res) =>{
     var parameters = currentTest.parameters;
     for (var parameterType in parameters) {
       if (Object.entries(parameters[parameterType]).length === 0){
-        console.log('deleting '+parameterType);
         delete parameters[parameterType];
       }
     };
