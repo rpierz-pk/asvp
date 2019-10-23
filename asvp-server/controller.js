@@ -11,23 +11,33 @@ router.get('/init', (req,res) => {
   res.sendFile('init.js', {root:'./features/support'});
 });
 
+// Convert a json report file to html output
 router.get('/report', (req, res) => {
-  let reportFilePath = __dirname + '/reports.json';
+  let jsonReportFilePath = __dirname + '/report.json';
+  let htmlReportFilePath = __dirname + '/report.html';
+
   try {
-    if (fs.existsSync(reportFilePath)) {
-      res.sendFile(reportFilePath)
+    if (fs.existsSync(jsonReportFilePath)){
+      // Convert the json report file to HTML document
+      let generateScript = exec('cd '+__dirname+' && node convert.js',
+        (error, stdout, stderr) => {
+          res.sendFile(htmlReportFilePath)
+        }
+      );
     } else{
+      // No json report file was found, so send back error
       res.status(400).json({
         "Status Code": "400 BAD REQUEST",
         "Error": "No report file could be found. Cucumber tests must be run first.",
         "Reference":"https://www.github.com/rpierz-pk/asvp"
       })
     }
-  } catch (err) {
+  } catch(err){
     console.log(err);
   }
 });
 
+// retrieve the feature file
 router.get('/feature', (req,res) => {
   res.sendFile('test.feature', {root:'./features'});
 });
@@ -39,7 +49,7 @@ router.get('/run', (req, res) =>{
     if (fs.existsSync(featureFilePath)) {
       var script = exec('cd '+__dirname+' && npm test',
         (error, stdout, stderr) =>{
-          res.sendFile(__dirname+'/reports.json');
+          res.sendFile(__dirname+'/report.json');
           console.log(stderr);
           if(error !== null) {
             console.log(`exec error: ${error}`);
