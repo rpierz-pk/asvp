@@ -1,20 +1,20 @@
 {
-  "Given": {
-    "BasicAuth": "I have basic authentication credentials <BASIC_USR> and <BASIC_PSW>\n",
-    "HeaderStart":"I set headers to\n| name | value |\n",
-    "HeaderUnit":"| <HEADER_KEY> | <HEADER_VALUE> |\n",
-    "QueryParamStart":"I set query parameters to\n| parameter | value |\n",
-    "QueryParamUnit":"| <QUERY_KEY> | <QUERY_VALUE> |\n",
-    "FormParamStart":"I set form parameters to\n| parameter | value |\n",
-    "FormParamUnit":"| <FORM_KEY> | <FORM_VALUE> |\n",
-    "Body":"I set body to <BODY>\n"
-  },
-  "When": {
-    "RequestEndpoint":"I <REQUEST_METHOD> <REQUEST_URL>\n"
-  },
-  "Then": {
-    "ResponseCode":"response code should be <RESPONSE_CODE>\n",
-    "ResponseHeader":"response header <HEADER_KEY> should be <HEADER_VALUE>\n",
-    "ResponseBody":"response body path <BODY_PATH> should be <BODY_VALUE>\n"
-  }
+	"Given": {
+		"BasicAuth": "I have basic authentication credentials <BASIC_USR> and <BASIC_PSW>\n",
+		"HeaderStart":"I set headers to\n| name | value |\n",
+		"HeaderUnit":"| <HEADER_KEY> | <HEADER_VALUE> |\n",
+		"QueryParamStart":"I set query parameters to\n| parameter | value |\n",
+		"QueryParamUnit":"| <QUERY_KEY> | <QUERY_VALUE> |\n",
+		"FormParamStart":"I set form parameters to\n| parameter | value |\n",
+		"FormParamUnit":"| <FORM_KEY> | <FORM_VALUE> |\n",
+		"Body":"I set body to <BODY>\n"
+	},
+	"When": {
+		"RequestEndpoint":"I <REQUEST_METHOD> <REQUEST_URL>\n"
+	},
+	"Then": {
+		"ResponseCode":"response code should be <RESPONSE_CODE>\n",
+		"ResponseHeader":"response header <HEADER_KEY> should be <HEADER_VALUE>\n",
+		"ResponseBody":"response body path <BODY_PATH> should be <BODY_VALUE>\n"
+	}
 }

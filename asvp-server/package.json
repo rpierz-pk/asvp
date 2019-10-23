@@ -6,15 +6,16 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "test": "node_modules/cucumber/bin/cucumber-js features/test.feature"
+    "test": "cucumber-js features/test.feature -f json:report.json"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "apickli": "^2.3.3",
     "child_process": "^1.0.2",
-    "cucumber": "^6.0.2",
+    "cucumber": "^4.2.1",
     "morgan": "^1.9.1",
-    "serve-favicon": "^2.5.0"
+    "serve-favicon": "^2.5.0",
+    "cucumber-html-reporter": "^5.0.2"
   }
 }
