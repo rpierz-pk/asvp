@@ -15,18 +15,31 @@ router.get('/feature', (req,res) => {
   res.sendFile('test.feature', {root:'./features'});
 });
 
+//  run the cucumber tests (should fail if test not configured)
 router.get('/run', (req, res) =>{
-  var script = exec('cd '+__dirname+' && npm test',
-  (error, stdout, stderr) =>{
-    
-    res.send(stdout);
-    console.log(stderr);
-    if(error !== null) {
-      console.log(`exec error: ${error}`);
+  let featureFilePath = __dirname + '/features/test.feature';
+  try {
+    if (fs.existsSync(featureFilePath)) {
+      var script = exec('cd '+__dirname+' && npm test',
+        (error, stdout, stderr) =>{
+          res.send(stdout);
+          console.log(stderr);
+          if(error !== null) {
+            console.log(`exec error: ${error}`);
+          }
+        });
+    } else {
+      res.status(500).json({
+        "Error":"No valid feature file found. Please generate test file first at the /generate endpoint. Please see the documentation for more help",
+        "Reference":"https://www.github.com/rpierz-pk/asvp"
+      })
     }
-  })
+  } catch(err) {
+    console.log(err)
+  }
 });
 
+//  return the Jenkinsfile's text
 router.get('/jenkins', (req, res) => {
   console.log(' GET /jenkins');
   fs.readFile('./default/Jenkinsfile', 'utf8', function(err, file) {
