@@ -11,6 +11,23 @@ router.get('/init', (req,res) => {
   res.sendFile('init.js', {root:'./features/support'});
 });
 
+router.get('/report', (req, res) => {
+  let reportFilePath = __dirname + '/reports.json';
+  try {
+    if (fs.existsSync(reportFilePath)) {
+      res.sendFile(reportFilePath)
+    } else{
+      res.status(400).json({
+        "Status Code": "400 BAD REQUEST",
+        "Error": "No report file could be found. Cucumber tests must be run first.",
+        "Reference":"https://www.github.com/rpierz-pk/asvp"
+      })
+    }
+  } catch (err) {
+    console.log(err);
+  }
+});
+
 router.get('/feature', (req,res) => {
   res.sendFile('test.feature', {root:'./features'});
 });
@@ -22,14 +39,15 @@ router.get('/run', (req, res) =>{
     if (fs.existsSync(featureFilePath)) {
       var script = exec('cd '+__dirname+' && npm test',
         (error, stdout, stderr) =>{
-          res.send(stdout);
+          res.sendFile(__dirname+'/reports.json');
           console.log(stderr);
           if(error !== null) {
             console.log(`exec error: ${error}`);
           }
         });
     } else {
-      res.status(500).json({
+      res.status(400).json({
+        "Status Code": "400 BAD REQUEST",
         "Error":"No valid feature file found. Please generate test file first at the /generate endpoint. Please see the documentation for more help",
         "Reference":"https://www.github.com/rpierz-pk/asvp"
       })
