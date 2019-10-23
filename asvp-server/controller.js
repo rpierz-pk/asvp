@@ -86,6 +86,7 @@ router.get('/jenkins', (req, res) => {
 router.post('/generate', (req, res) =>{
   // Open premade test features
   //
+  let premadeTests = JSON.parse(fs.readFileSync('./premade-features.json'));
   let outputTests = "Feature: Test Apigee Proxy for security implementations\n";
   
   let input =  req.body;
@@ -301,135 +302,9 @@ router.post('/generate', (req, res) =>{
         };
       }
     }
-
   };
-
-  var globalConfig = new Config();
-  if (input.global != null){
-    globalConfig.setMetadata(input.global);
-    globalConfig.addParameters(input.global.Parameters);
-    globalConfig.setExpectedOutput(input.global.ExpectedOutput);
-  }
-
-  for (var test in input.tests){
-    var currentTest = new Config()
-    currentTest.setConfig(globalConfig);
-    currentTest.setMetadata(input.tests[test]);
-    currentTest.addParameters(input.tests[test].Parameters);
-    currentTest.setExpectedOutput(input.tests[test].ExpectedOutput);
-
-
-
-    var first = true;
-    outputTests = outputTests.concat("Scenario: Run Test ",test,"\n");
-
-    // Append all requirements for the req as GIVEN statements
-    // Begin GIVEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
-    var parameters = currentTest.parameters;
-    for (var parameterType in parameters) {
-      if (Object.entries(parameters[parameterType]).length === 0){
-        delete parameters[parameterType];
-      }
-    };
-    for (var parameterType in parameters){
-      
-      // Write the GIVEN lines for each test
-      if (first) outputTests = outputTests.concat("Given ");
-      else outputTests = outputTests.concat("And ");
-        
-      // Write Query Parameters to Given lines
-      if (parameterType == "queryParams") {
-        outputTests = outputTests.concat(gherkinTests.Given.QueryParamStart);         // Append the intro line for Query Parameters
-        for (var queryParam in currentTest.parameters.queryParams) {
-          outputTests = outputTests.concat(gherkinTests.Given.QueryParamUnit
-            .replace(/<QUERY_KEY>/,queryParam)
-            .replace(/<QUERY_VALUE>/,currentTest.parameters.queryParams[queryParam]));
-        }
-      }
-
-      // Write Headers to Given lines
-      else if (parameterType == "headers") {
-        outputTests = outputTests.concat(gherkinTests.Given.HeaderStart);         // Append the intro line for Headers
-        for (var header in currentTest.parameters.headers) {
-          outputTests = outputTests.concat(gherkinTests.Given.HeaderUnit
-            .replace(/<HEADER_KEY>/,header)
-            .replace(/<HEADER_VALUE>/,currentTest.parameters.headers[header]));
-        }
-      }
-
-      // Write Form Parameters to Given lines
-      else if (parameterType == "formParams") {
-        outputTests = outputTests.concat(gherkinTests.Given.FormParamStart);         // Append the intro line for Form Parameters
-        for (var formParam in currentTest.parameters.formParams) {
-          outputTests = outputTests.concat(gherkinTests.Given.FormParamUnit
-            .replace(/<FORM_KEY>/,formParam)
-            .replace(/<FORM_VALUE>/,currentTest.parameters.formParams[formParam]));
-        }
-      }
-
-      // Write Basic Authentication to Given lines
-      else if (parameterType == "basicAuth") {
-        outputTests = outputTests.concat(gherkinTests.Given.BasicAuth
-          .replace(/<BASIC_USR>/,currentTest.parameters.basicAuth.username)
-          .replace(/<BASIC_PSW>/,currentTest.parameters.basicAuth.password));
-      }
-
-      // Write the Payload to Given lines
-      else if (parameterType == "body") {
-        outputTests = outputTests.concat(gherkinTests.Given.Body.
-          replace(/<BODY>/,currentTest.parameters.body));
-      }
-    
-      
-      first = false;
-    } // END GIVEN LINES -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^
-    
-
-    // Begin WHEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
-    outputTests = outputTests.concat("When ",gherkinTests.When.RequestEndpoint
-      .replace(/<REQUEST_METHOD>/,currentTest.method)
-      .replace(/<REQUEST_URL>/,currentTest.endpoint));
-    // End WHEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^
-
-
-    // Begin THEN lines -v-v-v--v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
-    first = true;
-    var expectedOutput = currentTest.output;
-    for (var expectedResponseType in expectedOutput){
-      if (Object.entries(expectedOutput[expectedResponseType]).length === 0)
-        delete expectedOutput[expectedResponseType];
-    }
-    for (var expectedResponseType in expectedOutput){
-      if (first) outputTests = outputTests.concat("Then ");
-      else outputTests = outputTests.concat("And ");
-
-      if (expectedResponseType == "code"){
-        outputTests = outputTests.concat(gherkinTests.Then.ResponseCode
-          .replace(/<RESPONSE_CODE>/,expectedOutput.code));
-      }
-
-      else if (expectedResponseType == "headers"){
-        for (var header in expectedOutput.headers){
-          outputTests = outputTests.concat(gherkinTests.Then.ResponseHeader
-            .replace(/<HEADER_KEY>/,header)
-            .replace(/<HEADER_VALUE>/,expectedOutput.headers[header]));
-        }
-      }
-
-      else if (expectedResponseType == "body") {
-        for (var bodyKey in expectedOutput.body){
-          outputTests = outputTests.concat(gherkinTests.Then.ResponseBody
-            .replace(/<BODY_PATH>/,bodyKey)
-            .replace(/<BODY_VALUE>/,expectedOutput.body[bodyKey]));
-      
-        }
-      }
-      first = false;
-    }
-
-  // End THEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^
   
-  }
+
 
   // Generate the feature file from the parameters desired by the user
   //
@@ -441,7 +316,7 @@ router.post('/generate', (req, res) =>{
   });
 
 
-  // Change the placeholder variables in init.js with data from the req
+  // Change the placeholder variables in init.js with data from the request
   //
   console.log('Writing --> Proxy URL @ ./features/support/init.js');
   fs.readFile(__dirname+'/default/default_init.js', 'utf8', function(err, file) {
@@ -459,5 +334,6 @@ router.post('/generate', (req, res) =>{
   });
   res.send(outputTests);
 })
+
 
 module.exports = router;
