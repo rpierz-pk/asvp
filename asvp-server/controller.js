@@ -91,8 +91,9 @@ router.post('/generate', (req, res) =>{
   
   let input =  req.body;
 
-  // gherkin-tests.json provides the premade Gherkin Syntax with modifiable text
-  let gherkinTests = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
+  // Destructure the Given, When, and Then sections of the premade Gherkin lines from a file on the server
+  let {Given, When, Then} = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
+
   var Config = function() {
     this.proxyURL = "";
     this.method = "";
@@ -327,11 +328,13 @@ router.post('/generate', (req, res) =>{
 
     // first marks whether this is the first line of the section (i.e. append "Given/When/Then") or not (i.e. append "And")
     var first = true;	
-    outputTests = outputTests.concat("Scenario: Run Test ",test,"\n");	
+    outputTests += `Scenario: Run Test  ${test}\n`;	
 
     // Append all requirements for the req as GIVEN statements	
     // Begin GIVEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
     var parameters = currentTest.parameters;	
+
+    // Remove all empty sections from the test object so that empty sections are not written to the document
     for (var parameterType in parameters) {	
       if (Object.entries(parameters[parameterType]).length === 0){	
         delete parameters[parameterType];	
@@ -340,64 +343,62 @@ router.post('/generate', (req, res) =>{
     for (var parameterType in parameters){	
 
       // Write the GIVEN lines for each test	
-      if (first) outputTests = outputTests.concat("Given ");	
-      else outputTests = outputTests.concat("And ");	
+      outputTests += first ? "Given " : "And ";	
 
       // Write Query Parameters to Given lines	
       if (parameterType == "queryParams") {	
-        outputTests = outputTests.concat(gherkinTests.Given.QueryParamStart);         // Append the intro line for Query Parameters	
+        outputTests += Given.QueryParamStart;         // Append the intro line for Query Parameters	
         for (var queryParam in currentTest.parameters.queryParams) {	
-          outputTests = outputTests.concat(gherkinTests.Given.QueryParamUnit	
+          outputTests += Given.QueryParamUnit	
             .replace(/<QUERY_KEY>/,queryParam)	
-            .replace(/<QUERY_VALUE>/,currentTest.parameters.queryParams[queryParam]));	
+            .replace(/<QUERY_VALUE>/,currentTest.parameters.queryParams[queryParam]);	
         }	
       }	
 
       // Write Headers to Given lines	
       else if (parameterType == "headers") {	
-        outputTests = outputTests.concat(gherkinTests.Given.HeaderStart);         // Append the intro line for Headers	
+        outputTests += Given.HeaderStart;         // Append the intro line for Headers	
         for (var header in currentTest.parameters.headers) {	
-          outputTests = outputTests.concat(gherkinTests.Given.HeaderUnit	
+          outputTests += Given.HeaderUnit	
             .replace(/<HEADER_KEY>/,header)	
-            .replace(/<HEADER_VALUE>/,currentTest.parameters.headers[header]));	
+            .replace(/<HEADER_VALUE>/,currentTest.parameters.headers[header]);	
         }	
       }	
 
       // Write Form Parameters to Given lines	
       else if (parameterType == "formParams") {	
-        outputTests = outputTests.concat(gherkinTests.Given.FormParamStart);         // Append the intro line for Form Parameters	
+        outputTests += Given.FormParamStart;         // Append the intro line for Form Parameters	
         for (var formParam in currentTest.parameters.formParams) {	
-          outputTests = outputTests.concat(gherkinTests.Given.FormParamUnit	
+          outputTests += Given.FormParamUnit	
             .replace(/<FORM_KEY>/,formParam)	
-            .replace(/<FORM_VALUE>/,currentTest.parameters.formParams[formParam]));	
+            .replace(/<FORM_VALUE>/,currentTest.parameters.formParams[formParam]);	
         }	
       }	
 
       // Write Basic Authentication to Given lines	
       else if (parameterType == "basicAuth") {	
-        outputTests = outputTests.concat(gherkinTests.Given.BasicAuth	
+        outputTests += Given.BasicAuth	
           .replace(/<BASIC_USR>/,currentTest.parameters.basicAuth.username)	
-          .replace(/<BASIC_PSW>/,currentTest.parameters.basicAuth.password));	
+          .replace(/<BASIC_PSW>/,currentTest.parameters.basicAuth.password);	
       }	
 
       // Write the Payload to Given lines	
       else if (parameterType == "body") {	
-        outputTests = outputTests.concat(gherkinTests.Given.Body.	
-          replace(/<BODY>/,currentTest.parameters.body));	
+        outputTests += Given.Body.	
+          replace(/<BODY>/,currentTest.parameters.body);	
       }	
       // At least one parameter was found, so if any more are found, their lines should start with "And" instead of "Given"
       first = false;	
     } // END GIVEN LINES -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^	
 
     // Begin WHEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
-    outputTests = outputTests.concat("When ",gherkinTests.When.RequestEndpoint	
+    outputTests += "When " + When.RequestEndpoint	
       .replace(/<REQUEST_METHOD>/,currentTest.method)	
-      .replace(/<REQUEST_URL>/,currentTest.endpoint));	
+      .replace(/<REQUEST_URL>/,currentTest.endpoint);	
     // End WHEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^	
 
 
-    // Begin THEN lines -v-v-v--v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
-    // Append "Then" for the first line and "And" for all others
+    // Begin THEN lines -v-v-v--v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
     first = true;	
     var expectedOutput = currentTest.output;	
     for (var expectedResponseType in expectedOutput){	
@@ -405,27 +406,27 @@ router.post('/generate', (req, res) =>{
         delete expectedOutput[expectedResponseType];	
     }	
     for (var expectedResponseType in expectedOutput){	
-      if (first) outputTests = outputTests.concat("Then ");	
-      else outputTests = outputTests.concat("And ");	
+      // Append "Then" for the first line and "And" for all others
+      outputTests += first ? "Then " : "And ";	
 
       if (expectedResponseType == "code"){	
-        outputTests = outputTests.concat(gherkinTests.Then.ResponseCode	
-          .replace(/<RESPONSE_CODE>/,expectedOutput.code));	
+        outputTests += Then.ResponseCode	
+          .replace(/<RESPONSE_CODE>/,expectedOutput.code);	
       }	
 
       else if (expectedResponseType == "headers"){	
         for (var header in expectedOutput.headers){	
-          outputTests = outputTests.concat(gherkinTests.Then.ResponseHeader	
+          outputTests += Then.ResponseHeader	
             .replace(/<HEADER_KEY>/,header)	
-            .replace(/<HEADER_VALUE>/,expectedOutput.headers[header]));	
+            .replace(/<HEADER_VALUE>/,expectedOutput.headers[header]);	
         }	
       }	
 
       else if (expectedResponseType == "body") {	
         for (var bodyKey in expectedOutput.body){	
-          outputTests = outputTests.concat(gherkinTests.Then.ResponseBody	
+          outputTests += Then.ResponseBody	
             .replace(/<BODY_PATH>/,bodyKey)	
-            .replace(/<BODY_VALUE>/,expectedOutput.body[bodyKey]));	
+            .replace(/<BODY_VALUE>/,expectedOutput.body[bodyKey]);	
 
         }	
       }	
