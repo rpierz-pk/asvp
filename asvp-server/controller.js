@@ -56,6 +56,7 @@ router.get('/run', (req, res) =>{
           }
         });
     } else {
+      // no feature file was found
       res.status(400).json({
         "Status Code": "400 BAD REQUEST",
         "Error":"No valid feature file found. Please generate test file first at the /generate endpoint. Please see the documentation for more help",
@@ -83,14 +84,14 @@ router.get('/jenkins', (req, res) => {
   });
 });
 
-router.post('/generate', (req, res) =>{
-  // Open premade test features
-  
+// Generate the Feature file and Init.js file
+router.post('/generate', (req, res) =>{  
+  // OutputTests will be the variable holding the final text to be output
   let outputTests = "Feature: Test Apigee Proxy for security implementations\n";
   
   let input =  req.body;
 
-  // Gherkin-Tests.json provides the Gherkin Syntax 
+  // gherkin-tests.json provides the premade Gherkin Syntax with modifiable text
   let gherkinTests = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
   var Config = function() {
     this.proxyURL = "";
@@ -109,6 +110,9 @@ router.post('/generate', (req, res) =>{
       body: ""
     };
 
+    //Define Getters and Setters
+
+    //Define Metadata
     this.setProxyURL = function(value){
       this.proxyURL = value;
     };
@@ -123,6 +127,14 @@ router.post('/generate', (req, res) =>{
       return this.method;
     };
 
+    this.setEndpoint = function(value){
+      this.endpoint = value;
+    };
+    this.getEndpoint = function(){
+      return this.endpoint;
+    };
+
+    //Define Parameters
     this.setBasicAuth = function(value){
       this.parameters.basicAuth = value;
     };
@@ -131,13 +143,6 @@ router.post('/generate', (req, res) =>{
     };
     this.hasBasicAuth = function() {
       return (!(Object.entries(this.parameters.basicAuth).length === 0));
-    };
-
-    this.setEndpoint = function(value){
-      this.endpoint = value;
-    };
-    this.getEndpoint = function(){
-      return this.endpoint;
     };
 
     this.setBody = function(value){
@@ -151,7 +156,6 @@ router.post('/generate', (req, res) =>{
         return true;
       return false;
     };
-
 
     this.addQueryParam = function(key, value){
       this.parameters.queryParams[key] = value;
@@ -168,7 +172,6 @@ router.post('/generate', (req, res) =>{
       return (!(Object.entries(this.parameters.queryParams).length === 0));
     };
 
-
     this.addHeader = function(key, value){
       this.parameters.headers[key] = value;
     };
@@ -183,7 +186,6 @@ router.post('/generate', (req, res) =>{
     this.hasHeader = function() {
       return (!(Object.entries(this.parameters.headers).length === 0));
     };
-
 
     this.addFormParam = function(key, value){
       this.parameters.formParams[key] = value;
@@ -200,7 +202,7 @@ router.post('/generate', (req, res) =>{
       return (!(Object.entries(this.parameters.formParams).length === 0));
     };
 
-
+    //Define Expected Output
     this.setOutputCode = function(value){
       this.output.code = value;
     };
@@ -237,6 +239,7 @@ router.post('/generate', (req, res) =>{
     };
 
 
+    // setConfig allows for each test to copy the Global Configuration
     this.setConfig = function(config) {
       this.setProxyURL(config.getProxyURL());
       this.setMethod(config.getMethod());
@@ -247,6 +250,7 @@ router.post('/generate', (req, res) =>{
       this.setBody(config.getBody());
     };
 
+    // Set the ProxyURL, HTTP Verb, and Proxy Endpoint
     this.setMetadata = function(metadata){
       if (metadata != null){
         if (metadata.ProxyURL != null){
@@ -261,6 +265,7 @@ router.post('/generate', (req, res) =>{
       }
     };
 
+    // Add any queryParameters, Headers, form Params, Basic Authentication, and Payload to the test
     this.addParameters = function(parameters) {
       if (parameters != null){
         if (parameters.BasicAuth != null){
@@ -287,6 +292,7 @@ router.post('/generate', (req, res) =>{
       };
     };
 
+    // Set the expected Response Code, Headers, or Payload to the test
     this.setExpectedOutput = function(output){
       if (output != null) {
         if (output.ResponseCode != null){
@@ -302,6 +308,7 @@ router.post('/generate', (req, res) =>{
     }
   };
 
+  // Set the global Configuration that all tests will inherit
   var globalConfig = new Config();	
   if (input.global != null){	
     globalConfig.setMetadata(input.global);	
@@ -309,6 +316,7 @@ router.post('/generate', (req, res) =>{
     globalConfig.setExpectedOutput(input.global.ExpectedOutput);	
   }	
 
+  // Iterate through all tests, parse the parameters included and write them to the test feature file
   for (var test in input.tests){	
     var currentTest = new Config()	
     currentTest.setConfig(globalConfig);	
@@ -317,7 +325,7 @@ router.post('/generate', (req, res) =>{
     currentTest.setExpectedOutput(input.tests[test].ExpectedOutput);	
 
 
-
+    // first marks whether this is the first line of the section (i.e. append "Given/When/Then") or not (i.e. append "And")
     var first = true;	
     outputTests = outputTests.concat("Scenario: Run Test ",test,"\n");	
 
@@ -377,11 +385,9 @@ router.post('/generate', (req, res) =>{
         outputTests = outputTests.concat(gherkinTests.Given.Body.	
           replace(/<BODY>/,currentTest.parameters.body));	
       }	
-
-
+      // At least one parameter was found, so if any more are found, their lines should start with "And" instead of "Given"
       first = false;	
     } // END GIVEN LINES -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^	
-
 
     // Begin WHEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
     outputTests = outputTests.concat("When ",gherkinTests.When.RequestEndpoint	
@@ -391,6 +397,7 @@ router.post('/generate', (req, res) =>{
 
 
     // Begin THEN lines -v-v-v--v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
+    // Append "Then" for the first line and "And" for all others
     first = true;	
     var expectedOutput = currentTest.output;	
     for (var expectedResponseType in expectedOutput){	
