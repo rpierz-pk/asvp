@@ -242,13 +242,9 @@ router.post('/generate', (req, res) =>{
 
     // setConfig allows for each test to copy the Global Configuration
     this.setConfig = function(config) {
-      this.setProxyURL(config.getProxyURL());
-      this.setMethod(config.getMethod());
-      this.setBasicAuth(config.getBasicAuth());
-      this.setQueryParams(config.getQueryParams());
-      this.setHeaders(config.getHeaders());
-      this.setFormParams(config.getFormParams());
-      this.setBody(config.getBody());
+      this.setMetadata(config.getMetadata());
+      this.addParameters(config.getParameters());
+      this.setExpectedOutput(config.getExpectedOutput());
     };
 
     // Set the ProxyURL, HTTP Verb, and Proxy Endpoint
@@ -265,6 +261,13 @@ router.post('/generate', (req, res) =>{
         };
       }
     };
+    this.getMetadata = function(){
+      return {
+        ProxyURL: this.getProxyURL(),
+        Endpoint: this.getEndpoint(),
+        Method: this.getMethod()
+      }
+    }
 
     // Add any queryParameters, Headers, form Params, Basic Authentication, and Payload to the test
     this.addParameters = function(parameters) {
@@ -293,6 +296,16 @@ router.post('/generate', (req, res) =>{
       };
     };
 
+    this.getParameters = function(){
+      return {
+        QueryParams: this.getQueryParams(),
+        Headers: this.getHeaders(),
+        FormParams: this.getFormParams(),
+        BasicAuth: this.getBasicAuth(),
+        Body: this.getBody()
+      }
+    }
+
     // Set the expected Response Code, Headers, or Payload to the test
     this.setExpectedOutput = function(output){
       if (output != null) {
@@ -305,6 +318,13 @@ router.post('/generate', (req, res) =>{
         if (output.ResponseBody != null){
           this.setOutputBody(output.ResponseBody);
         };
+      }
+    }
+    this.getExpectedOutput = function(){
+      return {
+        ResponseCode: this.getOutputCode(),
+        ResponseHeader: this.getOutputHeader(),
+        ResponseBody: this.getOutputBody()
       }
     }
   };
@@ -385,7 +405,7 @@ router.post('/generate', (req, res) =>{
       // Write the Payload to Given lines	
       else if (parameterType == "body") {	
         outputTests += Given.Body.	
-          replace(/<BODY>/,currentTest.parameters.body);	
+          replace(/<BODY>/,currentTest.parameters.body);
       }	
       // At least one parameter was found, so if any more are found, their lines should start with "And" instead of "Given"
       first = false;	
