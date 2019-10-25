@@ -364,12 +364,12 @@ router.post('/generate', (req, res) =>{
     currentTest.setExpectedOutput(input.tests[test].ExpectedOutput);	
 
 
-    // first marks whether this is the first line of the section (i.e. append "Given/When/Then") or not (i.e. append "And")
-    var first = true;	
+    // isFirstLineOfSection marks whether this is the first line of the section (i.e. append "Given/When/Then") or not (i.e. append "And")
+    var isFirstLineOfSection = true;	
     outputTests += `Scenario: Run Test  ${test}\n`;	
 
     // Append all requirements for the req as GIVEN statements	
-    // Begin GIVEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
+    // Begin GIVEN lines -----------------------------------------------------------------------------------------v
     var parameters = currentTest.parameters;	
 
     // Remove all empty sections from the test object so that empty sections are not written to the document
@@ -378,6 +378,8 @@ router.post('/generate', (req, res) =>{
         delete parameters[parameterType];	
       }	
     };	
+
+    // Reject requests if no Parameters exist in global and for test-specific
     if (Object.entries(parameters).length === 0){
       return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
@@ -388,7 +390,7 @@ router.post('/generate', (req, res) =>{
     for (var parameterType in parameters){	
 
       // Write the GIVEN lines for each test	
-      outputTests += first ? "Given " : "And ";	
+      outputTests += isFirstLineOfSection ? "Given " : "And ";	
 
       // Write Query Parameters to Given lines	
       if (parameterType == "queryParams") {	
@@ -433,26 +435,45 @@ router.post('/generate', (req, res) =>{
           replace(/<BODY>/,currentTest.parameters.body);
       }	
       // At least one parameter was found, so if any more are found, their lines should start with "And" instead of "Given"
-      first = false;	
-    } // END GIVEN LINES -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^	
+      isFirstLineOfSection = false;	
+    } // END GIVEN LINES --------------------------------------------------------------------------------------^
 
-    // Begin WHEN lines -v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v	
+    // Begin WHEN lines --------------------------------------------------------------------------------------v
+
+    // Reject requests if no Method/Endpoint exist in global and for test-specific
+    if (!currentTest.method || !currentTest.endpoint){
+      return res.status(400).json({
+        "Status Code": "400 BAD REQUEST",
+        "Error": `No Method/Endpoint could be applied to test ${test}. Please refer to the documentation for more information`,
+        "Reference": "https://www.github.com/rpierz-pk/asvp"
+      })
+    }
     outputTests += "When " + When.RequestEndpoint	
       .replace(/<REQUEST_METHOD>/,currentTest.method)	
       .replace(/<REQUEST_URL>/,currentTest.endpoint);	
-    // End WHEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^	
+    // End WHEN lines -----------------------------------------------------------------------------------------^
 
 
-    // Begin THEN lines -v-v-v--v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v-v
-    first = true;	
+    // Begin THEN lines --------------------------------------------------------------------------------------v
+    isFirstLineOfSection = true;	
     var expectedOutput = currentTest.output;	
     for (var expectedResponseType in expectedOutput){	
       if (Object.entries(expectedOutput[expectedResponseType]).length === 0)	
         delete expectedOutput[expectedResponseType];	
-    }	
+    };
+
+    // Reject requests if no Expected Output exist in global and for test-specific
+    if (Object.entries(expectedOutput).length === 0){
+      return res.status(400).json({
+        "Status Code": "400 BAD REQUEST",
+        "Error": `No Expected output were found to apply to test ${test}. Please refer to the documentation for more information`,
+        "Reference": "https://www.github.com/rpierz-pk/asvp"
+      })
+    };
+
     for (var expectedResponseType in expectedOutput){	
       // Append "Then" for the first line and "And" for all others
-      outputTests += first ? "Then " : "And ";	
+      outputTests += isFirstLineOfSection ? "Then " : "And ";	
 
       if (expectedResponseType == "code"){	
         outputTests += Then.ResponseCode	
@@ -475,10 +496,10 @@ router.post('/generate', (req, res) =>{
 
         }	
       }	
-      first = false;	
+      isFirstLineOfSection = false;	
     }	
 
-  // End THEN lines -^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^-^
+  // End THEN lines --------------------------------------------------------------------------------------^
   }
 
   // Generate the feature file from the parameters desired by the user

@@ -16,6 +16,7 @@
     "cucumber": "^4.2.1",
     "morgan": "^1.9.1",
     "serve-favicon": "^2.5.0",
-    "cucumber-html-reporter": "^5.0.2"
+    "cucumber-html-reporter": "^5.0.2",
+    "ajv": "^6.10.2"
   }
 }
