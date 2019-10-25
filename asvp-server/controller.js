@@ -48,7 +48,7 @@ router.get('/run', (req, res) =>{
   let featureFilePath = __dirname + '/features/test.feature';
   try {
     if (fs.existsSync(featureFilePath)) {
-      var script = exec('cd '+__dirname+' && npm test',
+      var script = exec('cd '+__dirname+' && npm test --silent',
         (error, stdout, stderr) =>{
           res.sendFile(__dirname+'/report.json');
           console.log(stderr);
