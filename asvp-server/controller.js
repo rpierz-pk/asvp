@@ -370,7 +370,7 @@ router.post('/generate', (req, res) =>{
 
     // Append all requirements for the req as GIVEN statements	
     // Begin GIVEN lines -----------------------------------------------------------------------------------------v
-    var parameters = currentTest.parameters;	
+    var {parameters} = currentTest;	
 
     // Remove all empty sections from the test object so that empty sections are not written to the document
     for (var parameterType in parameters) {	
@@ -387,8 +387,8 @@ router.post('/generate', (req, res) =>{
         "Reference":"https://www.github.com/rpierz-pk/asvp"
       })
     }
-    for (var parameterType in parameters){	
 
+    for (var parameterType in parameters){	
       // Write the GIVEN lines for each test	
       outputTests += isFirstLineOfSection ? "Given " : "And ";	
 
@@ -456,14 +456,14 @@ router.post('/generate', (req, res) =>{
 
     // Begin THEN lines --------------------------------------------------------------------------------------v
     isFirstLineOfSection = true;	
-    var expectedOutput = currentTest.output;	
-    for (var expectedResponseType in expectedOutput){	
-      if (Object.entries(expectedOutput[expectedResponseType]).length === 0)	
-        delete expectedOutput[expectedResponseType];	
+    var {output} = currentTest;	
+    for (var expectedResponseType in output){	
+      if (Object.entries(output[expectedResponseType]).length === 0)	
+        delete output[expectedResponseType];	
     };
 
     // Reject requests if no Expected Output exist in global and for test-specific
-    if (Object.entries(expectedOutput).length === 0){
+    if (Object.entries(output).length === 0){
       return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
         "Error": `No Expected output were found to apply to test ${test}. Please refer to the documentation for more information`,
@@ -471,28 +471,28 @@ router.post('/generate', (req, res) =>{
       })
     };
 
-    for (var expectedResponseType in expectedOutput){	
+    for (var expectedResponseType in output){	
       // Append "Then" for the first line and "And" for all others
       outputTests += isFirstLineOfSection ? "Then " : "And ";	
 
       if (expectedResponseType == "code"){	
         outputTests += Then.ResponseCode	
-          .replace(/<RESPONSE_CODE>/,expectedOutput.code);	
+          .replace(/<RESPONSE_CODE>/,output.code);	
       }	
 
       else if (expectedResponseType == "headers"){	
-        for (var header in expectedOutput.headers){	
+        for (var header in output.headers){	
           outputTests += Then.ResponseHeader	
             .replace(/<HEADER_KEY>/,header)	
-            .replace(/<HEADER_VALUE>/,expectedOutput.headers[header]);	
+            .replace(/<HEADER_VALUE>/,output.headers[header]);	
         }	
       }	
 
       else if (expectedResponseType == "body") {	
-        for (var bodyKey in expectedOutput.body){	
+        for (var bodyKey in output.body){	
           outputTests += Then.ResponseBody	
             .replace(/<BODY_PATH>/,bodyKey)	
-            .replace(/<BODY_VALUE>/,expectedOutput.body[bodyKey]);	
+            .replace(/<BODY_VALUE>/,output.body[bodyKey]);	
 
         }	
       }	
