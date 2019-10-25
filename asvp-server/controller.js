@@ -27,7 +27,7 @@ router.get('/report', (req, res) => {
       );
     } else{
       // No json report file was found, so send back error
-      res.status(400).json({
+      return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
         "Error": "No report file could be found. Cucumber tests must be run first.",
         "Reference":"https://www.github.com/rpierz-pk/asvp"
@@ -58,7 +58,7 @@ router.get('/run', (req, res) =>{
         });
     } else {
       // no feature file was found
-      res.status(400).json({
+      return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
         "Error":"No valid feature file found. Please generate test file first at the /generate endpoint. Please see the documentation for more help",
         "Reference":"https://www.github.com/rpierz-pk/asvp"
@@ -96,7 +96,7 @@ router.post('/generate', (req, res) =>{
   var valid = validate(input);
   if (!valid) {
     console.log(validate.errors);
-    res.status(400).json({
+    return res.status(400).json({
       "Status Code": "400",
       "Error": "JSON Validation Failed",
       "Message": validate.errors
@@ -378,6 +378,13 @@ router.post('/generate', (req, res) =>{
         delete parameters[parameterType];	
       }	
     };	
+    if (Object.entries(parameters).length === 0){
+      return res.status(400).json({
+        "Status Code": "400 BAD REQUEST",
+        "Error": `No Parameters were found to apply to test ${test}. Please refer to the documentation for more information`,
+        "Reference":"https://www.github.com/rpierz-pk/asvp"
+      })
+    }
     for (var parameterType in parameters){	
 
       // Write the GIVEN lines for each test	
