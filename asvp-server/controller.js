@@ -249,14 +249,14 @@ router.post('/generate', (req, res) =>{
 
     // Set the ProxyURL, HTTP Verb, and Proxy Endpoint
     this.setMetadata = function(metadata){
-      if (metadata != null){
-        if (metadata.ProxyURL != null){
+      if (metadata){
+        if (metadata.ProxyURL){
           this.setProxyURL(metadata.ProxyURL);
         };
-        if (metadata.Method != null){
+        if (metadata.Method){
           this.setMethod(metadata.Method);
         };
-        if (metadata.Endpoint != null){
+        if (metadata.Endpoint){
           this.setEndpoint(metadata.Endpoint);
         };
       }
@@ -271,26 +271,26 @@ router.post('/generate', (req, res) =>{
 
     // Add any queryParameters, Headers, form Params, Basic Authentication, and Payload to the test
     this.addParameters = function(parameters) {
-      if (parameters != null){
-        if (parameters.BasicAuth != null){
+      if (parameters){
+        if (parameters.BasicAuth){
           this.setBasicAuth(parameters.BasicAuth);
         };
-        if (parameters.QueryParams != null) {
+        if (parameters.QueryParams) {
           for (var queryParam in parameters.QueryParams){
             this.addQueryParam(queryParam,parameters.QueryParams[queryParam])
           };
         };
-        if (parameters.Headers != null){
+        if (parameters.Headers){
           for (var header in parameters.Headers){
             this.addHeader(header,parameters.Headers[header]);
           };
         };
-        if (parameters.FormParams != null){
+        if (parameters.FormParams){
           for(var formParam in parameters.FormParams){
             this.addFormParam(formParam,parameters.FormParams[formParam]);
           };
         };
-        if (parameters.Body != null){
+        if (parameters.Body){
           this.setBody(parameters.Body);
         };
       };
@@ -308,14 +308,14 @@ router.post('/generate', (req, res) =>{
 
     // Set the expected Response Code, Headers, or Payload to the test
     this.setExpectedOutput = function(output){
-      if (output != null) {
-        if (output.ResponseCode != null){
+      if (output) {
+        if (output.ResponseCode){
           this.setOutputCode(output.ResponseCode);
         };
-        if (output.ResponseHeader != null){
+        if (output.ResponseHeader){
           this.setOutputHeader(output.ResponseHeader);
         };
-        if (output.ResponseBody != null){
+        if (output.ResponseBody){
           this.setOutputBody(output.ResponseBody);
         };
       }
