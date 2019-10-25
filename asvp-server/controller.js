@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 const exec = require('child_process').exec;
 const fs = require('fs');
+const Ajv = require('ajv');
 
 router.get('/index', (req, res) => {
   res.sendFile('index.html', {root:'../frontend/html'});
@@ -86,14 +87,31 @@ router.get('/jenkins', (req, res) => {
 
 // Generate the Feature file and Init.js file
 router.post('/generate', (req, res) =>{  
+  let input =  req.body;
+
+
+  // Validate the Request object against a JSON schema
+  var ajv = new Ajv();
+  var validate = ajv.compile(JSON.parse(fs.readFileSync(__dirname + '/request.schema.json')));
+  var valid = validate(input);
+  if (!valid) {
+    console.log(validate.errors);
+    res.status(400).json({
+      "Status Code": "400",
+      "Error": "JSON Validation Failed",
+      "Message": validate.errors
+    });
+  }
+  console.log("Request --> Passed JSON Validation");
+
   // OutputTests will be the variable holding the final text to be output
   let outputTests = "Feature: Test Apigee Proxy for security implementations\n";
   
-  let input =  req.body;
-
+  
   // Destructure the Given, When, and Then sections of the premade Gherkin lines from a file on the server
   let {Given, When, Then} = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
 
+  // The config class is used to store all configuration data
   var Config = function() {
     this.proxyURL = "";
     this.method = "";

@@ -1,0 +1,333 @@
+{
+    "definitions": {},
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "http://24.252.37.21:8000/root.json",
+    "type": "object",
+    "title": "ASVP Request JSON Schema",
+    "description": "Validate the JSON request object sent to the ASVP server",
+    "additionalProperties": false,
+    "required": [
+        "global",
+        "tests"
+    ],
+    "properties": {
+        "global": {
+            "$id": "#/properties/global",
+            "type": "object",
+            "title": "Global Configuration",
+            "description": "Configuration that is applied to all tests.",
+            "additionalProperties": false,
+            "required": [
+                "ProxyURL"
+            ],
+            "properties": {
+                "ProxyURL": {
+                    "$id": "#/properties/global/properties/ProxyURL",
+                    "type": "string",
+                    "title": "Proxy URL",
+                    "description": "The target proxy URL that all requests will be sent to"
+                },
+                "Method": {
+                    "$id": "#/properties/global/properties/Method",
+                    "type": "string",
+                    "title": "HTTP Method",
+                    "description": "The HTTP Verb that all tests will use when making all requests"
+                },
+                "Endpoint": {
+                    "$id": "#/properties/global/properties/Endpoint",
+                    "type": "string",
+                    "title": "Proxy Endpoint",
+                    "description": "The URL Endpoint that all tests will go to"
+                },
+                "Parameters": {
+                    "$id": "#/properties/global/properties/Parameters",
+                    "type": "object",
+                    "title": "Parameters",
+                    "description": "All parameters that will be included in all requests",
+                    "additionalProperties": false,
+                    "anyOf": [
+                        {
+                            "required": [
+                                "QueryParams"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "Headers"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "FormParams"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "BasicAuth"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "Payload"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "QueryParams": {
+                            "$id": "#/properties/global/properties/Parameters/properties/QueryParams",
+                            "type": "object",
+                            "title": "Query Parameters",
+                            "description": "Array of Query Parameters that will be included in all requests"
+                        },
+                        "Headers": {
+                            "$id": "#/properties/global/properties/Parameters/properties/Headers",
+                            "type": "object",
+                            "title": "Headers",
+                            "desription": "Array of Headers that will  be included in all requests"
+                        },
+                        "FormParams": {
+                            "$id": "#/properties/global/properties/Parameters/properties/FormParams",
+                            "type": "object",
+                            "title": "Form Parameters",
+                            "description": "Array of Form Parameters that will be included all requests"
+                        },
+                        "BasicAuth": {
+                            "$id": "#/properties/global/properties/Parameters/properties/BasicAuth",
+                            "type": "object",
+                            "title": "Basic Authentication credentials",
+                            "description": "Username and password that will be included with all requests",
+                            "additionalProperties": false,
+                            "required": [
+                                "username",
+                                "password"
+                            ],
+                            "properties": {
+                                "username": {
+                                    "$id": "#/properties/global/properties/Parameters/properties/BasicAuth/properties/username",
+                                    "type": "string",
+                                    "title": "Username"
+                                },
+                                "password": {
+                                    "$id": "#/properties/global/properties/Parameters/properties/BasicAuth/properties/password",
+                                    "type": "string",
+                                    "title": "Password"
+                                }
+                            }
+                        },
+                        "Body": {
+                            "$id": "#/properties/global/properties/Parameters/properties/Body",
+                            "type": "string",
+                            "title": "Payload of request",
+                            "description": "The body of the request that all requests will have"
+                        }
+                    }
+                },
+                "ExpectedOutput": {
+                    "$id": "#/properties/global/properties/ExpectedOutput",
+                    "type": "object",
+                    "title": "Expected Output",
+                    "description": "The response that is expected of all requests",
+                    "additionalProperties": false,
+                    "anyOf": [
+                        {
+                            "required": [
+                                "ResponseCode"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "ResponseHeader"
+                            ]
+                        },
+                        {
+                            "required": [
+                                "ResponseBody"
+                            ]
+                        }
+                    ],
+                    "properties": {
+                        "ResponseCode": {
+                            "$id": "#/properties/global/properties/ExpectedOutput/properties/ResponseCode",
+                            "type": "string",
+                            "title": "Response Code",
+                            "description": "The Status Code that is expected of the responses for every test"
+                        },
+                        "ResponseHeader": {
+                            "$id": "#/properties/global/properties/ExpectedOutput/properties/ResponseHeader",
+                            "type": "object",
+                            "title": "Response Headers",
+                            "description": "The Headers that are expected to be present in the responses for every test"
+                        },
+                        "ResponseBody": {
+                            "$id": "#/properties/global/properties/ExpectedOutput/properties/ResponseBody",
+                            "type": "object",
+                            "title": "Response Body",
+                            "description": "The body path and value that are expected to be present in the response for every test"
+                        }
+                    }
+                }
+            }
+        },
+        "tests": {
+            "$id": "#/properties/tests",
+            "type": "object",
+            "title": "List of Tests",
+            "description": "List of test objects that contain all request parameters, endpoint, method, and expected output",
+            "additionalProperties": false,
+            "patternProperties": {
+                "^[a-zA-Z\\s]*$": {
+                    "type": "object",
+                    "title": "Test Unit",
+                    "description": "Test which contains any test-specific request information",
+                    "additionalProperties": false,
+                    "properties": {
+                        "ProxyURL": {
+                            "$id": "#/properties/tests/properties/ProxyURL",
+                            "type": "string",
+                            "title": "Proxy URL that the test will send a request to"
+                        },
+                        "Method": {
+                            "$id": "#/properties/tests/properties/Method",
+                            "type": "string",
+                            "title": "HTTP Method",
+                            "description": "The HTTP Verb the test will use when making a request"
+                        },
+                        "Endpoint": {
+                            "$id": "#/properties/tests/properties/Endpoint",
+                            "type": "string",
+                            "title": "Proxy Endpoint",
+                            "description": "The URL Endpoint that the test will send a request to"
+                        },
+                        "Parameters": {
+                            "$id": "#/properties/tests/properties/Parameters",
+                            "type": "object",
+                            "title": "Parameters",
+                            "description": "All parameters that will be included in the request",
+                            "additionalProperties": false,
+                            "anyOf": [
+                                {
+                                    "required": [
+                                        "QueryParams"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "Headers"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "FormParams"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "BasicAuth"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "Payload"
+                                    ]
+                                }
+                            ],
+                            "properties": {
+                                "QueryParams": {
+                                    "$id": "#/properties/tests/properties/Parameters/properties/QueryParams",
+                                    "type": "object",
+                                    "title": "Query Parameters",
+                                    "description": "Array of Query Parameters that will be included in the request"
+                                },
+                                "Headers": {
+                                    "$id": "#/properties/tests/properties/Parameters/properties/Headers",
+                                    "type": "object",
+                                    "title": "Headers",
+                                    "desription": "Array of Headers that will  be included in the request"
+                                },
+                                "FormParams": {
+                                    "$id": "#/properties/tests/properties/Parameters/properties/FormParams",
+                                    "type": "object",
+                                    "title": "Form Parameters",
+                                    "description": "Array of Form Parameters that will be included the request"
+                                },
+                                "BasicAuth": {
+                                    "$id": "#/properties/tests/properties/Parameters/properties/BasicAuth",
+                                    "type": "object",
+                                    "title": "Basic Authentication credentials",
+                                    "description": "Username and password that will be included with the request",
+                                    "additionalProperties": false,
+                                    "required": [
+                                        "username",
+                                        "password"
+                                    ],
+                                    "properties": {
+                                        "username": {
+                                            "$id": "#/properties/tests/properties/Parameters/properties/BasicAuth/properties/username",
+                                            "type": "string",
+                                            "title": "Username"
+                                        },
+                                        "password": {
+                                            "$id": "#/properties/tests/properties/Parameters/properties/BasicAuth/properties/password",
+                                            "type": "string",
+                                            "title": "Password"
+                                        }
+                                    }
+                                },
+                                "Body": {
+                                    "$id": "#/properties/tests/properties/Parameters/properties/Body",
+                                    "type": "string",
+                                    "title": "Payload of request",
+                                    "description": "The body of the request that the request will have"
+                                }
+                            }
+                        },
+                        "ExpectedOutput": {
+                            "$id": "#/properties/tests/properties/ExpectedOutput",
+                            "type": "object",
+                            "title": "Expected Output",
+                            "description": "The response that is expected of the request",
+                            "additionalProperties": false,
+                            "anyOf": [
+                                {
+                                    "required": [
+                                        "ResponseCode"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "ResponseHeader"
+                                    ]
+                                },
+                                {
+                                    "required": [
+                                        "ResponseBody"
+                                    ]
+                                }
+                            ],
+                            "properties": {
+                                "ResponseCode": {
+                                    "$id": "#/properties/tests/properties/ExpectedOutput/properties/ResponseCode",
+                                    "type": "string",
+                                    "title": "Response Code",
+                                    "description": "The Status Code that is expected of the responses for every test"
+                                },
+                                "ResponseHeader": {
+                                    "$id": "#/properties/tests/properties/ExpectedOutput/properties/ResponseHeader",
+                                    "type": "object",
+                                    "title": "Response Headers",
+                                    "description": "The Headers that are expected to be present in the responses for every test"
+                                },
+                                "ResponseBody": {
+                                    "$id": "#/properties/tests/properties/ExpectedOutput/properties/ResponseBody",
+                                    "type": "object",
+                                    "title": "Response Body",
+                                    "description": "The body path and value that are expected to be present in the response for every test"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    }
+}
