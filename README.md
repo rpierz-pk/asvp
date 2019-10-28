@@ -294,7 +294,7 @@ The required elements are the following:
 - (at least one element under) tests.{TESTNAME}.Parameters
 - (at least one element under) tests.{TESTNAME}.ExpectedOutput
 
-Full Request Object:
+Full Request Payload:
 
     "global": {
         "ProxyURL":"{ORG}-{ENV}.apigee.net",

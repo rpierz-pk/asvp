@@ -119,7 +119,7 @@
                             "type": "string",
                             "title": "Payload of request",
                             "description": "The body of the request that all requests will have"
-                        }
+                        } 
                     }
                 },
                 "ExpectedOutput": {
@@ -277,7 +277,7 @@
                                     "$id": "#/properties/tests/properties/Parameters/properties/Body",
                                     "type": "string",
                                     "title": "Payload of request",
-                                    "description": "The body of the request that the request will have"
+                                    "description": "The body that the request will have"
                                 }
                             }
                         },
