@@ -112,240 +112,239 @@ router.post('/generate', (req, res) =>{
   let {Given, When, Then} = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
 
   // The config class is used to store all configuration data
-  var Config = function() {
-    this.proxyURL = "";
-    this.method = "";
-    this.endpoint;
-    this.parameters = {
-      queryParams: {},
-      headers: {},
-      formParams: {},
-      basicAuth: {},
-      body: ""
-    };
-    this.output = {
-      code: "",
-      headers: {},
-      body: ""
-    };
-
+  class Config {
+    constructor() {
+      this.proxyURL = "";
+      this.method = "";
+      this.endpoint;
+      this.parameters = {
+        queryParams: {},
+        headers: {},
+        formParams: {},
+        basicAuth: {},
+        body: ""
+      };
+      this.output = {
+        code: "",
+        headers: {},
+        body: ""
+      };
+    }
     //Define Getters and Setters
-
     //Define Metadata
-    this.setProxyURL = function(value){
+    setProxyURL = (value) => {
       this.proxyURL = value;
     };
-    this.getProxyURL = function(){
+    getProxyURL = () => {
       return this.proxyURL;
     };
-
-    this.setMethod = function(value){
+    setMethod = (value) => {
       this.method = value;
     };
-    this.getMethod = function() {
+    getMethod = () => {
       return this.method;
     };
-
-    this.setEndpoint = function(value){
+    setEndpoint = (value) => {
       this.endpoint = value;
     };
-    this.getEndpoint = function(){
+    getEndpoint = () => {
       return this.endpoint;
     };
-
     //Define Parameters
-    this.setBasicAuth = function(value){
+    setBasicAuth = (value) => {
       this.parameters.basicAuth = value;
     };
-    this.getBasicAuth = function() {
+    getBasicAuth = () => {
       return this.parameters.basicAuth;
     };
-    this.hasBasicAuth = function() {
+    hasBasicAuth = () => {
       return (!(Object.entries(this.parameters.basicAuth).length === 0));
     };
-
-    this.setBody = function(value){
+    setBody = (value) => {
       this.parameters.body = value;
     };
-    this.getBody = function() {
+    getBody = () => {
       return this.parameters.body;
     };
-    this.hasBody = function() {
+    hasBody = () => {
       if (this.parameters.body != "")
         return true;
       return false;
     };
-
-    this.addQueryParam = function(key, value){
+    addQueryParam = (key, value) => {
       this.parameters.queryParams[key] = value;
     };
-    this.setQueryParams = function(config){
-      for (var queryParam in config){
-        this.addQueryParam(queryParam,config[queryParam]);
+    setQueryParams = (config) => {
+      for (var queryParam in config) {
+        this.addQueryParam(queryParam, config[queryParam]);
       };
     };
-    this.getQueryParams = function() {
+    getQueryParams = () => {
       return this.parameters.queryParams;
     };
-    this.hasQueryParam = function() {
+    hasQueryParam = () => {
       return (!(Object.entries(this.parameters.queryParams).length === 0));
     };
-
-    this.addHeader = function(key, value){
+    addHeader = (key, value) => {
       this.parameters.headers[key] = value;
     };
-    this.getHeaders = function() {
+    getHeaders = () => {
       return this.parameters.headers;
     };
-    this.setHeaders = function(config){
-      for (var header in config){
-        this.addHeader(header,config[header]);
-      };
+    setHeaders = (config) => {
+      for (var header in config) {
+        this.addHeader(header, config[header]);
+      }
+      ;
     };
-    this.hasHeader = function() {
+    hasHeader = () => {
       return (!(Object.entries(this.parameters.headers).length === 0));
     };
-
-    this.addFormParam = function(key, value){
+    addFormParam = (key, value) => {
       this.parameters.formParams[key] = value;
     };
-    this.getFormParams = function() {
+    getFormParams = () => {
       return this.parameters.formParams;
     };
-    this.setFormParams = function(config){
-      for (var formParam in config){
-        this.addFormParam(formParam,config[formParam]);
-      };
+    setFormParams = (config) => {
+      for (var formParam in config) {
+        this.addFormParam(formParam, config[formParam]);
+      }
+      ;
     };
-    this.hasFormParam = function() {
+    hasFormParam = () => {
       return (!(Object.entries(this.parameters.formParams).length === 0));
     };
-
     //Define Expected Output
-    this.setOutputCode = function(value){
+    setOutputCode = (value) => {
       this.output.code = value;
     };
-    this.getOutputCode = function() {
+    getOutputCode = () => {
       return this.output.code;
     };
-    this.hasOutputCode = function() {
-      if (this.output.code != "")
-        return true;
-      return false;
+    hasOutputCode =() => {
+      return (this.output.code != "")
     };
-
-    this.addOutputHeader = function(key, value){
+    addOutputHeader = (key, value) => {
       this.output.headers[key] = value;
     };
-    this.getOutputHeader = function() {
+    getOutputHeader = () => {
       return this.output.headers;
     };
-    this.setOutputHeader = function(value) {
+    setOutputHeader = (value) => {
       this.output.headers = value;
-    }
-    this.hasOutputHeader = function() {
+    };
+    hasOutputHeader = () => {
       return (!(Object.entries(this.output.headers).length === 0));
     };
-
-    this.setOutputBody = function(value) {
+    setOutputBody = (value) => {
       this.output.body = value;
     };
-    this.getOutputBody = function() {
+    getOutputBody = () => {
       return this.body;
-    }
-    this.hasOutputBody = function() {
+    };
+    hasOutputBody = () => {
       return (!(Object.entries(this.output.body).length === 0));
     };
-
-
     // setConfig allows for each test to copy the Global Configuration
-    this.setConfig = function(config) {
+    setConfig = (config) => {
       this.setMetadata(config.getMetadata());
       this.addParameters(config.getParameters());
       this.setExpectedOutput(config.getExpectedOutput());
     };
-
     // Set the ProxyURL, HTTP Verb, and Proxy Endpoint
-    this.setMetadata = function(metadata){
-      if (metadata){
-        if (metadata.ProxyURL){
+    setMetadata = (metadata) => {
+      if (metadata) {
+        if (metadata.ProxyURL) {
           this.setProxyURL(metadata.ProxyURL);
-        };
-        if (metadata.Method){
+        }
+        ;
+        if (metadata.Method) {
           this.setMethod(metadata.Method);
-        };
-        if (metadata.Endpoint){
+        }
+        ;
+        if (metadata.Endpoint) {
           this.setEndpoint(metadata.Endpoint);
-        };
+        }
+        ;
       }
     };
-    this.getMetadata = function(){
+    getMetadata = () => {
       return {
         ProxyURL: this.getProxyURL(),
         Endpoint: this.getEndpoint(),
         Method: this.getMethod()
-      }
-    }
-
-    // Add any queryParameters, Headers, form Params, Basic Authentication, and Payload to the test
-    this.addParameters = function(parameters) {
-      if (parameters){
-        if (parameters.BasicAuth){
-          this.setBasicAuth(parameters.BasicAuth);
-        };
-        if (parameters.QueryParams) {
-          for (var queryParam in parameters.QueryParams){
-            this.addQueryParam(queryParam,parameters.QueryParams[queryParam])
-          };
-        };
-        if (parameters.Headers){
-          for (var header in parameters.Headers){
-            this.addHeader(header,parameters.Headers[header]);
-          };
-        };
-        if (parameters.FormParams){
-          for(var formParam in parameters.FormParams){
-            this.addFormParam(formParam,parameters.FormParams[formParam]);
-          };
-        };
-        if (parameters.Body){
-          this.setBody(parameters.Body);
-        };
       };
     };
-
-    this.getParameters = function(){
+    // Add any queryParameters, Headers, form Params, Basic Authentication, and Payload to the test
+    addParameters = (parameters) => {
+      if (parameters) {
+        if (parameters.BasicAuth) {
+          this.setBasicAuth(parameters.BasicAuth);
+        }
+        ;
+        if (parameters.QueryParams) {
+          for (var queryParam in parameters.QueryParams) {
+            this.addQueryParam(queryParam, parameters.QueryParams[queryParam]);
+          }
+          ;
+        }
+        ;
+        if (parameters.Headers) {
+          for (var header in parameters.Headers) {
+            this.addHeader(header, parameters.Headers[header]);
+          }
+          ;
+        }
+        ;
+        if (parameters.FormParams) {
+          for (var formParam in parameters.FormParams) {
+            this.addFormParam(formParam, parameters.FormParams[formParam]);
+          }
+          ;
+        }
+        ;
+        if (parameters.Body) {
+          this.setBody(parameters.Body);
+        }
+        ;
+      }
+      ;
+    };
+    getParameters = () => {
       return {
         QueryParams: this.getQueryParams(),
         Headers: this.getHeaders(),
         FormParams: this.getFormParams(),
         BasicAuth: this.getBasicAuth(),
         Body: this.getBody()
-      }
-    }
-
+      };
+    };
     // Set the expected Response Code, Headers, or Payload to the test
-    this.setExpectedOutput = function(output){
+    setExpectedOutput = (output) => {
       if (output) {
-        if (output.ResponseCode){
+        if (output.ResponseCode) {
           this.setOutputCode(output.ResponseCode);
-        };
-        if (output.ResponseHeader){
+        }
+        ;
+        if (output.ResponseHeader) {
           this.setOutputHeader(output.ResponseHeader);
-        };
-        if (output.ResponseBody){
+        }
+        ;
+        if (output.ResponseBody) {
           this.setOutputBody(output.ResponseBody);
-        };
+        }
+        ;
       }
-    }
-    this.getExpectedOutput = function(){
+    };
+    getExpectedOutput = () => {
       return {
         ResponseCode: this.getOutputCode(),
         ResponseHeader: this.getOutputHeader(),
         ResponseBody: this.getOutputBody()
-      }
+      };
     }
-  };
+  }
 
   // Set the global Configuration that all tests will inherit
   var globalConfig = new Config();	
