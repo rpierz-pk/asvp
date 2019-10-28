@@ -527,7 +527,9 @@ router.post('/generate', (req, res) =>{
       }
     });
   });
-  res.send(outputTests);
+  res.json({
+    feature: outputTests
+  });
   }
 )
 
