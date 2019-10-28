@@ -1,5 +1,6 @@
 /node_modules/
-/init.js
+init.js
 test.feature
 report.html
 report.json
+apickli-gherkin.js

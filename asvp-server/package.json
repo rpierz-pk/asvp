@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "nodemon server.js",
     "start": "node server.js",
-    "test": "cucumber-js features/test.feature -f json:report.json"
+    "test": "cucumber-js -f json:report.json"
   },
   "author": "",
   "license": "ISC",
