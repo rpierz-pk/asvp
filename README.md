@@ -77,7 +77,9 @@ First, the ASVP provides a user interface (UI) to the end-user. The UI provides 
 Below is a diagram that illustrates two main steps in the overall flow amongst the components in the ASVP. After each diagram, there is a more in-depth explanation for each step marked in the flow diagram.
 
 ## Test Generation Stage
- 
+ <p align="center">
+ <img src="https://github.com/rpierz-pk/asvp/blob/master/asvp-server/images/test-generation-stage-uml.png?raw=true">
+ </p>
 - Step 1:
 The user enters in information into a provided UI. This narrows down the users choice to only necessary information.
 - Step 2: 
@@ -91,7 +93,9 @@ The user enters in information into a provided UI. This narrows down the users c
 
 
 ## Execution Stage
- 
+ <p align="center">
+ <img src="https://github.com/rpierz-pk/asvp/blob/master/asvp-server/images/execution-stage-uml.png?raw=true">
+ </p>
 - Step 1
 The user begins by interacting with the UI to select a suite of pre-built tests. They are required to enter general information about the proxy, such as the Proxy URL. These tests require the user to input specific data that is specific for each test about the proxy and the policy itself. (To find specific data go to prerequisite items section above)
 - Step 2
@@ -111,7 +115,9 @@ Testing and Verification is a crucial step in any software’s lifecycle. With S
 
 Testing is repeatable and reusable, so forcing the developer to rewrite similar tests repeatedly is wasting development time. That is why creating a testing framework covering all the most commonly occurring use cases is essential. Our framework allows the user to test for these most common security tests that an Apigee proxy will most likely implement. Down below, you can see the list of the most common security features apart of Apigee that need testing.
 
- 
+<p align="center">
+<img src="https://github.com/rpierz-pk/asvp/blob/master/asvp-server/images/use-cases.png?raw=true">
+</p>
 
 Each one of these requires a different strategy and generated test. These tests are mostly static, meaning they do not change. There are small parts of the test that can change from API call to API call. The ASVP framework extracts these changes out and provides an easy way to configure them in the UI. This document now describes and discusses the importance of each use case alongside their security concerns and how the ASVP framework addresses them. 
 
@@ -138,6 +144,9 @@ Data encryption translates data into another form, or code, to prevent it from b
 ## Jenkins CICD Integration
 CICD solutions are essential in today's modern, rapidly changing software solutions. They allow the developers to quickly find and fix bugs that occur during the design and implementation of said software solutions. As such, we have designed the ASVP framework with the ability to integrate seamlessly into the sleek modern CICD  tool known as Jenkins.
 We now are going to approach the overview of the ASVP framework. The ASVP framework generates the crucial pipeline step definition for the ASVP framework to function correctly. We do this with input from the user and the UI, which makes it easy on the user and for the ASVP framework to handle. Because the framework generates the necessary files for the user, the user can integrate with pre-existing tools, frameworks, or pipelines.
+<p align="center">
+<img src="https://raw.githubusercontent.com/rpierz-pk/asvp/master/asvp-server/images/apigee_pipeline.png">
+</p>
 
 ## Setup
 Here are the different setups that we used to verify the framework.
@@ -166,6 +175,10 @@ You can use any modern version of Node JS from version x.x.x and onward
 Here is an example of what the output from our framework looks like. Running the demo test should give matching information if it does not something is misconfigured.
 
 Apickli provides us with test results and errors in a JSON based response. Cucumber reports allow us to return the results in a more beautiful format, as can be seen in the picture. The JSON object is passed back for easier integration.
+
+<p align="center">
+<img src="https://github.com/rpierz-pk/asvp/blob/master/asvp-server/images/cucumber-report-html.png?raw=true">
+</p>
 
 ## Understanding Test Output
 Example: API Key Validation 
