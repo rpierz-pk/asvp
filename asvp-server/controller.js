@@ -64,9 +64,10 @@ router.get('/run', (req, res) => {
   }
 
   // Run Cucumber-js on the feature file in the folder per given ID
-  let featureFilePath = `/output/${id}/features/test.feature`;
+  let featureFilePath = `output/${id}/features/test.feature`;
   if (fs.existsSync(`${__dirname}/${featureFilePath}`)){
     try {
+      console.log(`Executing Cucumber tests for ID ${id} @ file location ${featureFilePath}`)
       var script = exec(`cd ${__dirname} && npx cucumber-js ${featureFilePath} -f json:output/${id}/report.json`,
         (error, stdout, stderr) =>{
           res.sendFile(`${__dirname}/output/${id}/report.json`);
@@ -86,8 +87,6 @@ router.get('/run', (req, res) => {
       "Reference":"https://www.github.com/rpierz-pk/asvp"
     })
   }
-
-  
 });
 
 //  return the Jenkinsfile's text
