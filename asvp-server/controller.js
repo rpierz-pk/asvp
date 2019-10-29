@@ -56,6 +56,7 @@ router.get('/run', (req, res) => {
   if (req.query.id != null){
     var id = req.query.id;
   } else{
+    // No request was included
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       "Error": "No ID was included in the request. Please refer to the documentation for more help.",
@@ -65,9 +66,11 @@ router.get('/run', (req, res) => {
 
   // Run Cucumber-js on the feature file in the folder per given ID
   let featureFilePath = `output/${id}/features/test.feature`;
+
+  // Check if feature file exists in folder of requested user
   if (fs.existsSync(`${__dirname}/${featureFilePath}`)){
     try {
-      console.log(`Executing Cucumber tests for ID ${id} @ file location ${featureFilePath}`)
+      console.log(`Executing --> tests for ID ${id} @ ${featureFilePath}`)
       var script = exec(`cd ${__dirname} && npx cucumber-js ${featureFilePath} -f json:output/${id}/report.json`,
         (error, stdout, stderr) =>{
           res.sendFile(`${__dirname}/output/${id}/report.json`);
@@ -81,6 +84,7 @@ router.get('/run', (req, res) => {
       console.log(err)
     }
   } else {
+    // No feature file was found
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       "Error": `No feature file was found for the given ID (${id}). Please generate the test file first and receive your ID. Please refer to the documentation for more help`,
@@ -132,7 +136,7 @@ router.post('/generate', (req, res) =>{
   // Destructure the Given, When, and Then sections of the premade Gherkin lines from a file on the server
   let {Given, When, Then} = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
 
-  // The config class is used to store all configuration data
+  // The config class is used to store all test configuration data
   class Config {
     constructor() {
       this.proxyURL = "";
