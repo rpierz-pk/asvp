@@ -516,7 +516,7 @@ router.post('/generate', (req, res) =>{
 
     await new Promise((resolve, reject) => {
       if (!(fs.existsSync(`${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`))){
-        var script = exec(`cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions && echo module.exports = require(\'apickli/apickli-gherkin\'); > apickli-gherkin.js`, 
+        var script = exec(`cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions`, 
           (error, stdout, stderr) => {
             console.log(stdout);
             console.log(stderr);
@@ -524,6 +524,7 @@ router.post('/generate', (req, res) =>{
               console.log(`exec errors: ${error}`);
               reject(error);
             }
+            fs.writeFileSync(`${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`,"module.exports = require('apickli/apickli-gherkin');");
             resolve();
           }
         );
