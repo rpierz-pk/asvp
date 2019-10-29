@@ -155,126 +155,126 @@ router.post('/generate', (req, res) =>{
     }
     //Define Getters and Setters
     //Define Metadata
-    setProxyURL = (value) => {
+    setProxyURL(value) {
       this.proxyURL = value;
     };
-    getProxyURL = () => {
+    getProxyURL() {
       return this.proxyURL;
     };
-    setMethod = (value) => {
+    setMethod(value) {
       this.method = value;
     };
-    getMethod = () => {
+    getMethod() {
       return this.method;
     };
-    setEndpoint = (value) => {
+    setEndpoint(value) {
       this.endpoint = value;
     };
-    getEndpoint = () => {
+    getEndpoint() {
       return this.endpoint;
     };
     //Define Parameters
-    setBasicAuth = (value) => {
+    setBasicAuth(value) {
       this.parameters.basicAuth = value;
     };
-    getBasicAuth = () => {
+    getBasicAuth() {
       return this.parameters.basicAuth;
     };
-    hasBasicAuth = () => {
+    hasBasicAuth() {
       return (!(Object.entries(this.parameters.basicAuth).length === 0));
     };
-    setBody = (value) => {
+    setBody(value) {
       this.parameters.body = value;
     };
-    getBody = () => {
+    getBody() {
       return this.parameters.body;
     };
-    hasBody = () => {
+    hasBody() {
       return (this.parameters.body != "");
     };
-    addQueryParam = (key, value) => {
+    addQueryParam(key, value) {
       this.parameters.queryParams[key] = value;
     };
-    setQueryParams = (config) => {
+    setQueryParams(config) {
       for (var queryParam in config) {
         this.addQueryParam(queryParam, config[queryParam]);
       };
     };
-    getQueryParams = () => {
+    getQueryParams() {
       return this.parameters.queryParams;
     };
-    hasQueryParam = () => {
+    hasQueryParam() {
       return (!(Object.entries(this.parameters.queryParams).length === 0));
     };
-    addHeader = (key, value) => {
+    addHeader(key, value) {
       this.parameters.headers[key] = value;
     };
-    getHeaders = () => {
+    getHeaders() {
       return this.parameters.headers;
     };
-    setHeaders = (config) => {
+    setHeaders(config) {
       for (var header in config) {
         this.addHeader(header, config[header]);
       }
       ;
     };
-    hasHeader = () => {
+    hasHeader() {
       return (!(Object.entries(this.parameters.headers).length === 0));
     };
-    addFormParam = (key, value) => {
+    addFormParam(key, value) {
       this.parameters.formParams[key] = value;
     };
-    getFormParams = () => {
+    getFormParams() {
       return this.parameters.formParams;
     };
-    setFormParams = (config) => {
+    setFormParams(config) {
       for (var formParam in config) {
         this.addFormParam(formParam, config[formParam]);
       }
       ;
     };
-    hasFormParam = () => {
+    hasFormParam() {
       return (!(Object.entries(this.parameters.formParams).length === 0));
     };
     //Define Expected Output
-    setOutputCode = (value) => {
+    setOutputCode(value) {
       this.output.code = value;
     };
-    getOutputCode = () => {
+    getOutputCode() {
       return this.output.code;
     };
-    hasOutputCode =() => {
+    hasOutputCode() {
       return (this.output.code != "")
     };
-    addOutputHeader = (key, value) => {
+    addOutputHeader(key, value) {
       this.output.headers[key] = value;
     };
-    getOutputHeader = () => {
+    getOutputHeader() {
       return this.output.headers;
     };
-    setOutputHeader = (value) => {
+    setOutputHeader(value) {
       this.output.headers = value;
     };
-    hasOutputHeader = () => {
+    hasOutputHeader() {
       return (!(Object.entries(this.output.headers).length === 0));
     };
-    setOutputBody = (value) => {
+    setOutputBody(value) {
       this.output.body = value;
     };
-    getOutputBody = () => {
+    getOutputBody() {
       return this.body;
     };
-    hasOutputBody = () => {
+    hasOutputBody() {
       return (!(Object.entries(this.output.body).length === 0));
     };
     // setConfig allows for each test to copy the Global Configuration
-    setConfig = (config) => {
+    setConfig(config) {
       this.setMetadata(config.getMetadata());
       this.addParameters(config.getParameters());
       this.setExpectedOutput(config.getExpectedOutput());
     };
     // Set the ProxyURL, HTTP Verb, and Proxy Endpoint
-    setMetadata = (metadata) => {
+    setMetadata(metadata) {
       if (metadata) {
         if (metadata.ProxyURL) {
           this.setProxyURL(metadata.ProxyURL);
@@ -290,7 +290,7 @@ router.post('/generate', (req, res) =>{
         ;
       }
     };
-    getMetadata = () => {
+    getMetadata() {
       return {
         ProxyURL: this.getProxyURL(),
         Endpoint: this.getEndpoint(),
@@ -298,7 +298,7 @@ router.post('/generate', (req, res) =>{
       };
     };
     // Add any queryParameters, Headers, form Params, Basic Authentication, and Payload to the test
-    addParameters = (parameters) => {
+    addParameters(parameters) {
       if (parameters) {
         if (parameters.BasicAuth) {
           this.setBasicAuth(parameters.BasicAuth);
@@ -323,7 +323,7 @@ router.post('/generate', (req, res) =>{
         };
       };
     };
-    getParameters = () => {
+    getParameters() {
       return {
         QueryParams: this.getQueryParams(),
         Headers: this.getHeaders(),
@@ -333,7 +333,7 @@ router.post('/generate', (req, res) =>{
       };
     };
     // Set the expected Response Code, Headers, or Payload to the test
-    setExpectedOutput = (output) => {
+    setExpectedOutput(output) {
       if (output) {
         if (output.ResponseCode) {
           this.setOutputCode(output.ResponseCode);
@@ -346,7 +346,7 @@ router.post('/generate', (req, res) =>{
         };
       }
     };
-    getExpectedOutput = () => {
+    getExpectedOutput() {
       return {
         ResponseCode: this.getOutputCode(),
         ResponseHeader: this.getOutputHeader(),
