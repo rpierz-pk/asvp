@@ -80,34 +80,42 @@ Below is a diagram that illustrates two main steps in the overall flow amongst t
  <p align="center">
  <img src="https://github.com/rpierz-pk/asvp/blob/master/asvp-server/images/test-generation-stage-uml.png?raw=true">
  </p>
+
 - Step 1:
-The user enters in information into a provided UI. This narrows down the users choice to only necessary information.
+    The user enters general information about the proxy they wish to test (i.e. Proxy URL and base path), the parameters that the server will include with every request, the endpoint to send the request to alongside the HTTP method, as well as the expected response for each test from the Apigee proxy. 
 - Step 2: 
-	The UI makes a POST request containing the information provided by the user to the NodeJS server to be furthered processed.
+	The UI makes a POST request containing the test configuration data and user ID to the NodeJS backend server.
 - Step 3:
-	The NodeJS server generates the init.js file based on information provided by the end users.
+	The NodeJS server bootstraps the folder structure necessary to run cucumber tests, then writes the ProxyURL from the incoming request to an initialization file (init.js)
 - Step 4:
-	The NodeJS server parses the data contained in the request and collates the necessary lines of Gherkin text from a JSON file to create a feature file.
+	The NodeJS server parses the configuration contained in the incoming request and collates the necessary lines of Gherkin text from a JSON file, replacing the placeholder values with configuration from the incoming request, to create a feature file.
 - Step 5:
 	This step may not be implemented.
+- Step 6:
+    The NodeJS server sends a response back to the UI containing the ID of the user as well as the text of the feature file that the server created.
 
 
 ## Execution Stage
  <p align="center">
  <img src="https://github.com/rpierz-pk/asvp/blob/master/asvp-server/images/execution-stage-uml.png?raw=true">
  </p>
-- Step 1
-The user begins by interacting with the UI to select a suite of pre-built tests. They are required to enter general information about the proxy, such as the Proxy URL. These tests require the user to input specific data that is specific for each test about the proxy and the policy itself. (To find specific data go to prerequisite items section above)
-- Step 2
-The UI sends off this information to NodeJS to be processed.
-- Step 3
-NodeJS modifies existing pre-built files to generate the Jenkins Test Section, Apickli configuration files, and Feature file, which contains the test.
-- Step 4
-The UI returns the Jenkin section for Jenkins Integration, the Apickli configuration file for Apickli Set up, and finally, the Generated Feature File that has the Apickli/Cucumber test to run.
-- Step 5
-The user imports the file and configures the Jenkins Pipeline to run the generated tests. The user needs to make sure to configure their Pipeline correctly by placing the stage provided by the ASVP Framework after the proxy deployment stage. Once the user imports the test, they can generate the testing file structure by running the Pipeline once. The Pipeline then grabs the file location, which is imported by the UI, from the configuration file.
-- Step 6
-The tests run via automation in the Jenkins pipeline and return the results to the end-user. This step can be re-run repeatedly 
+
+- Step 1:
+An Apigee proxy developer pushes new changes of an Apigee proxy to Github.
+- Step 2:
+A Githook from Github makes a POST request to Jenkins which triggers the Jenkins pipeline to initiate the build process.
+- Step 3:
+A Jenkinsfile stage executes the Cucumber-js application in a Node runtime environment. 
+- Step 4:
+Apickli makes an HTTP request to the Apigee proxy for each test, including all parameters that were included in the feature file.
+- Step 5:
+Apigee processes the request, executing all policies that the developer has included in the proxy. Any security implementation, if properly configured, rejects any malicious request.
+- Step 6:
+After the proxy has completed, Apigee returns back an HTTP response to Apickli for each test.
+- Step 7:
+Apickli confirms whether the output of the requests match what the expected output of the tests was that the user included.
+- Step 8:
+Jenkins converts the output of the Apickli tests into an HTML report that displays the passing percentage of the requests as well as the execution of each step. 
 
 
 ## Use Cases
@@ -169,6 +177,20 @@ To run the ASVP framework on a local machine, you must have the following progra
 
 ##### NodeJS
 You can use any modern version of Node JS from version x.x.x and onward 
+
+### Installation Steps
+Clone the ASVP Github repository on the desired machine. The server has been tested on Windows and Linux systems.
+
+	$ git clone https://www.github.com/rpierz-pk/asvp 
+
+Move into the asvp-server sub-folder
+
+	$ cd asvp/asvp-server
+
+Start the node server
+
+	$ npm start 
+
 
 
 ## Expected Output

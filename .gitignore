@@ -1,5 +1,6 @@
-/node_modules/
-/init.js
+asvp-server/node_modules/
+init.js
 test.feature
 report.html
 report.json
+apickli-gherkin.js

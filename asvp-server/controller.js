@@ -5,31 +5,37 @@ const fs = require('fs');
 const Ajv = require('ajv');
 
 router.get('/index', (req, res) => {
-  res.sendFile('index.html', {root:'../frontend/html'});
+  return res.sendFile('index.html', {root:'../frontend/html'});
 });
 
 router.get('/init', (req,res) => {
-  res.sendFile('init.js', {root:'./features/support'});
+  return res.sendFile('init.js', {root:'./features/support'});
 });
 
 // Convert a json report file to html output
 router.get('/report', (req, res) => {
-  let jsonReportFilePath = __dirname + '/report.json';
-  let htmlReportFilePath = __dirname + '/report.html';
-
+  if (req.query.id != null){
+    var id = req.query.id;
+  } else{
+    return res.status(400).json({
+      "Status Code": "400 BAD REQUEST",
+      "Error": "No ID was included in the request. Please refer to the documentation for more help.",
+      "Reference": "https://www.github.com/rpierz-pk/asv"
+    })
+  }
   try {
-    if (fs.existsSync(jsonReportFilePath)){
+    if (fs.existsSync(`${__dirname}/output/${id}/report.json`)){
       // Convert the json report file to HTML document
-      let generateScript = exec('cd '+__dirname+' && node convert.js',
+      let generateScript = exec(`cd ${__dirname} && node convert.js ${id}`,
         (error, stdout, stderr) => {
-          res.sendFile(htmlReportFilePath)
+          return res.sendFile(`${__dirname}/output/${id}/report.html`);
         }
       );
     } else{
       // No json report file was found, so send back error
       return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
-        "Error": "No report file could be found. Cucumber tests must be run first.",
+        "Error": `No report file could be found for ID ${id}. Cucumber tests must be run first.`,
         "Reference":"https://www.github.com/rpierz-pk/asvp"
       })
     }
@@ -40,32 +46,50 @@ router.get('/report', (req, res) => {
 
 // retrieve the feature file
 router.get('/feature', (req,res) => {
-  res.sendFile('test.feature', {root:'./features'});
+  return res.sendFile('test.feature', {root:'./features'});
 });
 
 //  run the cucumber tests (should fail if test not configured)
-router.get('/run', (req, res) =>{
-  let featureFilePath = __dirname + '/features/test.feature';
-  try {
-    if (fs.existsSync(featureFilePath)) {
-      var script = exec('cd '+__dirname+' && npm test --silent',
+router.get('/run', (req, res) => {
+
+  // Check for ID
+  if (req.query.id != null){
+    var id = req.query.id;
+  } else{
+    // No request was included
+    return res.status(400).json({
+      "Status Code": "400 BAD REQUEST",
+      "Error": "No ID was included in the request. Please refer to the documentation for more help.",
+      "Reference": "https://www.github.com/rpierz-pk/asvp"
+    })
+  }
+
+  // Run Cucumber-js on the feature file in the folder per given ID
+  let featureFilePath = `output/${id}/features/test.feature`;
+
+  // Check if feature file exists in folder of requested user
+  if (fs.existsSync(`${__dirname}/${featureFilePath}`)){
+    try {
+      console.log(`Executing --> tests for ID ${id} @ ${featureFilePath}`)
+      var script = exec(`cd ${__dirname} && npx cucumber-js ${featureFilePath} -f json:output/${id}/report.json`,
         (error, stdout, stderr) =>{
-          res.sendFile(__dirname+'/report.json');
+          return res.sendFile(`${__dirname}/output/${id}/report.json`);
           console.log(stderr);
           if(error !== null) {
             console.log(`exec error: ${error}`);
           }
-        });
-    } else {
-      // no feature file was found
-      return res.status(400).json({
-        "Status Code": "400 BAD REQUEST",
-        "Error":"No valid feature file found. Please generate test file first at the /generate endpoint. Please see the documentation for more help",
-        "Reference":"https://www.github.com/rpierz-pk/asvp"
-      })
+        }
+      );
+    } catch(err) {
+      console.log(err)
     }
-  } catch(err) {
-    console.log(err)
+  } else {
+    // No feature file was found
+    return res.status(400).json({
+      "Status Code": "400 BAD REQUEST",
+      "Error": `No feature file was found for the given ID (${id}). Please generate the test file first and receive your ID. Please refer to the documentation for more help`,
+      "Reference":"https://www.github.com/rpierz-pk/asvp"
+    })
   }
 });
 
@@ -77,18 +101,17 @@ router.get('/jenkins', (req, res) => {
       console.log(err);
     }
     if (req.query.location == "") {
-      res.send("Please include the folder path for the test.feature file and init.js file");
+      return res.send("Please include the folder path for the test.feature file and init.js file");
       return -1;
     };
     let inputData = file.replace(/<FOLDER_LOCATION>/g, req.query.location);
-    res.send(inputData);
+    return res.send(inputData);
   });
 });
 
 // Generate the Feature file and Init.js file
 router.post('/generate', (req, res) =>{  
   let input =  req.body;
-
 
   // Validate the Request object against a JSON schema
   var ajv = new Ajv();
@@ -111,7 +134,7 @@ router.post('/generate', (req, res) =>{
   // Destructure the Given, When, and Then sections of the premade Gherkin lines from a file on the server
   let {Given, When, Then} = JSON.parse(fs.readFileSync(__dirname+'/gherkin-tests.json'));
 
-  // The config class is used to store all configuration data
+  // The config class is used to store all test configuration data
   class Config {
     constructor() {
       this.proxyURL = "";
@@ -167,9 +190,7 @@ router.post('/generate', (req, res) =>{
       return this.parameters.body;
     };
     hasBody = () => {
-      if (this.parameters.body != "")
-        return true;
-      return false;
+      return (this.parameters.body != "");
     };
     addQueryParam = (key, value) => {
       this.parameters.queryParams[key] = value;
@@ -281,35 +302,26 @@ router.post('/generate', (req, res) =>{
       if (parameters) {
         if (parameters.BasicAuth) {
           this.setBasicAuth(parameters.BasicAuth);
-        }
-        ;
+        };
         if (parameters.QueryParams) {
           for (var queryParam in parameters.QueryParams) {
             this.addQueryParam(queryParam, parameters.QueryParams[queryParam]);
-          }
-          ;
-        }
-        ;
+          };
+        };
         if (parameters.Headers) {
           for (var header in parameters.Headers) {
             this.addHeader(header, parameters.Headers[header]);
-          }
-          ;
-        }
-        ;
+          };
+        };
         if (parameters.FormParams) {
           for (var formParam in parameters.FormParams) {
             this.addFormParam(formParam, parameters.FormParams[formParam]);
-          }
-          ;
-        }
-        ;
+          };
+        };
         if (parameters.Body) {
           this.setBody(parameters.Body);
-        }
-        ;
-      }
-      ;
+        };
+      };
     };
     getParameters = () => {
       return {
@@ -325,16 +337,13 @@ router.post('/generate', (req, res) =>{
       if (output) {
         if (output.ResponseCode) {
           this.setOutputCode(output.ResponseCode);
-        }
-        ;
+        };
         if (output.ResponseHeader) {
           this.setOutputHeader(output.ResponseHeader);
-        }
-        ;
+        };
         if (output.ResponseBody) {
           this.setOutputBody(output.ResponseBody);
-        }
-        ;
+        };
       }
     };
     getExpectedOutput = () => {
@@ -497,37 +506,62 @@ router.post('/generate', (req, res) =>{
       }	
       isFirstLineOfSection = false;	
     }	
-
   // End THEN lines --------------------------------------------------------------------------------------^
   }
 
-  // Generate the feature file from the parameters desired by the user
-  //
-  console.log('Generating --> feature file @ ./features/test.feature');     
-  fs.writeFileSync(__dirname+'/features/test.feature', (outputTests), function(err, file) {
-     if (err){
-       console.log(err)
-     }
-  });
+  // Bootstrap the folder structure required for each user
+  var id = (req.query.id != null) ? req.query.id : `user${Math.floor(Math.random()*100000)}`;
+  console.log(`The user ID is ${id}`);
+  var bootstrap = async () => {
 
-
-  // Change the placeholder variables in init.js with data from the request
-  //
-  console.log('Writing --> Proxy URL @ ./features/support/init.js');
-  fs.readFile(__dirname+'/default/default_init.js', 'utf8', function(err, file) {
-    if (err) {
-      console.log(err);
-    };
-
-    let inputData = file
-      .replace(/INPUT_URL/g,'\''+input.global.ProxyURL+'\'')
-    fs.writeFileSync(__dirname+'/features/support/init.js', inputData, function(err){
-      if (err){
-        console.log(err);
+    await new Promise((resolve, reject) => {
+      if (!(fs.existsSync(`${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`))){
+        var script = exec(`cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions && echo module.exports = require(\'apickli/apickli-gherkin\'); > apickli-gherkin.js`, 
+          (error, stdout, stderr) => {
+            console.log(stdout);
+            console.log(stderr);
+            if (error !== null) {
+              console.log(`exec errors: ${error}`);
+              reject(error);
+            }
+            resolve();
+          }
+        );
       }
     });
+
+    // Generate the feature file from the parameters desired by the user
+    //
+    console.log(`Generating --> feature file @ ./output/${id}/features/test.feature`);  
+    fs.writeFileSync(`${__dirname}/output/${id}/features/test.feature`, (outputTests), function(err, file) {
+      if (err){
+        console.log(err)
+      }
+    })
+    
+    // Change the placeholder variables in init.js with data from the request
+    //
+    console.log(`Writing --> Proxy URL @ ./output/${id}/features/support/init.js`);
+    fs.readFile(__dirname+'/default/default_init.js', 'utf8', function(err, file) {
+      if (err) {
+        console.log(err);
+      };
+
+      let inputData = file
+        .replace(/INPUT_URL/g,'\''+input.global.ProxyURL+'\'')
+      fs.writeFileSync(`${__dirname}/output/${id}/features/support/init.js`, inputData, function(err){
+        if (err){
+          console.log(err);
+        }
+      });
+    });
+  }
+  bootstrap();
+  
+  return res.json({
+    id: id,
+    feature: outputTests
   });
-  res.send(outputTests);
   }
 )
 
