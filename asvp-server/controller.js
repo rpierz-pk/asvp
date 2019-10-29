@@ -5,11 +5,11 @@ const fs = require('fs');
 const Ajv = require('ajv');
 
 router.get('/index', (req, res) => {
-  res.sendFile('index.html', {root:'../frontend/html'});
+  return res.sendFile('index.html', {root:'../frontend/html'});
 });
 
 router.get('/init', (req,res) => {
-  res.sendFile('init.js', {root:'./features/support'});
+  return res.sendFile('init.js', {root:'./features/support'});
 });
 
 // Convert a json report file to html output
@@ -28,7 +28,7 @@ router.get('/report', (req, res) => {
       // Convert the json report file to HTML document
       let generateScript = exec(`cd ${__dirname} && node convert.js ${id}`,
         (error, stdout, stderr) => {
-          res.sendFile(`${__dirname}/output/${id}/report.html`);
+          return res.sendFile(`${__dirname}/output/${id}/report.html`);
         }
       );
     } else{
@@ -46,7 +46,7 @@ router.get('/report', (req, res) => {
 
 // retrieve the feature file
 router.get('/feature', (req,res) => {
-  res.sendFile('test.feature', {root:'./features'});
+  return res.sendFile('test.feature', {root:'./features'});
 });
 
 //  run the cucumber tests (should fail if test not configured)
@@ -73,7 +73,7 @@ router.get('/run', (req, res) => {
       console.log(`Executing --> tests for ID ${id} @ ${featureFilePath}`)
       var script = exec(`cd ${__dirname} && npx cucumber-js ${featureFilePath} -f json:output/${id}/report.json`,
         (error, stdout, stderr) =>{
-          res.sendFile(`${__dirname}/output/${id}/report.json`);
+          return res.sendFile(`${__dirname}/output/${id}/report.json`);
           console.log(stderr);
           if(error !== null) {
             console.log(`exec error: ${error}`);
@@ -101,11 +101,11 @@ router.get('/jenkins', (req, res) => {
       console.log(err);
     }
     if (req.query.location == "") {
-      res.send("Please include the folder path for the test.feature file and init.js file");
+      return res.send("Please include the folder path for the test.feature file and init.js file");
       return -1;
     };
     let inputData = file.replace(/<FOLDER_LOCATION>/g, req.query.location);
-    res.send(inputData);
+    return res.send(inputData);
   });
 });
 

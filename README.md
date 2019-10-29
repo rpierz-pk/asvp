@@ -114,7 +114,7 @@ Apigee processes the request, executing all policies that the developer has incl
 After the proxy has completed, Apigee returns back an HTTP response to Apickli for each test.
 - Step 7:
 Apickli confirms whether the output of the requests match what the expected output of the tests was that the user included.
--Step 8:
+- Step 8:
 Jenkins converts the output of the Apickli tests into an HTML report that displays the passing percentage of the requests as well as the execution of each step. 
 
 
