@@ -111,6 +111,7 @@ router.post('/generate', (req, res) =>{
   let input =  req.body;
 
 
+
   // Validate the Request object against a JSON schema
   var ajv = new Ajv();
   var validate = ajv.compile(JSON.parse(fs.readFileSync(__dirname + '/request.schema.json')));
@@ -188,9 +189,7 @@ router.post('/generate', (req, res) =>{
       return this.parameters.body;
     };
     hasBody = () => {
-      if (this.parameters.body != "")
-        return true;
-      return false;
+      return (this.parameters.body != "");
     };
     addQueryParam = (key, value) => {
       this.parameters.queryParams[key] = value;
@@ -302,35 +301,26 @@ router.post('/generate', (req, res) =>{
       if (parameters) {
         if (parameters.BasicAuth) {
           this.setBasicAuth(parameters.BasicAuth);
-        }
-        ;
+        };
         if (parameters.QueryParams) {
           for (var queryParam in parameters.QueryParams) {
             this.addQueryParam(queryParam, parameters.QueryParams[queryParam]);
-          }
-          ;
-        }
-        ;
+          };
+        };
         if (parameters.Headers) {
           for (var header in parameters.Headers) {
             this.addHeader(header, parameters.Headers[header]);
-          }
-          ;
-        }
-        ;
+          };
+        };
         if (parameters.FormParams) {
           for (var formParam in parameters.FormParams) {
             this.addFormParam(formParam, parameters.FormParams[formParam]);
-          }
-          ;
-        }
-        ;
+          };
+        };
         if (parameters.Body) {
           this.setBody(parameters.Body);
-        }
-        ;
-      }
-      ;
+        };
+      };
     };
     getParameters = () => {
       return {
@@ -346,16 +336,13 @@ router.post('/generate', (req, res) =>{
       if (output) {
         if (output.ResponseCode) {
           this.setOutputCode(output.ResponseCode);
-        }
-        ;
+        };
         if (output.ResponseHeader) {
           this.setOutputHeader(output.ResponseHeader);
-        }
-        ;
+        };
         if (output.ResponseBody) {
           this.setOutputBody(output.ResponseBody);
-        }
-        ;
+        };
       }
     };
     getExpectedOutput = () => {
@@ -521,10 +508,11 @@ router.post('/generate', (req, res) =>{
   // End THEN lines --------------------------------------------------------------------------------------^
   }
 
-  let id = "PLACEHOLDER_ID";
+  // Bootstrap the folder structure required for each user
+  var id = (req.query.id != null) ? req.query.id : `user${Math.floor(Math.random()*100000)}`;
+  console.log(`The user ID is ${id}`);
   var bootstrap = async () => {
 
-    // Bootstrap the folder structure required for each user
     await new Promise((resolve, reject) => {
       var script = exec(`cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions && echo module.exports = require(\'apickli/apickli-gherkin\'); > apickli-gherkin.js`, 
         (error, stdout, stderr) => {
@@ -567,8 +555,8 @@ router.post('/generate', (req, res) =>{
   }
   bootstrap();
   
-  res.json({
-    id: "PLACEHOLDER_ID",
+  return res.json({
+    id: id,
     feature: outputTests
   });
   }
