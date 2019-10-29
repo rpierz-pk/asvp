@@ -113,8 +113,6 @@ router.get('/jenkins', (req, res) => {
 router.post('/generate', (req, res) =>{  
   let input =  req.body;
 
-
-
   // Validate the Request object against a JSON schema
   var ajv = new Ajv();
   var validate = ajv.compile(JSON.parse(fs.readFileSync(__dirname + '/request.schema.json')));
@@ -517,17 +515,19 @@ router.post('/generate', (req, res) =>{
   var bootstrap = async () => {
 
     await new Promise((resolve, reject) => {
-      var script = exec(`cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions && echo module.exports = require(\'apickli/apickli-gherkin\'); > apickli-gherkin.js`, 
-        (error, stdout, stderr) => {
-          console.log(stdout);
-          console.log(stderr);
-          if (error !== null) {
-            console.log(`exec errors: ${error}`);
-            return reject(error);
+      if (!(fs.existsSync(`${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`))){
+        var script = exec(`cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions && echo module.exports = require(\'apickli/apickli-gherkin\'); > apickli-gherkin.js`, 
+          (error, stdout, stderr) => {
+            console.log(stdout);
+            console.log(stderr);
+            if (error !== null) {
+              console.log(`exec errors: ${error}`);
+              reject(error);
+            }
+            resolve();
           }
-          resolve();
-        }
-      );
+        );
+      }
     });
 
     // Generate the feature file from the parameters desired by the user
