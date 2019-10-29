@@ -60,7 +60,7 @@ router.get('/run', (req, res) => {
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       "Error": "No ID was included in the request. Please refer to the documentation for more help.",
-      "Reference": "https://www.github.com/rpierz-pk/asv"
+      "Reference": "https://www.github.com/rpierz-pk/asvp"
     })
   }
 

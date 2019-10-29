@@ -8,7 +8,7 @@ const app = express();
 app.use(morgan(':date[web]'));
 app.use(morgan('dev'));
 app.use(express.json());
-app.use(favicon(__dirname+'/favicon.ico'));
+app.use(favicon(__dirname+'/images/favicon.ico'));
 
 // CORS Handling
 app.use( (req, res, next) => {
