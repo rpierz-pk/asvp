@@ -529,6 +529,7 @@ router.post('/generate', (req, res) =>{
           }
         );
       }
+      resolve();
     });
 
     // Generate the feature file from the parameters desired by the user
