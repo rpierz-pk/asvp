@@ -7,7 +7,7 @@ class InputKey extends Component {
         type="text"
         placeholder={this.props.placeholder}
         disabled={this.props.disabled}
-        style={{ width: "125px" }}
+        style={{ width: "25%" }}
       />
     );
   }

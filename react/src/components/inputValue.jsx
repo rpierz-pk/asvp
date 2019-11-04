@@ -6,7 +6,7 @@ class InputValue extends Component {
       <input
         type="text"
         placeholder={this.props.placeholder}
-        style={{ width: "125px" }}
+        style={{ width: "25%" }}
       />
     );
   }
