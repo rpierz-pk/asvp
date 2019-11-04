@@ -3,6 +3,41 @@ import Test from "./test";
 import AddElementButton from "./addElementButton";
 
 class Tests extends Component {
+  state = {
+    tests: [
+      {
+        id: 1,
+        name: "New Test",
+        Endpoint: "",
+        Method: ""
+      }
+    ]
+  };
+
+  handleAddTest = () => {
+    const { tests } = this.state;
+    var getMaxId = function(tests) {
+      let max = 0;
+      for (var test in tests) {
+        if (tests[test].id > max) max = tests[test].id;
+      }
+      return max;
+    };
+    const newTest = {
+      id: getMaxId(tests) + 1,
+      name: "New Test",
+      Endpoint: "",
+      Method: ""
+    };
+    this.setState({ tests: [...this.state.tests, newTest] });
+  };
+
+  handleRemoveTest = testId => {
+    this.setState({
+      tests: [...this.state.tests].filter(test => test.id !== testId)
+    });
+  };
+
   render() {
     const testStyle = {
       border: "3px inset",
@@ -23,15 +58,15 @@ class Tests extends Component {
           />
         </div>
         <div style={testStyle}>
-          {this.props.tests.map(test => (
+          {this.state.tests.map(test => (
             <Test
               key={test.id}
               test={test}
-              onRemoveTest={this.props.onRemoveTest}
+              onRemoveTest={this.handleRemoveTest}
             />
           ))}
         </div>
-        <AddElementButton label="Test" onAddElement={this.props.onAddTest} />
+        <AddElementButton onAddElement={this.handleAddTest} label="Test"/>
       </div>
     );
   }
