@@ -8,8 +8,8 @@ class Tests extends Component {
       {
         id: 1,
         name: "New Test",
-        Endpoint: "",
-        Method: ""
+        endpoint: "",
+        method: ""
       }
     ]
   };
@@ -26,8 +26,8 @@ class Tests extends Component {
     const newTest = {
       id: getMaxId(tests) + 1,
       name: "New Test",
-      Endpoint: "",
-      Method: ""
+      endpoint: "",
+      method: ""
     };
     this.setState({ tests: [...this.state.tests, newTest] });
   };
@@ -37,6 +37,15 @@ class Tests extends Component {
       tests: [...this.state.tests].filter(test => test.id !== testId)
     });
   };
+
+  handleInputChange = (event, testId) => {
+    this.setState(this.state.tests.map(test => {
+      if (test.id === testId) {
+        test[event.target.name] = event.target.value
+      }
+      return test;
+    }))
+  }
 
   render() {
     const testStyle = {
@@ -63,6 +72,7 @@ class Tests extends Component {
               key={test.id}
               test={test}
               onRemoveTest={this.handleRemoveTest}
+              onInputChange={this.handleInputChange}
             />
           ))}
         </div>

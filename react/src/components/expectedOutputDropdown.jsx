@@ -21,7 +21,7 @@ class ExpectedOutputDropdown extends Component {
 
   render() {
     const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;
-    const { output } = this.props;
+    const { output, onChangeType } = this.props;
     return (
       <div className="dropdown" onClick={this.toggleOpen}>
         <button
@@ -37,7 +37,7 @@ class ExpectedOutputDropdown extends Component {
         <div className={menuClass} aria-labelledby="dropdownMenuButton">
           {this.state.items.map(outputType => (
             <DropdownItem
-              onChangeType={this.props.onChangeType}
+              onChangeType={onChangeType}
               key={outputType.type}
               elementId={output.id}
               type={outputType.type}

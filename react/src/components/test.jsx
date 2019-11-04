@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import RemoveElementButton from "./removeElementButton";
 import Parameters from "./parameter/parameters";
 import ExpectedOutputs from "./expectedOutputs";
+import InputText from "./inputText";
 
 class Test extends Component {
   render() {
@@ -10,19 +11,21 @@ class Test extends Component {
       borderBottom: "2px solid gray"
     };
 
+    const { test, onRemoveTest, onInputChange } = this.props;
+
     return (
       <div style={testStyle}>
         <RemoveElementButton
         label="Test"
-          elementId={this.props.test.id}
-          onRemoveElement={this.props.onRemoveTest}
+          elementId={test.id}
+          onRemoveElement={onRemoveTest}
         />
-        Name: <input type="text" placeholder={this.props.test.name} />
+        Name: <InputText placeholder="New Test" targetAttribute="name" elementId={test.id} onChange={onInputChange}/>
         <div>
-          Endpoint: <input type="text" placeholder="/url" />
+          Endpoint: <InputText placeholder="/url" targetAttribute="endpoint" elementId={test.id} onChange={onInputChange} />
         </div>
         <div>
-          Method: <input type="text" placeholder="GET" />
+          Method: <InputText placeholder="GET" targetAttribute="method" elementId={test.id} onChange={onInputChange}/>
         </div>
         <div>
           <Parameters />

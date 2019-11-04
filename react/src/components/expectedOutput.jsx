@@ -5,6 +5,7 @@ import InputText from "./inputText";
 
 class ExpectedOutput extends Component {
   render() {
+    const { output, onRemoveElement, onChangeType, onInputChange } = this.props;
     return (
       <div>
         <div
@@ -16,28 +17,28 @@ class ExpectedOutput extends Component {
         >
           <RemoveElementButton
             label="Output"
-            onRemoveElement={this.props.onRemoveElement}
-            elementId={this.props.output.id}
+            onRemoveElement={onRemoveElement}
+            elementId={output.id}
           />
           <ExpectedOutputDropdown
-            output={this.props.output}
-            onChangeType={this.props.onChangeType}
+            output={output}
+            onChangeType={onChangeType}
           />
           <InputText
             placeholder={
-              this.props.output.type === "Status Code"
+              output.type === "Status Code"
                 ? "Status code"
-                : this.props.output.key
+                : output.key
             }
             disabled={
-              this.props.output.type === "Status Code" ? "disabled" : undefined
+              output.type === "Status Code" ? "disabled" : undefined
             }
-            onChange={this.props.onInputChange}
-            elementId={this.props.output.id}
+            onChange={onInputChange}
+            elementId={output.id}
             targetAttribute="key"
           />
           =
-          <InputText placeholder={this.props.output.value} onChange={this.props.onInputChange} elementId={this.props.output.id} targetAttribute="value"/>
+          <InputText placeholder={output.value} onChange={onInputChange} elementId={output.id} targetAttribute="value"/>
         </div>
       </div>
     );

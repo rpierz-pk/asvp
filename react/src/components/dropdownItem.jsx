@@ -1,16 +1,19 @@
 import React, { Component } from "react";
 
 class DropdownItem extends Component {
-  state = {};
+
   render() {
-    return (
+    
+  const { type, elementId, onChangeType } = this.props;
+
+  return (
       <button
         className="dropdown-item"
         onClick={() =>
-          this.props.onChangeType(this.props.elementId, this.props.type)
+          onChangeType(elementId, type)
         }
       >
-        {this.props.type}
+        {type}
       </button>
     );
   }

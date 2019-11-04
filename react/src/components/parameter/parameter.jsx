@@ -5,6 +5,8 @@ import InputText from "../inputText";
 
 class Parameter extends Component {
   render() {
+    const { param, onInputChange, onChangeType, onRemoveElement } = this.props;
+
     return (
       <div>
         <div
@@ -16,25 +18,25 @@ class Parameter extends Component {
         >
           <RemoveElementButton
             label="Parameter"
-            elementId={this.props.param.id}
-            onRemoveElement={this.props.onRemoveElement}
+            elementId={param.id}
+            onRemoveElement={onRemoveElement}
           />
           <ParameterDropdown
-            param={this.props.param}
-            onChangeType={this.props.onChangeType}
+            param={param}
+            onChangeType={onChangeType}
           />
           <InputText
             placeholder={
-              this.props.param.type === "Body" ? "N/A" : this.props.param.key
+              param.type === "Body" ? "N/A" : param.key
             }
-            disabled={this.props.param.type === "Body" ? "disabled" : undefined}
-            onChange={this.props.onInputChange}
-            elementId={this.props.param.id}
+            disabled={param.type === "Body" ? "disabled" : undefined}
+            onChange={onInputChange}
+            elementId={param.id}
             targetAttribute="key"
           />
           =
-          <InputText placeholder={this.props.param.value} onChange={this.props.onInputChange}
-            elementId={this.props.param.id} targetAttribute="value"/>
+          <InputText placeholder={param.value} onChange={onInputChange}
+            elementId={param.id} targetAttribute="value"/>
         </div>
       </div>
     );

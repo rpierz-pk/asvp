@@ -27,7 +27,7 @@ class ParameterDropdown extends Component {
 
   render() {
     const menuClass = `dropdown-menu${this.state.isOpen ? " show" : ""}`;
-    const { param } = this.props;
+    const { param, onChangeType } = this.props;
     return (
       <div className="dropdown" onClick={this.toggleOpen}>
         <button
@@ -42,7 +42,7 @@ class ParameterDropdown extends Component {
         <div className={menuClass} aria-labelledby="dropdownMenuButton">
           {this.state.items.map(parameterType => (
             <DropdownItem
-              onChangeType={this.props.onChangeType}
+              onChangeType={onChangeType}
               key={parameterType.type}
               elementId={param.id}
               type={parameterType.type}

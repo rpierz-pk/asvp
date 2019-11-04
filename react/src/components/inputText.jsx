@@ -2,14 +2,17 @@ import React, { Component } from "react";
 
 class InputText extends Component {
   render() {
+
+    const { placeholder, disabled, elementId, targetAttribute, onChange } = this.props;
+
     return (
       <input
         type="text"
-        placeholder={this.props.placeholder}
-        disabled={this.props.disabled}
+        placeholder={placeholder}
+        disabled={disabled}
         style={{ width: "25%" }}
-        onChange={(event) => {this.props.onChange(event, this.props.elementId)}}
-        name={this.props.targetAttribute}
+        onChange={(event) => {onChange(event, elementId)}}
+        name={targetAttribute}
       />
     );
   }
