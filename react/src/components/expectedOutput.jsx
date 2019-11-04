@@ -32,11 +32,12 @@ class ExpectedOutput extends Component {
             disabled={
               this.props.output.type === "Status Code" ? "disabled" : undefined
             }
-            onChange={this.props.onKeyInputChange}
+            onChange={this.props.onInputChange}
             elementId={this.props.output.id}
+            targetAttribute="key"
           />
           =
-          <InputText placeholder={this.props.output.value} onChange={this.props.onValueInputChange} elementId={this.props.output.id}/>
+          <InputText placeholder={this.props.output.value} onChange={this.props.onInputChange} elementId={this.props.output.id} targetAttribute="value"/>
         </div>
       </div>
     );

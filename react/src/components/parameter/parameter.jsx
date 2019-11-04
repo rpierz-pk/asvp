@@ -28,12 +28,13 @@ class Parameter extends Component {
               this.props.param.type === "Body" ? "N/A" : this.props.param.key
             }
             disabled={this.props.param.type === "Body" ? "disabled" : undefined}
-            onChange={this.props.onKeyInputChange}
+            onChange={this.props.onInputChange}
             elementId={this.props.param.id}
+            targetAttribute="key"
           />
           =
-          <InputText placeholder={this.props.param.value} onChange={this.props.onValueInputChange}
-            elementId={this.props.param.id}/>
+          <InputText placeholder={this.props.param.value} onChange={this.props.onInputChange}
+            elementId={this.props.param.id} targetAttribute="value"/>
         </div>
       </div>
     );

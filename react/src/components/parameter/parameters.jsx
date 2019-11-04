@@ -56,22 +56,11 @@ class Parameters extends Component {
     });
   };
 
-  handleKeyInputChange = (event, paramId) => {
+  handleInputChange = (event, paramId) => {
      this.setState({
       parameters: this.state.parameters.map(param => {
         if (param.id === paramId) {
-          param.key = event.target.value;
-        }
-        return param;
-      })
-    });
-  }
-
-  handleValueInputChange = (event, paramId) => {
-     this.setState({
-      parameters: this.state.parameters.map(param => {
-        if (param.id === paramId) {
-          param.value = event.target.value;
+          param[event.target.name] = event.target.value;
         }
         return param;
       })
@@ -97,8 +86,7 @@ class Parameters extends Component {
                 onRemoveElement={this.handleRemoveElement}
                 onChangeType={this.handleChangeType}
                 param={param}
-                onKeyInputChange={this.handleKeyInputChange}
-                onValueInputChange={this.handleValueInputChange}
+                onInputChange={this.handleInputChange}
               />
             </li>
           ))}

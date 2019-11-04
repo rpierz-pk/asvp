@@ -9,6 +9,7 @@ class InputText extends Component {
         disabled={this.props.disabled}
         style={{ width: "25%" }}
         onChange={(event) => {this.props.onChange(event, this.props.elementId)}}
+        name={this.props.targetAttribute}
       />
     );
   }
