@@ -36,6 +36,7 @@ class Parameter extends Component {
           />
           =
           <InputText placeholder={param.value} onChange={onInputChange}
+            password={ param.type === "BasicAuth" ? true : undefined }
             elementId={param.id} targetAttribute="value"/>
         </div>
       </div>
