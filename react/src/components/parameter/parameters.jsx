@@ -12,19 +12,6 @@ class Parameters extends Component {
         value: "queryvalue"
       }
     ]
-    // ,
-    // "headers":{
-    //     "headerkey": "headervalue"
-    // },
-    // "formParams":{
-    //     "formkey": "formvalue"
-    // },
-    // "basicAuth": {
-    //     "username":"uservalue",
-    //     "password":"passwordvalue"
-    // },
-    // "body": "body"
-    // }
   };
 
   handleChangeType = (id, type) => {
@@ -69,6 +56,29 @@ class Parameters extends Component {
     });
   };
 
+  handleKeyInputChange = (event, paramId) => {
+     this.setState({
+      parameters: this.state.parameters.map(param => {
+        if (param.id === paramId) {
+          param.key = event.target.value;
+        }
+        return param;
+      })
+    });
+  }
+
+  handleValueInputChange = (event, paramId) => {
+     this.setState({
+      parameters: this.state.parameters.map(param => {
+        if (param.id === paramId) {
+          param.value = event.target.value;
+        }
+        return param;
+      })
+    });
+  }
+  
+
   render() {
     console.log("Parameters - Rendered");
     return (
@@ -87,6 +97,8 @@ class Parameters extends Component {
                 onRemoveElement={this.handleRemoveElement}
                 onChangeType={this.handleChangeType}
                 param={param}
+                onKeyInputChange={this.handleKeyInputChange}
+                onValueInputChange={this.handleValueInputChange}
               />
             </li>
           ))}

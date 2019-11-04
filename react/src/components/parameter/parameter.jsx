@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import ParameterDropdown from "./parameterDropdown";
 import RemoveElementButton from "../removeElementButton";
-import InputKey from "../inputKey";
-import InputValue from "../inputValue";
+import InputText from "../inputText";
 
 class Parameter extends Component {
   render() {
@@ -24,14 +23,17 @@ class Parameter extends Component {
             param={this.props.param}
             onChangeType={this.props.onChangeType}
           />
-          <InputKey
+          <InputText
             placeholder={
               this.props.param.type === "Body" ? "N/A" : this.props.param.key
             }
             disabled={this.props.param.type === "Body" ? "disabled" : undefined}
+            onChange={this.props.onKeyInputChange}
+            elementId={this.props.param.id}
           />
           =
-          <InputValue placeholder={this.props.param.value} />
+          <InputText placeholder={this.props.param.value} onChange={this.props.onValueInputChange}
+            elementId={this.props.param.id}/>
         </div>
       </div>
     );

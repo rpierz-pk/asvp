@@ -13,6 +13,7 @@ class Test extends Component {
     return (
       <div style={testStyle}>
         <RemoveElementButton
+        label="Test"
           elementId={this.props.test.id}
           onRemoveElement={this.props.onRemoveTest}
         />
@@ -21,7 +22,6 @@ class Test extends Component {
           Endpoint: <input type="text" placeholder="/url" />
         </div>
         <div>
-          {" "}
           Method: <input type="text" placeholder="GET" />
         </div>
         <div>

@@ -47,6 +47,28 @@ class ExpectedOutputs extends Component {
     });
   };
 
+  handleKeyInputChange = (event, outputId) => {
+    this.setState({
+      outputs: this.state.outputs.map(output => {
+        if (output.id === outputId) {
+          output.key = event.target.value;
+        }
+        return output;
+      })
+    });
+  }
+
+  handleValueInputChange = (event, outputId) => {
+    this.setState({
+      outputs: this.state.outputs.map(output => {
+        if (output.id === outputId) {
+          output.value = event.target.value;
+        }
+        return output;
+      })
+    });
+  }
+
   render() {
     return (
       <div
@@ -64,6 +86,8 @@ class ExpectedOutputs extends Component {
                 onRemoveElement={this.handleRemoveElement}
                 onChangeType={this.handleChangeType}
                 output={output}
+                onKeyInputChange={this.handleKeyInputChange}
+                onValueInputChange={this.handleValueInputChange}
               />
             </li>
           ))}

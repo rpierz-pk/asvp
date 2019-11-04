@@ -31,7 +31,7 @@ class Tests extends Component {
             />
           ))}
         </div>
-        <AddElementButton onAddElement={this.props.onAddTest} />
+        <AddElementButton label="Test" onAddElement={this.props.onAddTest} />
       </div>
     );
   }

@@ -1,8 +1,7 @@
 import React, { Component } from "react";
 import RemoveElementButton from "./removeElementButton";
 import ExpectedOutputDropdown from "./expectedOutputDropdown";
-import InputKey from "./inputKey";
-import InputValue from "./inputValue";
+import InputText from "./inputText";
 
 class ExpectedOutput extends Component {
   render() {
@@ -24,7 +23,7 @@ class ExpectedOutput extends Component {
             output={this.props.output}
             onChangeType={this.props.onChangeType}
           />
-          <InputKey
+          <InputText
             placeholder={
               this.props.output.type === "Status Code"
                 ? "Status code"
@@ -33,9 +32,11 @@ class ExpectedOutput extends Component {
             disabled={
               this.props.output.type === "Status Code" ? "disabled" : undefined
             }
+            onChange={this.props.onKeyInputChange}
+            elementId={this.props.output.id}
           />
           =
-          <InputValue placeholder={this.props.output.value} />
+          <InputText placeholder={this.props.output.value} onChange={this.props.onValueInputChange} elementId={this.props.output.id}/>
         </div>
       </div>
     );
