@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import Test from "./test";
-import AddTestButton from "./addTestButton";
+import AddElementButton from "./addElementButton";
 
 class Tests extends Component {
   render() {
@@ -31,7 +31,7 @@ class Tests extends Component {
             />
           ))}
         </div>
-        <AddTestButton onAddTest={this.props.onAddTest} />
+        <AddElementButton onAddElement={this.props.onAddTest} />
       </div>
     );
   }

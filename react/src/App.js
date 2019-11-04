@@ -26,7 +26,7 @@ class App extends Component {
     };
     const newTest = {
       id: getMaxId(tests) + 1,
-      name: "Custom Test",
+      name: "New Test",
       Endpoint: "",
       Method: ""
     };
@@ -35,7 +35,7 @@ class App extends Component {
 
   handleRemoveTest = testId => {
     this.setState({
-      tests: [...this.state.tests].filter(t => t.id !== testId)
+      tests: [...this.state.tests].filter(test => test.id !== testId)
     });
   };
 

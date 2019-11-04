@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import RemoveTestButton from "./removeTestButton";
+import RemoveElementButton from "./removeElementButton";
 import Parameters from "./parameter/parameters";
 import ExpectedOutputs from "./expectedOutputs";
 
@@ -12,9 +12,9 @@ class Test extends Component {
 
     return (
       <div style={testStyle}>
-        <RemoveTestButton
-          id={this.props.test.id}
-          onRemoveTest={this.props.onRemoveTest}
+        <RemoveElementButton
+          elementId={this.props.test.id}
+          onRemoveElement={this.props.onRemoveTest}
         />
         Name: <input type="text" placeholder={this.props.test.name} />
         <div>
