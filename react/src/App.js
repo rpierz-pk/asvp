@@ -5,6 +5,10 @@ import Tests from "./components/tests";
 
 class App extends Component {
   
+  handleSubmit = event => {
+
+  }
+
   render() {
     return (
       <div>

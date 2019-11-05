@@ -4,8 +4,10 @@ import RemoveElementButton from "../removeElementButton";
 import InputText from "../inputText";
 
 class Parameter extends Component {
+  
+
   render() {
-    const { param, onInputChange, onChangeType, onRemoveElement } = this.props;
+    const { param, test, onInputChange, onChangeType, onRemoveElement } = this.props;
 
     return (
       <div>
@@ -18,6 +20,7 @@ class Parameter extends Component {
         >
           <RemoveElementButton
             label="Parameter"
+            test={test}
             elementId={param.id}
             onRemoveElement={onRemoveElement}
           />

@@ -5,7 +5,7 @@ import InputText from "./inputText";
 
 class ExpectedOutput extends Component {
   render() {
-    const { output, onRemoveElement, onChangeType, onInputChange } = this.props;
+    const { output, test, onRemoveElement, onChangeType, onInputChange } = this.props;
     return (
       <div>
         <div
@@ -17,6 +17,7 @@ class ExpectedOutput extends Component {
         >
           <RemoveElementButton
             label="Output"
+            test={test}
             onRemoveElement={onRemoveElement}
             elementId={output.id}
           />

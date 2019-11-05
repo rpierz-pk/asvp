@@ -2,11 +2,11 @@ import React, { Component } from "react";
 
 class AddElementButton extends Component {
   render() {
-    const { label, onAddElement } = this.props
+    const { label, test, onAddElement } = this.props
     return (
       <button
         className="btn btn-primary m-2"
-        onClick={() => onAddElement()}
+        onClick={() => onAddElement(test.id)}
       >
         +{label}
       </button>
