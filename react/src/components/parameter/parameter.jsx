@@ -4,10 +4,14 @@ import RemoveElementButton from "../removeElementButton";
 import InputText from "../inputText";
 
 class Parameter extends Component {
-  
-
   render() {
-    const { param, test, onInputChange, onChangeType, onRemoveElement } = this.props;
+    const {
+      param,
+      test,
+      onInputChange,
+      onChangeType,
+      onRemoveElement
+    } = this.props;
 
     return (
       <div>
@@ -26,21 +30,24 @@ class Parameter extends Component {
           />
           <ParameterDropdown
             param={param}
+            testId={test.id}
             onChangeType={onChangeType}
           />
           <InputText
-            placeholder={
-              param.type === "Body" ? "N/A" : param.key
-            }
+            placeholder={param.type === "Body" ? "N/A" : param.key}
             disabled={param.type === "Body" ? "disabled" : undefined}
             onChange={onInputChange}
             elementId={param.id}
             targetAttribute="key"
           />
           =
-          <InputText placeholder={param.value} onChange={onInputChange}
-            password={ param.type === "BasicAuth" ? true : undefined }
-            elementId={param.id} targetAttribute="value"/>
+          <InputText
+            placeholder={param.value}
+            onChange={onInputChange}
+            password={param.type === "BasicAuth" ? true : undefined}
+            elementId={param.id}
+            targetAttribute="value"
+          />
         </div>
       </div>
     );

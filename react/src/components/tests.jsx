@@ -7,7 +7,7 @@ class Tests extends Component {
     tests: [
       {
         id: 1,
-        metadata:{
+        metadata: {
           name: "New Test",
           endpoint: "",
           method: ""
@@ -28,7 +28,6 @@ class Tests extends Component {
             value: "200"
           }
         ]
-        
       }
     ]
   };
@@ -43,13 +42,13 @@ class Tests extends Component {
 
   handleAddTest = () => {
     const { tests } = this.state;
-    
+
     const newTest = {
       id: this.getMaxId(tests) + 1,
       metadata: {
         name: "New Test",
         endpoint: "",
-        method: "",
+        method: ""
       },
       parameters: [
         {
@@ -71,75 +70,94 @@ class Tests extends Component {
     this.setState({ tests: [...this.state.tests, newTest] });
   };
 
-  handleAddParameter = (testId) => {
+  handleAddParameter = testId => {
     const { tests } = this.state;
 
-    this.setState({ 
+    this.setState({
       tests: tests.map(test => {
         if (test.id === testId) {
           const newParam = {
-            id: this.getMaxId(test.parameters)+1,
+            id: this.getMaxId(test.parameters) + 1,
             type: "Query",
             key: "key",
             value: "value"
-          }
-          
-          test.parameters = [...test.parameters, newParam]
+          };
+
+          test.parameters = [...test.parameters, newParam];
         }
         return test;
       })
-    })
-  }
+    });
+  };
 
-  handleAddOutput = (testId) => {
+  handleAddOutput = testId => {
     const { tests } = this.state;
 
-    this.setState({ 
+    this.setState({
       tests: tests.map(test => {
         if (test.id === testId) {
           const newParam = {
-            id: this.getMaxId(test.outputs)+1,
+            id: this.getMaxId(test.outputs) + 1,
             type: "Statue Code",
             key: "Status Code",
             value: "200"
-          }
+          };
 
-          test.outputs = [...test.outputs, newParam]
+          test.outputs = [...test.outputs, newParam];
         }
         return test;
       })
-    })
-  }
+    });
+  };
 
   handleRemoveElement = (testId, element, elementId) => {
-    console.log(`Removing ${element} ${elementId} from test ${testId}`)
-    if (element && elementId){
+    if (element && elementId) {
       this.setState({
-        tests: this.state.tests.map( test => {
+        tests: this.state.tests.map(test => {
           if (test.id === testId) {
-            test[element] = test[element].filter(element => element.id !== elementId);
+            test[element] = test[element].filter(
+              element => element.id !== elementId
+            );
           }
           return test;
         })
-      })
+      });
+    } else {
+      this.setState({
+        tests: [...this.state.tests].filter(test => test.id !== testId)
+      });
     }
-    else {
-      this.setState({tests: [...this.state.tests].filter(test => test.id !== testId)});
-    }
-  }
+  };
 
   handleInputChange = (event, testId, element, elementId) => {
-    this.setState(this.state.tests.map(test => {
-      if (test.id === testId) {
-        // InputChange can refer to a subelement that requires ID (param/output) or one which does not require ID (metadata)
-        if (elementId)
-          test[element][elementId][event.target.name] = event.target.value;
-        else
-          test[element][event.target.name] = event.target.value;
-      }
-      return test;
-    }))
-  }
+    this.setState(
+      this.state.tests.map(test => {
+        if (test.id === testId) {
+          // InputChange can refer to a subelement that requires ID (param/output) or one which does not require ID (metadata)
+          if (elementId)
+            test[element][elementId][event.target.name] = event.target.value;
+          else test[element][event.target.name] = event.target.value;
+        }
+        return test;
+      })
+    );
+  };
+
+  handleChangeType = (testId, elementType, elementId, type) => {
+    this.setState(
+      this.state.tests.map(test => {
+        if (test.id === testId) {
+          test[elementType].map(element => {
+            if (element.id === elementId) {
+              element.type = type;
+            }
+            return element;
+          });
+        }
+        return test;
+      })
+    );
+  };
 
   render() {
     const testStyle = {
@@ -169,10 +187,15 @@ class Tests extends Component {
               onInputChange={this.handleInputChange}
               onAddParameterElement={this.handleAddParameter}
               onAddOutputElement={this.handleAddOutput}
+              onChangeType={this.handleChangeType}
             />
-    ))}
+          ))}
         </div>
-        <AddElementButton onAddElement={this.handleAddTest} label="Test" test={{id: null}}/>
+        <AddElementButton
+          onAddElement={this.handleAddTest}
+          label="Test"
+          testId={null}
+        />
       </div>
     );
   }

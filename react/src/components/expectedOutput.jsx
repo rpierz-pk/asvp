@@ -5,7 +5,13 @@ import InputText from "./inputText";
 
 class ExpectedOutput extends Component {
   render() {
-    const { output, test, onRemoveElement, onChangeType, onInputChange } = this.props;
+    const {
+      output,
+      test,
+      onRemoveElement,
+      onChangeType,
+      onInputChange
+    } = this.props;
     return (
       <div>
         <div
@@ -23,23 +29,25 @@ class ExpectedOutput extends Component {
           />
           <ExpectedOutputDropdown
             output={output}
+            testId={test.id}
             onChangeType={onChangeType}
           />
           <InputText
             placeholder={
-              output.type === "Status Code"
-                ? "Status code"
-                : output.key
+              output.type === "Status Code" ? "Status code" : output.key
             }
-            disabled={
-              output.type === "Status Code" ? "disabled" : undefined
-            }
+            disabled={output.type === "Status Code" ? "disabled" : undefined}
             onChange={onInputChange}
             elementId={output.id}
             targetAttribute="key"
           />
           =
-          <InputText placeholder={output.value} onChange={onInputChange} elementId={output.id} targetAttribute="value"/>
+          <InputText
+            placeholder={output.value}
+            onChange={onInputChange}
+            elementId={output.id}
+            targetAttribute="value"
+          />
         </div>
       </div>
     );
