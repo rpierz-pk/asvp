@@ -1,9 +1,11 @@
 import React, { Component } from "react";
 import Test from "./test";
 import AddElementButton from "./addElementButton";
+import InputText from "./inputText";
 
 class Tests extends Component {
   state = {
+    ProxyURL: "https://(org)-(env).apigee.net/(basepath)",
     tests: [
       {
         id: 1,
@@ -130,23 +132,27 @@ class Tests extends Component {
   };
 
   handleInputChange = (event, testId, elementType, elementId) => {
-    this.setState(
-      this.state.tests.map(test => {
-        if (test.id === testId) {
-          console.log(`test match found`);
-          // InputChange can refer to a subelement that requires ID (param/output) or one which does not require ID (metadata)
-          if (elementType !== "metadata") {
-            console.log(test);
-            test[elementType].map(element => {
-              if (element.id === elementId)
-                element[event.target.name] = event.target.value;
-              return element;
-            });
-          } else test[elementType][event.target.name] = event.target.value;
-        }
-        return test;
-      })
-    );
+    if (elementType === "ProxyURL") {
+      this.setState({ ProxyURL: event.target.value });
+    } else {
+      this.setState(
+        this.state.tests.map(test => {
+          if (test.id === testId) {
+            console.log(`test match found`);
+            // InputChange can refer to a subelement that requires ID (param/output) or one which does not require ID (metadata)
+            if (elementType !== "metadata") {
+              console.log(test);
+              test[elementType].map(element => {
+                if (element.id === elementId)
+                  element[event.target.name] = event.target.value;
+                return element;
+              });
+            } else test[elementType][event.target.name] = event.target.value;
+          }
+          return test;
+        })
+      );
+    }
   };
 
   handleChangeType = (event, testId, elementId, type) => {
@@ -177,11 +183,13 @@ class Tests extends Component {
     return (
       <div className="m-2">
         <div style={{ fontWeight: "bold" }}>
-          Proxy URL:{" "}
-          <input
+          Proxy URL:
+          <InputText
             style={{ width: "350px" }}
             type="text"
+            targetElement="ProxyURL"
             placeholder="https://(org)-(env).apigee.net/(basepath)"
+            onChange={this.handleInputChange}
           />
         </div>
         <div style={testStyle}>
