@@ -4,6 +4,10 @@ const exec = require("child_process").exec;
 const fs = require("fs");
 const Ajv = require("ajv");
 
+router.post("/test", (req, res) => {
+  return res.status(200).json(req.body);
+});
+
 router.get("/index", (req, res) => {
   return res.sendFile("index.html", { root: "../frontend/html" });
 });

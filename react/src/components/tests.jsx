@@ -2,11 +2,37 @@ import React, { Component } from "react";
 import Test from "./test";
 import AddElementButton from "./addElementButton";
 import InputText from "./inputText";
+import axios from "axios";
+import GlobalTest from "./globalTest";
 
 class Tests extends Component {
   state = {
     ProxyURL: "https://(org)-(env).apigee.net/(basepath)",
     tests: [
+      {
+        id: 0,
+        metadata: {
+          name: "Global",
+          endpoint: "",
+          method: ""
+        },
+        parameters: [
+          {
+            id: 1,
+            type: "Query",
+            key: "key",
+            value: "value"
+          }
+        ],
+        outputs: [
+          {
+            id: 1,
+            type: "Status Code",
+            key: "Status Code",
+            value: "200"
+          }
+        ]
+      },
       {
         id: 1,
         metadata: {
@@ -138,10 +164,8 @@ class Tests extends Component {
       this.setState(
         this.state.tests.map(test => {
           if (test.id === testId) {
-            console.log(`test match found`);
             // InputChange can refer to a subelement that requires ID (param/output) or one which does not require ID (metadata)
             if (elementType !== "metadata") {
-              console.log(test);
               test[elementType].map(element => {
                 if (element.id === elementId)
                   element[event.target.name] = event.target.value;
@@ -171,7 +195,90 @@ class Tests extends Component {
     );
   };
 
+  parseParameters = test => {
+    let QueryParams = {};
+    let Headers = {};
+    let FormParams = {};
+    let BasicAuth = {};
+    let Body = {};
+    for (var param in test.parameters) {
+      const { type, key, value } = test.parameters[param];
+      if (type === "Query") {
+        QueryParams[key] = value;
+      } else if (type === "Header") {
+        Headers[key] = value;
+      } else if (type === "Form") {
+        FormParams[key] = value;
+      } else if (type === "BasicAuth") {
+        BasicAuth.username = key;
+        BasicAuth.password = value;
+      } else if (type === "Body") {
+        Body.body = value;
+      }
+    }
+    return {
+      QueryParams,
+      Headers,
+      FormParams,
+      BasicAuth,
+      Body
+    };
+  };
+
+  parseOutputs = test => {
+    let ResponseCode = {};
+    let Headers = {};
+    let BodyPath = {};
+    for (var output in test.outputs) {
+      const { type, key, value } = test.outputs[output];
+      if (type === "Status Code") {
+        ResponseCode.ResponseCode = value;
+      } else if (type === "Header") {
+        Headers[key] = value;
+      } else if (type === "Body-Path") {
+        BodyPath[key] = value;
+      }
+    }
+    return {
+      ResponseCode,
+      Headers,
+      BodyPath
+    };
+  };
+
+  submitRequest = () => {
+    const { tests } = this.state;
+    let req = { global: { ProxyURL: this.state.ProxyURL }, tests: {} };
+    for (var test in tests) {
+      const params = this.parseParameters(tests[test]);
+      for (var param in params)
+        if (Object.entries(params[param]).length === 0) delete params[param];
+      const outputs = this.parseOutputs(tests[test]);
+      for (var output in outputs)
+        if (Object.entries(outputs[output]).length === 0)
+          delete outputs[output];
+      req.tests[tests[test].metadata.name] = {
+        Endpoint: tests[test].metadata.endpoint,
+        Method: tests[test].metadata.method,
+        Parameters: params,
+        ExpectedOutput: outputs
+      };
+    }
+    console.log(req);
+    axios.post("http://localhost:8000/test", req).then(res => {
+      console.log(JSON.stringify(res));
+    });
+  };
+
   render() {
+    const globalTestStyle = {
+      border: "3px inset",
+      borderRadius: "10px",
+      backgroundColor: "lightgreen",
+      fontWeight: "bold",
+      margin: "20px",
+      padding: "10px"
+    };
     const testStyle = {
       border: "3px inset",
       borderRadius: "10px",
@@ -183,6 +290,14 @@ class Tests extends Component {
     return (
       <div className="m-2">
         <div style={{ fontWeight: "bold" }}>
+          <button
+            className="btn btn-primary m-2"
+            onClick={() => {
+              this.submitRequest();
+            }}
+          >
+            Make Request
+          </button>
           Proxy URL:
           <InputText
             style={{ width: "350px" }}
@@ -191,6 +306,9 @@ class Tests extends Component {
             placeholder="https://(org)-(env).apigee.net/(basepath)"
             onChange={this.handleInputChange}
           />
+        </div>
+        <div style={globalTestStyle}>
+          <GlobalTest key="0" />
         </div>
         <div style={testStyle}>
           {this.state.tests.map(test => (
