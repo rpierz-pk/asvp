@@ -110,21 +110,21 @@ class Tests extends Component {
     });
   };
 
-  handleRemoveElement = (testId, element, elementId) => {
-    if (element && elementId) {
+  handleRemoveElement = (event, testId, elementId) => {
+    if (event.target.name === "test") {
+      this.setState({
+        tests: [...this.state.tests].filter(test => test.id !== testId)
+      });
+    } else {
       this.setState({
         tests: this.state.tests.map(test => {
           if (test.id === testId) {
-            test[element] = test[element].filter(
+            test[event.target.name] = test[event.target.name].filter(
               element => element.id !== elementId
             );
           }
           return test;
         })
-      });
-    } else {
-      this.setState({
-        tests: [...this.state.tests].filter(test => test.id !== testId)
       });
     }
   };

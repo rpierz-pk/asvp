@@ -27,14 +27,6 @@ class Test extends Component {
     this.props.onInputChange(testId, "outputs");
   };
 
-  handleRemoveParameterElement = (testId, elementId) => {
-    this.props.onRemoveElement(testId, "parameters", elementId);
-  };
-
-  handleRemoveOutputElement = (testId, elementId) => {
-    this.props.onRemoveElement(testId, "outputs", elementId);
-  };
-
   render() {
     const testStyle = {
       padding: "10px",
@@ -50,6 +42,7 @@ class Test extends Component {
           onRemoveElement={this.toggleModal}
           elementId={test.id}
           test={test}
+          elementType="test"
         />
         Name:
         <InputText
@@ -88,8 +81,8 @@ class Test extends Component {
               <li key={param.id}>
                 <Parameter
                   key={param.id}
-                  test={test}
-                  onRemoveElement={this.handleRemoveParameterElement}
+                  testId={test.id}
+                  onRemoveElement={this.props.onRemoveElement}
                   onChangeType={this.props.onChangeType}
                   param={param}
                   onInputChange={this.handleParameterInputChange}
@@ -115,8 +108,8 @@ class Test extends Component {
               <li key={output.id}>
                 <ExpectedOutput
                   key={output.id}
-                  test={test}
-                  onRemoveElement={this.handleRemoveOutputElement}
+                  testId={test.id}
+                  onRemoveElement={this.props.onRemoveElement}
                   onChangeType={this.props.onChangeType}
                   output={output}
                   onInputChange={this.handleOuputInputChange}

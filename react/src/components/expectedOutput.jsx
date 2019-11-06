@@ -7,7 +7,7 @@ class ExpectedOutput extends Component {
   render() {
     const {
       output,
-      test,
+      testId,
       onRemoveElement,
       onChangeType,
       onInputChange
@@ -23,13 +23,14 @@ class ExpectedOutput extends Component {
         >
           <RemoveElementButton
             label="Output"
-            test={test}
+            testId={testId}
             onRemoveElement={onRemoveElement}
             elementId={output.id}
+            elementType="outputs"
           />
           <ExpectedOutputDropdown
             output={output}
-            testId={test.id}
+            testId={testId}
             onChangeType={onChangeType}
           />
           <InputText

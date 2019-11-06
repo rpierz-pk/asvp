@@ -7,7 +7,7 @@ class Parameter extends Component {
   render() {
     const {
       param,
-      test,
+      testId,
       onInputChange,
       onChangeType,
       onRemoveElement
@@ -24,13 +24,14 @@ class Parameter extends Component {
         >
           <RemoveElementButton
             label="Parameter"
-            test={test}
+            testId={testId}
             elementId={param.id}
             onRemoveElement={onRemoveElement}
+            elementType="parameters"
           />
           <ParameterDropdown
             param={param}
-            testId={test.id}
+            testId={testId}
             onChangeType={onChangeType}
           />
           <InputText
