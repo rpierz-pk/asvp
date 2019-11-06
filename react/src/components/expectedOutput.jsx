@@ -41,6 +41,7 @@ class ExpectedOutput extends Component {
             onChange={onInputChange}
             elementId={output.id}
             targetAttribute="key"
+            testId={testId}
           />
           =
           <InputText
@@ -48,6 +49,7 @@ class ExpectedOutput extends Component {
             onChange={onInputChange}
             elementId={output.id}
             targetAttribute="value"
+            testId={testId}
           />
         </div>
       </div>

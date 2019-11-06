@@ -40,6 +40,7 @@ class Parameter extends Component {
             onChange={onInputChange}
             elementId={param.id}
             targetAttribute="key"
+            testId={testId}
           />
           =
           <InputText
@@ -47,6 +48,7 @@ class Parameter extends Component {
             onChange={onInputChange}
             password={param.type === "BasicAuth" ? true : undefined}
             elementId={param.id}
+            testId={testId}
             targetAttribute="value"
           />
         </div>

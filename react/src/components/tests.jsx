@@ -16,8 +16,8 @@ class Tests extends Component {
           {
             id: 1,
             type: "Query",
-            key: "querykey",
-            value: "queryvalue"
+            key: "key",
+            value: "value"
           }
         ],
         outputs: [
@@ -129,14 +129,20 @@ class Tests extends Component {
     }
   };
 
-  handleInputChange = (event, testId, element, elementId) => {
+  handleInputChange = (event, testId, elementType, elementId) => {
     this.setState(
       this.state.tests.map(test => {
         if (test.id === testId) {
+          console.log(`test match found`);
           // InputChange can refer to a subelement that requires ID (param/output) or one which does not require ID (metadata)
-          if (elementId)
-            test[element][elementId][event.target.name] = event.target.value;
-          else test[element][event.target.name] = event.target.value;
+          if (elementType !== "metadata") {
+            console.log(test);
+            test[elementType].map(element => {
+              if (element.id === elementId)
+                element[event.target.name] = event.target.value;
+              return element;
+            });
+          } else test[elementType][event.target.name] = event.target.value;
         }
         return test;
       })

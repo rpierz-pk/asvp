@@ -15,16 +15,19 @@ class Test extends Component {
     this.setState({ show: !this.state.show });
   };
 
-  handleMetadataInputChange = testId => {
-    this.props.onInputChange(testId, "metadata");
+  handleMetadataInputChange = (event, testId, elementId) => {
+    console.log(`calling handle metadata input change for test ${testId}`);
+    this.props.onInputChange(event, testId, "metadata", elementId);
   };
 
-  handleParameterInputChange = testId => {
-    this.props.onInputChange(testId, "parameters");
+  handleParameterInputChange = (event, testId, elementId) => {
+    console.log(`calling handle Parameter input change for test ${testId}`);
+    this.props.onInputChange(event, testId, "parameters", elementId);
   };
 
-  handleOutputInputChange = testId => {
-    this.props.onInputChange(testId, "outputs");
+  handleOutputInputChange = (event, testId, elementId) => {
+    console.log(`calling handle Output input change for test ${testId}`);
+    this.props.onInputChange(event, testId, "outputs", elementId);
   };
 
   render() {
@@ -50,6 +53,7 @@ class Test extends Component {
           targetAttribute="name"
           elementId={test.id}
           onChange={this.handleMetadataInputChange}
+          testId={test.id}
         />
         <div>
           Endpoint:
@@ -58,6 +62,7 @@ class Test extends Component {
             targetAttribute="endpoint"
             elementId={test.id}
             onChange={this.handleMetadataInputChange}
+            testId={test.id}
           />
         </div>
         <div>
@@ -67,6 +72,7 @@ class Test extends Component {
             targetAttribute="method"
             elementId={test.id}
             onChange={this.handleMetadataInputChange}
+            testId={test.id}
           />
         </div>
         <div
@@ -112,7 +118,7 @@ class Test extends Component {
                   onRemoveElement={this.props.onRemoveElement}
                   onChangeType={this.props.onChangeType}
                   output={output}
-                  onInputChange={this.handleOuputInputChange}
+                  onInputChange={this.handleOutputInputChange}
                 />
               </li>
             ))}
