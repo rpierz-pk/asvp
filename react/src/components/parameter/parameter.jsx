@@ -41,6 +41,7 @@ class Parameter extends Component {
             elementId={param.id}
             targetAttribute="key"
             testId={testId}
+            targetElement="parameters"
           />
           =
           <InputText
@@ -50,6 +51,7 @@ class Parameter extends Component {
             elementId={param.id}
             testId={testId}
             targetAttribute="value"
+            targetElement="parameters"
           />
         </div>
       </div>

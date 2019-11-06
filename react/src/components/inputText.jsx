@@ -8,6 +8,7 @@ class InputText extends Component {
       testId,
       elementId,
       targetAttribute,
+      targetElement,
       onChange
     } = this.props;
 
@@ -18,7 +19,7 @@ class InputText extends Component {
         disabled={disabled}
         style={{ width: "25%" }}
         onChange={event => {
-          onChange(event, testId, elementId);
+          onChange(event, testId, targetElement, elementId);
         }}
         name={targetAttribute}
       />

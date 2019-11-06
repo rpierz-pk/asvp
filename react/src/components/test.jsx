@@ -15,21 +15,6 @@ class Test extends Component {
     this.setState({ show: !this.state.show });
   };
 
-  handleMetadataInputChange = (event, testId, elementId) => {
-    console.log(`calling handle metadata input change for test ${testId}`);
-    this.props.onInputChange(event, testId, "metadata", elementId);
-  };
-
-  handleParameterInputChange = (event, testId, elementId) => {
-    console.log(`calling handle Parameter input change for test ${testId}`);
-    this.props.onInputChange(event, testId, "parameters", elementId);
-  };
-
-  handleOutputInputChange = (event, testId, elementId) => {
-    console.log(`calling handle Output input change for test ${testId}`);
-    this.props.onInputChange(event, testId, "outputs", elementId);
-  };
-
   render() {
     const testStyle = {
       padding: "10px",
@@ -52,8 +37,9 @@ class Test extends Component {
           placeholder="New Test"
           targetAttribute="name"
           elementId={test.id}
-          onChange={this.handleMetadataInputChange}
+          onChange={this.props.onInputChange}
           testId={test.id}
+          targetElement="metadata"
         />
         <div>
           Endpoint:
@@ -61,8 +47,9 @@ class Test extends Component {
             placeholder="/url"
             targetAttribute="endpoint"
             elementId={test.id}
-            onChange={this.handleMetadataInputChange}
+            onChange={this.props.onInputChange}
             testId={test.id}
+            targetElement="metadata"
           />
         </div>
         <div>
@@ -71,8 +58,9 @@ class Test extends Component {
             placeholder="GET"
             targetAttribute="method"
             elementId={test.id}
-            onChange={this.handleMetadataInputChange}
+            onChange={this.props.onInputChange}
             testId={test.id}
+            targetElement="metadata"
           />
         </div>
         <div
@@ -91,7 +79,7 @@ class Test extends Component {
                   onRemoveElement={this.props.onRemoveElement}
                   onChangeType={this.props.onChangeType}
                   param={param}
-                  onInputChange={this.handleParameterInputChange}
+                  onInputChange={this.props.onInputChange}
                 />
               </li>
             ))}
@@ -118,7 +106,7 @@ class Test extends Component {
                   onRemoveElement={this.props.onRemoveElement}
                   onChangeType={this.props.onChangeType}
                   output={output}
-                  onInputChange={this.handleOutputInputChange}
+                  onInputChange={this.props.onInputChange}
                 />
               </li>
             ))}

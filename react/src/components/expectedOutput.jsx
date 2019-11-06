@@ -42,6 +42,7 @@ class ExpectedOutput extends Component {
             elementId={output.id}
             targetAttribute="key"
             testId={testId}
+            targetElement="outputs"
           />
           =
           <InputText
@@ -50,6 +51,7 @@ class ExpectedOutput extends Component {
             elementId={output.id}
             targetAttribute="value"
             testId={testId}
+            targetElement="outputs"
           />
         </div>
       </div>
