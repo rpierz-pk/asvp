@@ -43,6 +43,7 @@ class ParameterDropdown extends Component {
           {this.state.items.map(parameterType => (
             <DropdownItem
               testId={testId}
+              elementType="parameters"
               onChangeType={onChangeType}
               key={parameterType.type}
               elementId={param.id}

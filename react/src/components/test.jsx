@@ -35,14 +35,6 @@ class Test extends Component {
     this.props.onRemoveElement(testId, "outputs", elementId);
   };
 
-  handleChangeParameterType = (testId, elementId, type) => {
-    this.props.onChangeType(testId, "parameters", elementId, type);
-  };
-
-  handleChangeOutputType = (testId, elementId, type) => {
-    this.props.onChangeType(testId, "outputs", elementId, type);
-  };
-
   render() {
     const testStyle = {
       padding: "10px",
@@ -98,7 +90,7 @@ class Test extends Component {
                   key={param.id}
                   test={test}
                   onRemoveElement={this.handleRemoveParameterElement}
-                  onChangeType={this.handleChangeParameterType}
+                  onChangeType={this.props.onChangeType}
                   param={param}
                   onInputChange={this.handleParameterInputChange}
                 />
@@ -125,7 +117,7 @@ class Test extends Component {
                   key={output.id}
                   test={test}
                   onRemoveElement={this.handleRemoveOutputElement}
-                  onChangeType={this.handleChangeOutputType}
+                  onChangeType={this.props.onChangeType}
                   output={output}
                   onInputChange={this.handleOuputInputChange}
                 />

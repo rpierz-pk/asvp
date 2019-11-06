@@ -143,11 +143,11 @@ class Tests extends Component {
     );
   };
 
-  handleChangeType = (testId, elementType, elementId, type) => {
+  handleChangeType = (event, testId, elementId, type) => {
     this.setState(
       this.state.tests.map(test => {
         if (test.id === testId) {
-          test[elementType].map(element => {
+          test[event.target.name].map(element => {
             if (element.id === elementId) {
               element.type = type;
             }

@@ -38,6 +38,7 @@ class ExpectedOutputDropdown extends Component {
           {this.state.items.map(outputType => (
             <DropdownItem
               testId={testId}
+              elementType="outputs"
               onChangeType={onChangeType}
               key={outputType.type}
               elementId={output.id}
