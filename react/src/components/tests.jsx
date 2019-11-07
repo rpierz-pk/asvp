@@ -9,6 +9,7 @@ class Tests extends Component {
   url = "http://localhost:8000";
 
   state = {
+    UserID: "",
     ProxyURL: "(org)-(env).apigee.net/(basepath)",
     tests: [
       {
@@ -146,7 +147,9 @@ class Tests extends Component {
   };
 
   handleInputChange = (event, testId, elementType, elementId) => {
-    if (elementType === "ProxyURL") {
+    if (elementType === "UserID") {
+      this.setState({ UserID: event.target.value });
+    } else if (elementType === "ProxyURL") {
       this.setState({ ProxyURL: event.target.value });
     } else {
       this.setState(
@@ -277,19 +280,21 @@ class Tests extends Component {
       }
     }
     console.log(req);
-    axios.post(`${this.url}/generate?id=rpierz`, req).then(res => {
-      console.log(res);
-    });
+    axios
+      .post(`${this.url}/generate?id=${this.state.UserID}`, req)
+      .then(res => {
+        console.log(res);
+      });
   };
 
   runTests = () => {
-    axios.get(`${this.url}/run?id=rpierz`).then(res => {
+    axios.get(`${this.url}/run?id=${this.state.UserID}`).then(res => {
       console.log(res);
     });
   };
 
   generateReport = () => {
-    axios.get(`${this.url}/report?id=rpierz`).then(res => {
+    axios.get(`${this.url}/report?id=${this.state.UserID}`).then(res => {
       console.log(res);
     });
   };
@@ -317,10 +322,16 @@ class Tests extends Component {
         <div style={{ fontWeight: "bold" }}>
           Proxy URL:
           <InputText
-            style={{ width: "350px" }}
             type="text"
             targetElement="ProxyURL"
             placeholder={this.state.ProxyURL}
+            onChange={this.handleInputChange}
+          />
+          User ID:
+          <InputText
+            type="text"
+            targetElement="UserID"
+            placeholder={this.state.UserID}
             onChange={this.handleInputChange}
           />
           <button
