@@ -6,8 +6,10 @@ import axios from "axios";
 import GlobalTest from "./globalTest";
 
 class Tests extends Component {
+  url = "http://localhost:8000";
+
   state = {
-    ProxyURL: "https://(org)-(env).apigee.net/(basepath)",
+    ProxyURL: "(org)-(env).apigee.net/(basepath)",
     tests: [
       {
         id: 0,
@@ -16,23 +18,8 @@ class Tests extends Component {
           endpoint: "",
           method: ""
         },
-        // TODO: REMOVE INITIAL CONFIG.
-        parameters: [
-          {
-            id: 1,
-            type: "Query",
-            key: "key",
-            value: "value"
-          }
-        ],
-        outputs: [
-          {
-            id: 1,
-            type: "Status Code",
-            key: "Status Code",
-            value: "200"
-          }
-        ]
+        parameters: [],
+        outputs: []
       },
       {
         id: 1,
@@ -266,6 +253,10 @@ class Tests extends Component {
           Parameters: params,
           ExpectedOutput: outputs
         };
+        if (Object.entries(req.global.Parameters).length === 0)
+          delete req.global.Parameters;
+        if (Object.entries(req.global.ExpectedOutput).length === 0)
+          delete req.global.ExpectedOutput;
       } else {
         req.tests[tests[test].metadata.name] = {
           Endpoint: tests[test].metadata.endpoint,
@@ -273,10 +264,32 @@ class Tests extends Component {
           Parameters: params,
           ExpectedOutput: outputs
         };
+        if (
+          Object.entries(req.tests[tests[test].metadata.name].Parameters)
+            .length === 0
+        )
+          delete req.tests[tests[test].metadata.name].Parameters;
+        if (
+          Object.entries(req.tests[tests[test].metadata.name].ExpectedOutput)
+            .length === 0
+        )
+          delete req.tests[tests[test].metadata.name].ExpectedOutput;
       }
     }
     console.log(req);
-    axios.post("http://localhost:8000/generate?id=rpierz", req).then(res => {
+    axios.post(`${this.url}/generate?id=rpierz`, req).then(res => {
+      console.log(res);
+    });
+  };
+
+  runTests = () => {
+    axios.get(`${this.url}/run?id=rpierz`).then(res => {
+      console.log(res);
+    });
+  };
+
+  generateReport = () => {
+    axios.get(`${this.url}/report?id=rpierz`).then(res => {
       console.log(res);
     });
   };
@@ -302,23 +315,36 @@ class Tests extends Component {
     return (
       <div className="m-2">
         <div style={{ fontWeight: "bold" }}>
+          Proxy URL:
+          <InputText
+            style={{ width: "350px" }}
+            type="text"
+            targetElement="ProxyURL"
+            placeholder={this.state.ProxyURL}
+            onChange={this.handleInputChange}
+          />
           <button
-            className="btn btn-primary m-2"
+            className="btn btn-primary btn-lg m-2"
             onClick={() => {
               this.submitRequest();
             }}
           >
             Make Request
           </button>
-          Proxy URL:
-          <InputText
-            style={{ width: "350px" }}
-            type="text"
-            targetElement="ProxyURL"
-            placeholder="https://(org)-(env).apigee.net/(basepath)"
-            onChange={this.handleInputChange}
-          />
+          <button
+            className="btn btn-primary btn-lg m-2"
+            onClick={() => this.runTests()}
+          >
+            Run Tests
+          </button>
+          <button
+            className="btn btn-primary btn-lg m-2"
+            onClick={() => this.generateReport()}
+          >
+            Generate Reports
+          </button>
         </div>
+
         <div style={globalTestStyle}>
           <GlobalTest
             key="0"
