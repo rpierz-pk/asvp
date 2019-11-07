@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import RemoveElementButton from "./removeElementButton";
 import AddElementButton from "./addElementButton";
 import InputText from "./inputText";
 import Parameter from "./parameter/parameter";
