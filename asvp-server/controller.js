@@ -584,6 +584,10 @@ router.post("/generate", (req, res) => {
       function(err, file) {
         if (err) {
           console.log(err);
+          return res.status(500).json({
+            "Status Code": "500 SERVER ERROR",
+            Error: "The server was unable to create the feature file"
+          });
         }
       }
     );
