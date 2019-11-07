@@ -384,7 +384,7 @@ router.post("/generate", (req, res) => {
 
     // isFirstLineOfSection marks whether this is the first line of the section (i.e. append "Given/When/Then") or not (i.e. append "And")
     var isFirstLineOfSection = true;
-    outputTests += `Scenario: Run Test  ${test}\n`;
+    outputTests += `Scenario: Run Test ${test}\n`;
 
     // Append all requirements for the req as GIVEN statements
     // Begin GIVEN lines -----------------------------------------------------------------------------------------v
@@ -547,26 +547,14 @@ router.post("/generate", (req, res) => {
           `${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`
         )
       ) {
-        var script = exec(
-          `cd ${__dirname}/output && mkdir ${id} && cd ${id} && mkdir features && cd features && mkdir support && mkdir step_definitions && cd step_definitions`,
-          (error, stdout, stderr) => {
-            console.log(stdout);
-            console.log(stderr);
-            if (error !== null) {
-              console.log(`exec errors: ${error}`);
-              reject(
-                res.status(500).json({
-                  "Status Code": "500 SERVER ERROR",
-                  Error: "The server was unable to bootstrap the correct file"
-                })
-              );
-            }
-            fs.writeFileSync(
-              `${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`,
-              "module.exports = require('apickli/apickli-gherkin');"
-            );
-            resolve();
-          }
+        // USE FS TO CREATE TH EFOLDERS
+        fs.mkdirSync(`${__dirname}/output/${id}`);
+        fs.mkdirSync(`${__dirname}/output/${id}/features`);
+        fs.mkdirSync(`${__dirname}/output/${id}/features/support`);
+        fs.mkdirSync(`${__dirname}/output/${id}/features/step_definitions`);
+        fs.writeFileSync(
+          `${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`,
+          "module.exports = require('apickli/apickli-gherkin');"
         );
       }
       resolve();
