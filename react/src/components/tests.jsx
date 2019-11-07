@@ -16,6 +16,7 @@ class Tests extends Component {
           endpoint: "",
           method: ""
         },
+        // TODO: REMOVE INITIAL CONFIG.
         parameters: [
           {
             id: 1,
@@ -126,7 +127,7 @@ class Tests extends Component {
         if (test.id === testId) {
           const newParam = {
             id: this.getMaxId(test.outputs) + 1,
-            type: "Statue Code",
+            type: "Status Code",
             key: "Status Code",
             value: "200"
           };
@@ -232,7 +233,7 @@ class Tests extends Component {
     for (var output in test.outputs) {
       const { type, key, value } = test.outputs[output];
       if (type === "Status Code") {
-        ResponseCode.ResponseCode = value;
+        ResponseCode = value;
       } else if (type === "Header") {
         Headers[key] = value;
       } else if (type === "Body-Path") {
@@ -257,12 +258,21 @@ class Tests extends Component {
       for (var output in outputs)
         if (Object.entries(outputs[output]).length === 0)
           delete outputs[output];
-      req.tests[tests[test].metadata.name] = {
-        Endpoint: tests[test].metadata.endpoint,
-        Method: tests[test].metadata.method,
-        Parameters: params,
-        ExpectedOutput: outputs
-      };
+      if (tests[test].id === 0) {
+        req.global = {
+          Endpoint: tests[test].metadata.endpoint,
+          Method: tests[test].metadata.method,
+          Parameters: params,
+          ExpectedOutput: outputs
+        };
+      } else {
+        req.tests[tests[test].metadata.name] = {
+          Endpoint: tests[test].metadata.endpoint,
+          Method: tests[test].metadata.method,
+          Parameters: params,
+          ExpectedOutput: outputs
+        };
+      }
     }
     console.log(req);
     axios.post("http://localhost:8000/test", req).then(res => {
@@ -274,7 +284,7 @@ class Tests extends Component {
     const globalTestStyle = {
       border: "3px inset",
       borderRadius: "10px",
-      backgroundColor: "lightgreen",
+      backgroundColor: "#ADFFD0",
       fontWeight: "bold",
       margin: "20px",
       padding: "10px"
@@ -282,11 +292,12 @@ class Tests extends Component {
     const testStyle = {
       border: "3px inset",
       borderRadius: "10px",
-      backgroundColor: "lightblue",
+      backgroundColor: "#ADD8E6",
       fontWeight: "bold",
       margin: "20px",
       padding: "10px"
     };
+
     return (
       <div className="m-2">
         <div style={{ fontWeight: "bold" }}>
@@ -308,20 +319,30 @@ class Tests extends Component {
           />
         </div>
         <div style={globalTestStyle}>
-          <GlobalTest key="0" />
+          <GlobalTest
+            key="0"
+            test={this.state.tests.filter(test => test.id === 0)[0]}
+            onRemoveElement={this.handleRemoveElement}
+            onInputChange={this.handleInputChange}
+            onAddParameterElement={this.handleAddParameter}
+            onAddOutputElement={this.handleAddOutput}
+            onChangeType={this.handleChangeType}
+          />
         </div>
         <div style={testStyle}>
-          {this.state.tests.map(test => (
-            <Test
-              key={test.id}
-              test={test}
-              onRemoveElement={this.handleRemoveElement}
-              onInputChange={this.handleInputChange}
-              onAddParameterElement={this.handleAddParameter}
-              onAddOutputElement={this.handleAddOutput}
-              onChangeType={this.handleChangeType}
-            />
-          ))}
+          {this.state.tests
+            .filter(test => test.id !== 0)
+            .map(test => (
+              <Test
+                key={test.id}
+                test={test}
+                onRemoveElement={this.handleRemoveElement}
+                onInputChange={this.handleInputChange}
+                onAddParameterElement={this.handleAddParameter}
+                onAddOutputElement={this.handleAddOutput}
+                onChangeType={this.handleChangeType}
+              />
+            ))}
         </div>
         <AddElementButton
           onAddElement={this.handleAddTest}

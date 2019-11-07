@@ -35,7 +35,7 @@ class ExpectedOutput extends Component {
           />
           <InputText
             placeholder={
-              output.type === "Status Code" ? "Status code" : output.key
+              output.type === "Status Code" ? "Status Code" : output.key
             }
             disabled={output.type === "Status Code" ? "disabled" : undefined}
             onChange={onInputChange}
