@@ -260,6 +260,7 @@ class Tests extends Component {
           delete outputs[output];
       if (tests[test].id === 0) {
         req.global = {
+          ProxyURL: this.state.ProxyURL,
           Endpoint: tests[test].metadata.endpoint,
           Method: tests[test].metadata.method,
           Parameters: params,
@@ -275,8 +276,8 @@ class Tests extends Component {
       }
     }
     console.log(req);
-    axios.post("http://localhost:8000/test", req).then(res => {
-      console.log(JSON.stringify(res));
+    axios.post("http://localhost:8000/generate?id=rpierz", req).then(res => {
+      console.log(res);
     });
   };
 

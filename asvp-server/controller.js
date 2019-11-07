@@ -364,19 +364,23 @@ router.post("/generate", (req, res) => {
 
   // Set the global Configuration that all tests will inherit
   var globalConfig = new Config();
+  console.log("Server --> Setting global configuration");
   if (input.global != null) {
     globalConfig.setMetadata(input.global);
     globalConfig.addParameters(input.global.Parameters);
     globalConfig.setExpectedOutput(input.global.ExpectedOutput);
   }
+  console.log(`Server --> Global configuration complete`);
 
   // Iterate through all tests, parse the parameters included and write them to the test feature file
   for (var test in input.tests) {
+    console.log("Server --> Creating test object");
     var currentTest = new Config();
     currentTest.setConfig(globalConfig);
     currentTest.setMetadata(input.tests[test]);
     currentTest.addParameters(input.tests[test].Parameters);
     currentTest.setExpectedOutput(input.tests[test].ExpectedOutput);
+    console.log(`Server --> Test object created`);
 
     // isFirstLineOfSection marks whether this is the first line of the section (i.e. append "Given/When/Then") or not (i.e. append "And")
     var isFirstLineOfSection = true;
@@ -402,6 +406,7 @@ router.post("/generate", (req, res) => {
       });
     }
 
+    console.log(`Server --> Create Feature File output`);
     for (var parameterType in parameters) {
       // Write the GIVEN lines for each test
       outputTests += isFirstLineOfSection ? "Given " : "And ";
@@ -529,6 +534,7 @@ router.post("/generate", (req, res) => {
   }
 
   // Bootstrap the folder structure required for each user
+  console.log(`Server --> Bootstrapping folder structure`);
   var id =
     req.query.id != null
       ? req.query.id
@@ -548,7 +554,12 @@ router.post("/generate", (req, res) => {
             console.log(stderr);
             if (error !== null) {
               console.log(`exec errors: ${error}`);
-              reject(error);
+              reject(
+                res.status(500).json({
+                  "Status Code": "500 SERVER ERROR",
+                  Error: "The server was unable to bootstrap the correct file"
+                })
+              );
             }
             fs.writeFileSync(
               `${__dirname}/output/${id}/features/step_definitions/apickli-gherkin.js`,
@@ -560,6 +571,7 @@ router.post("/generate", (req, res) => {
       }
       resolve();
     });
+    console.log(`Server --> Folder structure bootstrapped`);
 
     // Generate the feature file from the parameters desired by the user
     //
