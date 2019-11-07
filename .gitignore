@@ -1,4 +1,4 @@
-asvp-server/node_modules/
+node_modules
 init.js
 test.feature
 report.html
