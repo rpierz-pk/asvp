@@ -25,23 +25,8 @@ class GlobalTest extends Component {
 
     return (
       <div style={testStyle}>
-        <RemoveElementButton
-          label="Test"
-          onRemoveElement={this.toggleModal}
-          elementId={test.id}
-          test={test}
-          elementType="test"
-        />
-        Name:
-        <InputText
-          placeholder="New Test"
-          targetAttribute="name"
-          elementId={test.id}
-          onChange={this.props.onInputChange}
-          testId={test.id}
-          targetElement="metadata"
-        />
         <div>
+          <h1>Global Configuration</h1>
           Endpoint:
           <InputText
             placeholder="/url"
@@ -117,14 +102,6 @@ class GlobalTest extends Component {
             onAddElement={this.props.onAddOutputElement}
           />
         </div>
-        <Modal
-          test={test}
-          show={this.state.show}
-          toggleModal={this.toggleModal}
-          onRemoveElement={this.props.onRemoveElement}
-        >
-          <h3>Are you sure you want to delete {test.metadata.name}?</h3>
-        </Modal>
       </div>
     );
   }
