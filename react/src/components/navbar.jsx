@@ -1,8 +1,9 @@
 import React, { Component } from "react";
+import "../App.css";
 
 class NavBar extends Component {
-  state = {  }
-  render() { 
+  state = {};
+  render() {
     return (
       <nav className="navbar navbar-dark bg-primary">
         <a className="navbar-brand" href="#nogo">
@@ -15,5 +16,5 @@ class NavBar extends Component {
     );
   }
 }
- 
+
 export default NavBar;

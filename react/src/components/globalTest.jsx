@@ -4,6 +4,7 @@ import InputText from "./inputText";
 import Parameter from "./parameter/parameter";
 import ExpectedOutput from "./expectedOutput";
 import Modal from "./modal";
+import "../App.css";
 
 class GlobalTest extends Component {
   state = {
@@ -15,15 +16,10 @@ class GlobalTest extends Component {
   };
 
   render() {
-    const testStyle = {
-      padding: "10px",
-      borderBottom: "2px solid gray"
-    };
-
     const { test } = this.props;
 
     return (
-      <div style={testStyle}>
+      <div className="Test">
         <div>
           <h1>Global Configuration</h1>
           Endpoint:
@@ -47,14 +43,8 @@ class GlobalTest extends Component {
             targetElement="metadata"
           />
         </div>
-        <div
-          style={{
-            border: "1px solid gray",
-            borderRadius: "10px",
-            marginTop: "5px"
-          }}
-        >
-          <ul style={{ listStyle: "none" }}>
+        <div className="TestElementDiv">
+          <ul>
             {test.parameters.map(param => (
               <li key={param.id}>
                 <Parameter
@@ -74,14 +64,8 @@ class GlobalTest extends Component {
             onAddElement={this.props.onAddParameterElement}
           />
         </div>
-        <div
-          style={{
-            border: "1px solid gray",
-            borderRadius: "10px",
-            marginTop: "5px"
-          }}
-        >
-          <ul style={{ listStyle: "none" }}>
+        <div className="TestElementDiv">
+          <ul>
             {test.outputs.map(output => (
               <li key={output.id}>
                 <ExpectedOutput

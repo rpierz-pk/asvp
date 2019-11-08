@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import ParameterDropdown from "./parameterDropdown";
 import RemoveElementButton from "../removeElementButton";
 import InputText from "../inputText";
+import "../../App.css";
 
 class Parameter extends Component {
   render() {
@@ -15,13 +16,7 @@ class Parameter extends Component {
 
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center"
-          }}
-        >
+        <div className="TestElement">
           <RemoveElementButton
             label="Parameter"
             testId={testId}

@@ -319,7 +319,7 @@ class Tests extends Component {
 
     return (
       <div className="m-2">
-        <div style={{ fontWeight: "bold" }}>
+        <div className="GeneralDiv">
           Proxy URL:
           <InputText
             type="text"
@@ -356,7 +356,7 @@ class Tests extends Component {
           </button>
         </div>
 
-        <div style={globalTestStyle}>
+        <div className="GlobalTestDiv">
           <GlobalTest
             key="0"
             test={this.state.tests.filter(test => test.id === 0)[0]}
@@ -367,7 +367,7 @@ class Tests extends Component {
             onChangeType={this.handleChangeType}
           />
         </div>
-        <div style={testStyle}>
+        <div className="TestDiv">
           {this.state.tests
             .filter(test => test.id !== 0)
             .map(test => (

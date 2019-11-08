@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../App.css";
 
 class InputText extends Component {
   render() {
@@ -14,10 +15,10 @@ class InputText extends Component {
 
     return (
       <input
+        className="InputText"
         type={this.props.password === true ? "password" : "text"}
         placeholder={placeholder}
         disabled={disabled}
-        style={{ width: "25%" }}
         onChange={event => {
           onChange(event, testId, targetElement, elementId);
         }}

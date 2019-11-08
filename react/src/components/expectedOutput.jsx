@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import RemoveElementButton from "./removeElementButton";
 import ExpectedOutputDropdown from "./expectedOutputDropdown";
 import InputText from "./inputText";
+import "../App.css";
 
 class ExpectedOutput extends Component {
   render() {
@@ -14,13 +15,7 @@ class ExpectedOutput extends Component {
     } = this.props;
     return (
       <div>
-        <div
-          style={{
-            display: "flex",
-            justifyContent: "space-around",
-            alignItems: "center"
-          }}
-        >
+        <div className="TestElement">
           <RemoveElementButton
             label="Output"
             testId={testId}
