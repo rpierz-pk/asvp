@@ -300,23 +300,6 @@ class Tests extends Component {
   };
 
   render() {
-    const globalTestStyle = {
-      border: "3px inset",
-      borderRadius: "10px",
-      backgroundColor: "#ADFFD0",
-      fontWeight: "bold",
-      margin: "20px",
-      padding: "10px"
-    };
-    const testStyle = {
-      border: "3px inset",
-      borderRadius: "10px",
-      backgroundColor: "#ADD8E6",
-      fontWeight: "bold",
-      margin: "20px",
-      padding: "10px"
-    };
-
     return (
       <div className="m-2">
         <div className="GeneralDiv">
