@@ -21,8 +21,8 @@ class GlobalTest extends Component {
     return (
       <div className="Test">
         <div>
-          <h1>Global Configuration</h1>
-          Endpoint:
+          <h2>Global Configuration</h2>
+          <label>Endpoint</label>
           <InputText
             placeholder="/url"
             targetAttribute="endpoint"
@@ -33,7 +33,7 @@ class GlobalTest extends Component {
           />
         </div>
         <div>
-          Method:
+          <label>Method</label>
           <InputText
             placeholder="GET"
             targetAttribute="method"

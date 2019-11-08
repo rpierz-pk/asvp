@@ -21,9 +21,67 @@
   color: #09d3ac;
 }
 
+.topbar {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+  z-index: 5000;
+  background: linear-gradient(
+    to bottom,
+    #5aa6ff 0%,
+    #007bff 12%,
+    #007bff 90%,
+    #0022ff 100%
+  );
+}
+
+.container {
+  margin-left: 5% !important;
+  margin-top: 64px;
+  padding-top: 5px;
+  background-color: #f1f5ff;
+}
+
+.Test h2 {
+  font-weight: bold;
+}
+
+@keyframes newTestLoad {
+  from {
+    background-color: #ffffff;
+    top: -500px;
+  }
+  to {
+    background-color: #add8e6;
+    top: 0px;
+  }
+}
+
 .Test {
   padding: 10px;
   border-bottom: 2px solid gray;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.Test label {
+  padding-top: 5px;
+  margin-bottom: 2px;
+}
+
+.GlobalTest label {
+  padding-top: 5px;
+  margin-bottom: 2px;
+}
+
+.Test input {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.GlobalTest input {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .TestElement {
@@ -34,6 +92,10 @@
 
 .InputText {
   width: 40%;
+}
+
+.InputText-Name {
+  width: 20%;
 }
 
 .GlobalTestDiv {
@@ -47,6 +109,7 @@
 .TestDiv {
   border: 3px inset;
   border-radius: 10px;
+  position: relative;
   background-color: #add8e6;
   margin: 20px;
   padding: 10px;
@@ -59,10 +122,30 @@
 }
 
 .GeneralDiv {
-  font-weight: bold;
 }
 
 ul {
   list-style: none;
   padding-left: 2%;
+}
+
+@keyframes list-slide-in {
+  from {
+    opacity: 0;
+    transform: translateX(10%);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0%);
+  }
+}
+
+li {
+  animation-name: list-slide-in;
+  animation-duration: 0.75s;
+}
+
+.dropdownListItem:hover {
+  background-color: #007bdd !important;
+  color: #ffffff !important;
 }

@@ -6,7 +6,7 @@ import Tests from "./components/tests";
 class App extends Component {
   render() {
     return (
-      <div>
+      <div style={{ backgroundColor: "#f1f5ff" }}>
         <NavBar />
         <main className="container">
           <Tests />

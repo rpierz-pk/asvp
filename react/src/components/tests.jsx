@@ -303,14 +303,14 @@ class Tests extends Component {
     return (
       <div className="m-2">
         <div className="GeneralDiv">
-          Proxy URL:
+          {"ProxyURL: "}
           <InputText
             type="text"
             targetElement="ProxyURL"
             placeholder={this.state.ProxyURL}
             onChange={this.handleInputChange}
           />
-          User ID:
+          {" UserID: "}
           <InputText
             type="text"
             targetElement="UserID"

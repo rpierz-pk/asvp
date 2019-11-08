@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import "../App.css";
 
 class DropdownItem extends Component {
   render() {
@@ -6,7 +7,7 @@ class DropdownItem extends Component {
 
     return (
       <button
-        className="dropdown-item"
+        className="dropdown-item dropdownListItem"
         onClick={event => onChangeType(event, testId, elementId, type)}
         name={elementType}
       >

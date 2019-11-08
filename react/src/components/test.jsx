@@ -28,8 +28,9 @@ class Test extends Component {
           test={test}
           elementType="test"
         />
-        Name:
+        <label>Name</label>
         <InputText
+          className="InputText-Name"
           placeholder="New Test"
           targetAttribute="name"
           elementId={test.id}
@@ -38,7 +39,7 @@ class Test extends Component {
           targetElement="metadata"
         />
         <div>
-          Endpoint:
+          <label>Endpoint</label>
           <InputText
             placeholder="/url"
             targetAttribute="endpoint"
@@ -49,7 +50,7 @@ class Test extends Component {
           />
         </div>
         <div>
-          Method:
+          <label>Method</label>
           <InputText
             placeholder="GET"
             targetAttribute="method"
