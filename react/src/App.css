@@ -35,11 +35,37 @@
   );
 }
 
+.sidebar {
+  position: fixed !important;
+  top: 64px;
+  left: 0;
+  height: 100%;
+  display: flex !important;
+  align-content: flex-start !important;
+  justify-content: flex-start !important;
+  z-index: 2000;
+  background: linear-gradient(
+    to right,
+    #007bff 0%,
+    #007bff 95%,
+    #0022ff 100%
+  );
+}
+
 .container {
-  margin-left: 5% !important;
+  margin-left: 13.5% !important;
   margin-top: 64px;
   padding-top: 5px;
   background-color: #f1f5ff;
+}
+
+.server-response {
+  border: 1px solid rgb(93, 91, 122); 
+  border-radius: 10px;
+  color: white;
+  margin-top: 10%;
+  width: 150px;
+  text-align: center;
 }
 
 .Test h2 {
@@ -122,6 +148,7 @@
 }
 
 .GeneralDiv {
+  margin-left: 5%;
 }
 
 ul {

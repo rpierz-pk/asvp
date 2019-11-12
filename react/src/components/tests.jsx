@@ -4,11 +4,16 @@ import AddElementButton from "./addElementButton";
 import InputText from "./inputText";
 import axios from "axios";
 import GlobalTest from "./globalTest";
+import Sidebar from "./sidebar";
 
 class Tests extends Component {
   url = "http://localhost:8000";
 
   state = {
+    httpStatus: {
+      code: "200 OK",
+      message: "Sample Message"
+    },
     UserID: "",
     ProxyURL: "(org)-(env).apigee.net/(basepath)",
     tests: [
@@ -186,6 +191,13 @@ class Tests extends Component {
     );
   };
 
+  handleServerResponseChange = (code, message) => {
+    this.setState({httpStatus: {
+      code: code,
+      message: message
+    }})
+  }
+
   parseParameters = test => {
     let QueryParams = {};
     let Headers = {};
@@ -302,6 +314,7 @@ class Tests extends Component {
   render() {
     return (
       <div className="m-2">
+        <Sidebar httpStatus={this.state.httpStatus}/>
         <div className="GeneralDiv">
           {"ProxyURL: "}
           <InputText
@@ -317,7 +330,7 @@ class Tests extends Component {
             placeholder={this.state.UserID}
             onChange={this.handleInputChange}
           />
-          <button
+          {/* <button
             className="btn btn-primary btn-lg m-2"
             onClick={() => {
               this.submitRequest();
@@ -336,7 +349,7 @@ class Tests extends Component {
             onClick={() => this.generateReport()}
           >
             Generate Reports
-          </button>
+          </button> */}
         </div>
 
         <div className="GlobalTestDiv">
