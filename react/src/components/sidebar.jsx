@@ -17,13 +17,13 @@ class Sidebar extends Component {
           </button>
           <button
             className="btn btn-outline-light btn-sm m-2"
-            onClick={() => this.props.onRunTests()}
+            onClick={() => this.props.onHttpGetRequest("run")}
           >
             Run Tests
           </button>
           <button
             className="btn btn-outline-light btn-sm m-2"
-            onClick={() => this.props.onGenerateReport()}
+            onClick={() => this.props.onHttpGetRequest("report")}
           >
             Generate Reports
           </button>

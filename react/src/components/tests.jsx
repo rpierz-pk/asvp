@@ -11,8 +11,8 @@ class Tests extends Component {
 
   state = {
     httpStatus: {
-      code: 200,
-      message: "Sample Message"
+      code: "",
+      message: "Server Response"
     },
     UserID: "",
     ProxyURL: "(org)-(env).apigee.net/(basepath)",
@@ -304,7 +304,8 @@ class Tests extends Component {
       .post(`${this.url}/generate?id=${this.state.UserID}`, req)
       .then(res => {
         console.log(res);
-        this.handleServerResponseChange(res.status, res.statusText);
+        this.handleServerResponseChange(res.status, `Tests generated.\nUserID: ${res.data.id}`);
+        this.setState({UserID: res.data.id});
       })
       .catch(err => {
         console.log(err);
@@ -315,41 +316,25 @@ class Tests extends Component {
       });
   };
 
-  handleRunTests = () => {
-    this.setPendingServerResponse("Run Tests");
-    axios.get(`${this.url}/run?id=${this.state.UserID}`).then(res => {
+  handleHttpGetRequest = endpoint => {
+    this.setPendingServerResponse("--");
+    axios.get(`${this.url}/${endpoint}?id=${this.state.UserID}`).then(res => {
       console.log(res);
-      this.handleServerResponseChange(res.status, res.statusText);
+      this.handleServerResponseChange(`${res.status} ${res.statusText}`, "Success");
     }).catch(err => {
-      console.log(err);
       if (!err.status)
-      this.handleServerResponseChange(500, "The server appears to be down");
+        this.handleServerResponseChange(500, "The server appears to be down");
       if (err.response)
-      this.handleServerResponseChange(err.response.status, err.response.data.Error);
-    });;
-  };
-
-  handleGenerateReport = () => {
-    this.setPendingServerResponse("Generate Report");
-    axios.get(`${this.url}/report?id=${this.state.UserID}`).then(res => {
-      console.log(res);
-      this.handleServerResponseChange(res.status, res.statusText);
-    }).catch(err => {
-      console.log(err);
-      if (!err.status)
-      this.handleServerResponseChange(500, "The server appears to be down");
-      if (err.response)
-      this.handleServerResponseChange(err.response.status, err.response.data.Error);
-    });;
-  };
+        this.handleServerResponseChange(err.response.status, err.response.data.Error);
+    });
+  }
 
   render() {
     return (
       <div className="m-2">
         <Sidebar httpStatus={this.state.httpStatus}
-        onSubmitRequest={this.handleSubmitRequest}
-        onRunTests={this.handleRunTests}
-        onGenerateReport={this.handleGenerateReport}/>
+        onHttpGetRequest={this.handleHttpGetRequest}
+        onSubmitRequest={this.handleSubmitRequest} />
         <div className="GeneralDiv">
           {"ProxyURL: "}
           <InputText

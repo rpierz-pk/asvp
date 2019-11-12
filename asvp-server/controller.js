@@ -538,7 +538,7 @@ router.post("/generate", (req, res) => {
   // Bootstrap the folder structure required for each user
   console.log(`Server --> Bootstrapping folder structure`);
   var id =
-    req.query.id != null
+    req.query.id != ""
       ? req.query.id
       : `user${Math.floor(Math.random() * 100000)}`;
   console.log(`The user ID is ${id}`);
