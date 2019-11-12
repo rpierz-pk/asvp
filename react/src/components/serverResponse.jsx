@@ -4,11 +4,12 @@ import "../App.css";
 class ServerResponse extends Component {
     state = {  }
     render() { 
-        const { code, message } = this.props.httpStatus;
+        const { code, message, error } = this.props.httpStatus;
+        console.log(`error status from server: ${error}`);
         return ( 
-            <div className="server-response">
+            <div className={`server-response ${error ? "server-response-error" : ""}`}>
                 <div>
-                    <label style={code >= 300 ? {color:"red",fontWeight:"bold"} : {color:"white"}}>{code}</label>
+                    Response Code: <label style={code >= 300 ? {color:"red",fontWeight:"bold"} : {color:"white"}}>{code}</label>
                 </div>
                 <div>
                     <label>{message}</label>

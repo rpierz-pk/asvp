@@ -70,6 +70,10 @@
   text-align: center;
 }
 
+.server-response-error {
+  background: #880000;
+}
+
 .Test h2 {
   font-weight: bold;
 }
@@ -172,6 +176,10 @@ ul {
 li {
   animation-name: list-slide-in;
   animation-duration: 0.75s;
+}
+
+.dropdownListItem:nth-child(odd) {
+  background: #eee;
 }
 
 .dropdownListItem:hover {

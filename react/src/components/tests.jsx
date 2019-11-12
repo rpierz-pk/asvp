@@ -11,6 +11,7 @@ class Tests extends Component {
 
   state = {
     httpStatus: {
+      error: false,
       code: "",
       message: "Server Response"
     },
@@ -194,14 +195,16 @@ class Tests extends Component {
   setPendingServerResponse = (message) => {
     this.setState({httpStatus: {
       code: message,
-      message: "Request is processing"
+      message: "Request is processing",
+      error: false
     }})
   }
 
-  handleServerResponseChange = (code, message) => {
+  handleServerResponseChange = (code, message, error) => {
     this.setState({httpStatus: {
       code: code,
-      message: message
+      message: message,
+      error: error
     }})
   }
 
@@ -304,15 +307,15 @@ class Tests extends Component {
       .post(`${this.url}/generate?id=${this.state.UserID}`, req)
       .then(res => {
         console.log(res);
-        this.handleServerResponseChange(res.status, `Tests generated.\nUserID: ${res.data.id}`);
+        this.handleServerResponseChange(res.status, `Tests generated.\nUserID: ${res.data.id}`, false);
         this.setState({UserID: res.data.id});
       })
       .catch(err => {
         console.log(err);
         if (!err.status)
-        this.handleServerResponseChange(500, "The server appears to be down");
+        this.handleServerResponseChange(500, "The server appears to be down", true);
         if (err.response)
-        this.handleServerResponseChange(err.response.status, err.response.data.Error);
+        this.handleServerResponseChange(err.response.status, err.response.data.Error, true);
       });
   };
 
@@ -320,12 +323,12 @@ class Tests extends Component {
     this.setPendingServerResponse("--");
     axios.get(`${this.url}/${endpoint}?id=${this.state.UserID}`).then(res => {
       console.log(res);
-      this.handleServerResponseChange(`${res.status} ${res.statusText}`, "Success");
+      this.handleServerResponseChange(`${res.status} ${res.statusText}`, "Success", false);
     }).catch(err => {
       if (!err.status)
-        this.handleServerResponseChange(500, "The server appears to be down");
+        this.handleServerResponseChange(500, "The server appears to be down", true);
       if (err.response)
-        this.handleServerResponseChange(err.response.status, err.response.data.Error);
+        this.handleServerResponseChange(err.response.status, err.response.data.Error, true);
     });
   }
 
