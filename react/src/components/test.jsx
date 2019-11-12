@@ -28,7 +28,6 @@ class Test extends Component {
           test={test}
           elementType="test"
         />
-        <label>Name</label>
         <InputText
           className="InputText-Name"
           placeholder="New Test"
