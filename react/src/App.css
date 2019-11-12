@@ -60,6 +60,8 @@
 }
 
 .server-response {
+  display: block;
+  padding: 10px;
   border: 1px solid rgb(93, 91, 122); 
   border-radius: 10px;
   color: white;

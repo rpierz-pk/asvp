@@ -11,7 +11,7 @@ class Tests extends Component {
 
   state = {
     httpStatus: {
-      code: "200 OK",
+      code: 200,
       message: "Sample Message"
     },
     UserID: "",
@@ -191,6 +191,13 @@ class Tests extends Component {
     );
   };
 
+  setPendingServerResponse = (message) => {
+    this.setState({httpStatus: {
+      code: message,
+      message: "Request is processing"
+    }})
+  }
+
   handleServerResponseChange = (code, message) => {
     this.setState({httpStatus: {
       code: code,
@@ -249,7 +256,8 @@ class Tests extends Component {
     };
   };
 
-  submitRequest = () => {
+  handleSubmitRequest = () => {
+    this.setPendingServerResponse("Submit Request");
     const { tests } = this.state;
     let req = { global: { ProxyURL: this.state.ProxyURL }, tests: {} };
     for (var test in tests) {
@@ -296,25 +304,43 @@ class Tests extends Component {
       .post(`${this.url}/generate?id=${this.state.UserID}`, req)
       .then(res => {
         console.log(res);
+        this.handleServerResponseChange(res.status, res.statusText);
+      })
+      .catch(res => {
+        console.log(res);
+        this.handleServerResponseChange(res.status, res.statusText);
       });
   };
 
-  runTests = () => {
+  handleRunTests = () => {
+    this.setPendingServerResponse("Run Tests");
     axios.get(`${this.url}/run?id=${this.state.UserID}`).then(res => {
       console.log(res);
-    });
+      this.handleServerResponseChange(res.status, res.statusText);
+    }).catch(res => {
+      console.log(res);
+      this.handleServerResponseChange(res.status, res.statusText);
+    });;
   };
 
-  generateReport = () => {
+  handleGenerateReport = () => {
+    this.setPendingServerResponse("Generate Report");
     axios.get(`${this.url}/report?id=${this.state.UserID}`).then(res => {
       console.log(res);
-    });
+      this.handleServerResponseChange(res.status, res.statusText);
+    }).catch(res => {
+      console.log(res);
+      this.handleServerResponseChange(res.status, res.statusText);
+    });;
   };
 
   render() {
     return (
       <div className="m-2">
-        <Sidebar httpStatus={this.state.httpStatus}/>
+        <Sidebar httpStatus={this.state.httpStatus}
+        onSubmitRequest={this.handleSubmitRequest}
+        onRunTests={this.handleRunTests}
+        onGenerateReport={this.handleGenerateReport}/>
         <div className="GeneralDiv">
           {"ProxyURL: "}
           <InputText

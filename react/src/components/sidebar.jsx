@@ -10,20 +10,20 @@ class Sidebar extends Component {
                 <button
             className="btn btn-outline-light btn-sm m-2"
             onClick={() => {
-              this.submitRequest();
+              this.props.onSubmitRequest();
             }}
           >
             Make Request
           </button>
           <button
             className="btn btn-outline-light btn-sm m-2"
-            onClick={() => this.runTests()}
+            onClick={() => this.props.onRunTests()}
           >
             Run Tests
           </button>
           <button
             className="btn btn-outline-light btn-sm m-2"
-            onClick={() => this.generateReport()}
+            onClick={() => this.props.onGenerateReport()}
           >
             Generate Reports
           </button>
