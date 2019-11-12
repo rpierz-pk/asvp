@@ -12,13 +12,18 @@ class NavBar extends Component {
     return (
       <nav className="navbar navbar-dark bg-primary topbar">
         <a className="navbar-brand" href="#">
-          {" ASVP "}
+          <label style={{width: "325px"}}>API Security Validation Platform</label>
           <button
-            className="btn btn-primary"
+            className="btn btn-outline-light"
             href="#"
             onClick={this.jumpToStart()}
           >
-            Home
+            Top
+          </button>
+        </a>
+        <a className="navbar-brand" href="https://www.github.com/rpierz-pk/asvp">
+        <button className="btn btn-outline-light">
+            GitHub Repo
           </button>
         </a>
       </nav>
