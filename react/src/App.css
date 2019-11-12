@@ -25,13 +25,13 @@
   position: fixed !important;
   top: 0;
   width: 100%;
-  z-index: 5000;
+  z-index: 2001;
   background: linear-gradient(
     to bottom,
     #5aa6ff 0%,
-    #007bff 12%,
-    #007bff 90%,
-    #0022ff 100%
+    #447bbb 12%,
+    #447bbb 90%,
+    #4422bb 100%
   );
 }
 
@@ -176,7 +176,7 @@ ul {
 
 li {
   animation-name: list-slide-in;
-  animation-duration: 0.75s;
+  animation-duration: 0.5s;
 }
 
 .dropdownListItem:nth-child(odd) {

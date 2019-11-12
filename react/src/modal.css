@@ -7,7 +7,7 @@
   background: rgba(0, 0, 0, 0.6);
   animation-name: fade-in;
   animation-duration: 0.25s;
-  z-index: 1;
+  z-index: 3000;
 }
 
 @keyframes fade-in {
