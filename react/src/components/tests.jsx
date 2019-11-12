@@ -306,9 +306,12 @@ class Tests extends Component {
         console.log(res);
         this.handleServerResponseChange(res.status, res.statusText);
       })
-      .catch(res => {
-        console.log(res);
-        this.handleServerResponseChange(res.status, res.statusText);
+      .catch(err => {
+        console.log(err);
+        if (!err.status)
+        this.handleServerResponseChange(500, "The server appears to be down");
+        if (err.response)
+        this.handleServerResponseChange(err.response.status, err.response.data.Error);
       });
   };
 
@@ -317,9 +320,12 @@ class Tests extends Component {
     axios.get(`${this.url}/run?id=${this.state.UserID}`).then(res => {
       console.log(res);
       this.handleServerResponseChange(res.status, res.statusText);
-    }).catch(res => {
-      console.log(res);
-      this.handleServerResponseChange(res.status, res.statusText);
+    }).catch(err => {
+      console.log(err);
+      if (!err.status)
+      this.handleServerResponseChange(500, "The server appears to be down");
+      if (err.response)
+      this.handleServerResponseChange(err.response.status, err.response.data.Error);
     });;
   };
 
@@ -328,9 +334,12 @@ class Tests extends Component {
     axios.get(`${this.url}/report?id=${this.state.UserID}`).then(res => {
       console.log(res);
       this.handleServerResponseChange(res.status, res.statusText);
-    }).catch(res => {
-      console.log(res);
-      this.handleServerResponseChange(res.status, res.statusText);
+    }).catch(err => {
+      console.log(err);
+      if (!err.status)
+      this.handleServerResponseChange(500, "The server appears to be down");
+      if (err.response)
+      this.handleServerResponseChange(err.response.status, err.response.data.Error);
     });;
   };
 

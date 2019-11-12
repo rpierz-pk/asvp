@@ -58,10 +58,11 @@ router.get("/feature", (req, res) => {
 //  run the cucumber tests (should fail if test not configured)
 router.get("/run", (req, res) => {
   // Check for ID
-  if (req.query.id != null) {
+  if (req.query.id != "") {
     var id = req.query.id;
   } else {
     // No request was included
+    console.log(`Request failure --> No ID was included in the request`)
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       Error:
@@ -80,11 +81,11 @@ router.get("/run", (req, res) => {
       var script = exec(
         `cd ${__dirname} && npx cucumber-js ${featureFilePath} -f json:output/${id}/report.json`,
         (error, stdout, stderr) => {
-          return res.sendFile(`${__dirname}/output/${id}/report.json`);
-          console.log(stderr);
           if (error !== null) {
             console.log(`exec error: ${error}`);
           }
+          return res.sendFile(`${__dirname}/output/${id}/report.json`);
+          
         }
       );
     } catch (err) {
@@ -92,6 +93,7 @@ router.get("/run", (req, res) => {
     }
   } else {
     // No feature file was found
+    console.log(`Request failure --> No feature file was found for the given ID (${id})`)
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       Error: `No feature file was found for the given ID (${id}). Please generate the test file first and receive your ID. Please refer to the documentation for more help`,
