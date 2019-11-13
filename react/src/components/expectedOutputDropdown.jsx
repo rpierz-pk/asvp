@@ -25,7 +25,7 @@ class ExpectedOutputDropdown extends Component {
     return (
       <div className="dropdown" onClick={this.toggleOpen}>
         <button
-          className="btn btn-success dropdown-toggle"
+          className="btn btn-success btn-sm dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
           data-toggle="dropdown"

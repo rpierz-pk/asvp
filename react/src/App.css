@@ -190,6 +190,22 @@
   margin-left: 5%;
 }
 
+.RemoveElementButton-Test {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  color: #fff;
+}
+
+.AddElementButton-Test {
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  color: #fff;
+}
+
 ul {
   list-style: none;
   padding-left: 2%;

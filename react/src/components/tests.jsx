@@ -420,6 +420,7 @@ class Tests extends Component {
               ))}
           </div>
           <AddElementButton
+            type="AddElementButton-Test"
             onAddElement={this.handleAddTest}
             label="Test"
             testId={null}

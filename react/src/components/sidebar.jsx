@@ -11,15 +11,15 @@ class Sidebar extends Component {
       <nav className="navbar navbar-dark flex-column sidebar">
         <div className="sidebar-upper">
           <div>
-            <label style={{ wordWrap: "normal" }}>ASVP</label>
-          </div>
-          <div>
             <img
               src={ApigeeShield}
               width="100px"
               height="100px"
               alt="apigee-shield"
             />
+          </div>
+          <div>
+            <label>ASVP</label>
           </div>
         </div>
 

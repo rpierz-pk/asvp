@@ -32,7 +32,7 @@ class ParameterDropdown extends Component {
     return (
       <div className="dropdown" onClick={this.toggleOpen}>
         <button
-          className="btn btn-dark dropdown-toggle"
+          className="btn btn-dark btn-sm dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
           data-toggle="dropdown"

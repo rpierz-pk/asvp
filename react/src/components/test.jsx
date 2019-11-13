@@ -22,6 +22,7 @@ class Test extends Component {
     return (
       <div className="Test">
         <RemoveElementButton
+          type="RemoveElementButton-Test"
           label="Test"
           onRemoveElement={this.toggleModal}
           elementId={test.id}

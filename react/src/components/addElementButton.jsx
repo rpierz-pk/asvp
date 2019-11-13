@@ -5,7 +5,7 @@ class AddElementButton extends Component {
     const { label, testId, onAddElement } = this.props;
     return (
       <button
-        className="btn btn-primary m-2"
+        className={this.props.type || "btn btn-primary btn-sm m-2"}
         onClick={() => onAddElement(testId)}
       >
         +{label}
