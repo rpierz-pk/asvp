@@ -37,32 +37,25 @@
 
 .sidebar {
   position: fixed !important;
-  top: 64px;
+  /* width: 175px; */
   left: 0;
   height: 100%;
   display: flex !important;
   align-content: flex-start !important;
   justify-content: flex-start !important;
   z-index: 2000;
-  background: linear-gradient(
-    to right,
-    #007bff 0%,
-    #007bff 95%,
-    #0022ff 100%
-  );
+  background: linear-gradient(to right, #007bff 0%, #007bff 95%, #0022ff 100%);
 }
 
 .container {
   margin-left: 13.5% !important;
-  margin-top: 64px;
-  padding-top: 5px;
   background-color: #f1f5ff;
 }
 
 .server-response {
   display: block;
   padding: 10px;
-  border: 1px solid rgb(93, 91, 122); 
+  border: 1px solid rgb(93, 91, 122);
   border-radius: 10px;
   color: white;
   margin-top: 10%;
@@ -156,6 +149,7 @@
 
 .GeneralDiv {
   margin-left: 5%;
+  padding-top: 5px;
 }
 
 ul {

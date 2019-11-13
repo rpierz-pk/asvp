@@ -12,7 +12,7 @@ class NavBar extends Component {
     return (
       <nav className="navbar navbar-dark bg-primary topbar">
         <a className="navbar-brand" href="#">
-          <label style={{width: "325px"}}>API Security Validation Platform</label>
+          <label>API Security Validation Platform</label>
           <button
             className="btn btn-outline-light"
             href="#"

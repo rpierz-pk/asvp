@@ -7,7 +7,7 @@ class App extends Component {
   render() {
     return (
       <div style={{ backgroundColor: "#f1f5ff" }}>
-        <NavBar />
+        {/* <NavBar /> */}
         <main className="container">
           <Tests />
         </main>
