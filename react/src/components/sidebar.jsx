@@ -12,50 +12,50 @@ class Sidebar extends Component {
   render() {
     return (
       <nav className="navbar navbar-dark flex-column sidebar">
-        <a className="navbar-brand" href="#">
-          <label style={{ wordWrap: "normal" }}>ASVP</label>
-          <button
-            className="btn btn-outline-light"
-            href="#"
-            onClick={this.jumpToStart()}
-          >
-            Top
-          </button>
-        </a>
+        <div className="sidebar-upper">
+          <div>
+            <label style={{ wordWrap: "normal" }}>ASVP</label>
+          </div>
+          <div>
+            <button
+              className="btn btn-outline-light"
+              onClick={() => this.jumpToStart()}
+            >
+              Top
+            </button>
+          </div>
+        </div>
 
-        <button
-          className="btn btn-outline-light btn-sm m-2"
-          onClick={() => {
-            this.props.onSubmitRequest();
-          }}
-        >
-          Make Request
-        </button>
-        <button
-          className="btn btn-outline-light btn-sm m-2"
-          onClick={() => this.props.onHttpGetRequest("run")}
-        >
-          Run Tests
-        </button>
-        <button
-          className="btn btn-outline-light btn-sm m-2"
-          onClick={() => this.props.onHttpGetRequest("report")}
-        >
-          Generate Reports
-        </button>
-
-        <ServerResponse httpStatus={this.props.httpStatus} />
-        <a
-          className="navbar-brand"
-          href="https://www.github.com/rpierz-pk/asvp"
-        >
+        <div className="sidebar-middle">
           <button
-            className="btn btn-outline-light"
-            style={{ marginTop: "100px" }}
+            className="btn btn-outline-light btn-sm m-2"
+            onClick={() => {
+              this.props.onSubmitRequest();
+            }}
           >
-            GitHub Repo
+            Make Request
           </button>
-        </a>
+          <button
+            className="btn btn-outline-light btn-sm m-2"
+            onClick={() => this.props.onHttpGetRequest("run")}
+          >
+            Run Tests
+          </button>
+          <button
+            className="btn btn-outline-light btn-sm m-2"
+            onClick={() => this.props.onHttpGetRequest("report")}
+          >
+            Generate Reports
+          </button>
+
+          <ServerResponse httpStatus={this.props.httpStatus} />
+        </div>
+
+        <div className="sidebar-lower">
+          <a href="https://www.github.com/rpierz-pk/asvp">
+            <button className="btn btn-outline-light">GitHub Repo</button>
+          </a>
+        </div>
       </nav>
     );
   }
