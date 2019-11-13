@@ -80,7 +80,8 @@
 }
 
 .main-content {
-  margin-left: 150px;
+  margin-left: 160px;
+  padding-top: 10px;
 }
 
 .server-response {
@@ -187,7 +188,6 @@
 
 .GeneralDiv {
   margin-left: 5%;
-  margin-top: 10px;
 }
 
 ul {

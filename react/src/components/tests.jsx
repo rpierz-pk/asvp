@@ -374,22 +374,23 @@ class Tests extends Component {
           />
         </div>
         <div className="main-content">
-          <div className="GeneralDiv-Header"></div>
           <div className="GeneralDiv">
-            {"ProxyURL: "}
-            <InputText
-              type="text"
-              targetElement="ProxyURL"
-              placeholder={this.state.ProxyURL}
-              onChange={this.handleInputChange}
-            />
-            {" UserID: "}
-            <InputText
-              type="text"
-              targetElement="UserID"
-              placeholder={this.state.UserID}
-              onChange={this.handleInputChange}
-            />
+            <div>
+              {"ProxyURL: "}
+              <InputText
+                type="text"
+                targetElement="ProxyURL"
+                placeholder={this.state.ProxyURL}
+                onChange={this.handleInputChange}
+              />
+              {" UserID: "}
+              <InputText
+                type="text"
+                targetElement="UserID"
+                placeholder={this.state.UserID}
+                onChange={this.handleInputChange}
+              />
+            </div>
           </div>
 
           <div className="GlobalTestDiv">

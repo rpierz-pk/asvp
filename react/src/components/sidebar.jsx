@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import "../App.css";
 import ServerResponse from "./serverResponse";
+import ApigeeShield from "../img/apigee-shield.png";
 
 class Sidebar extends Component {
   state = {};
-
-  jumpToStart = function() {
-    window.scrollTo(0, 0);
-  };
 
   render() {
     return (
@@ -17,12 +14,12 @@ class Sidebar extends Component {
             <label style={{ wordWrap: "normal" }}>ASVP</label>
           </div>
           <div>
-            <button
-              className="btn btn-outline-light"
-              onClick={() => this.jumpToStart()}
-            >
-              Top
-            </button>
+            <img
+              src={ApigeeShield}
+              width="100px"
+              height="100px"
+              alt="apigee-shield"
+            />
           </div>
         </div>
 
