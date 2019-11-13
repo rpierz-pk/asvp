@@ -366,79 +366,64 @@ class Tests extends Component {
   render() {
     return (
       <div>
-        <Sidebar
-          httpStatus={this.state.httpStatus}
-          onHttpGetRequest={this.handleHttpGetRequest}
-          onSubmitRequest={this.handleSubmitRequest}
-        />
-        <div className="GeneralDiv">
-          {"ProxyURL: "}
-          <InputText
-            type="text"
-            targetElement="ProxyURL"
-            placeholder={this.state.ProxyURL}
-            onChange={this.handleInputChange}
+        <div>
+          <Sidebar
+            httpStatus={this.state.httpStatus}
+            onHttpGetRequest={this.handleHttpGetRequest}
+            onSubmitRequest={this.handleSubmitRequest}
           />
-          {" UserID: "}
-          <InputText
-            type="text"
-            targetElement="UserID"
-            placeholder={this.state.UserID}
-            onChange={this.handleInputChange}
-          />
-          {/* <button
-            className="btn btn-primary btn-lg m-2"
-            onClick={() => {
-              this.submitRequest();
-            }}
-          >
-            Make Request
-          </button>
-          <button
-            className="btn btn-primary btn-lg m-2"
-            onClick={() => this.runTests()}
-          >
-            Run Tests
-          </button>
-          <button
-            className="btn btn-primary btn-lg m-2"
-            onClick={() => this.generateReport()}
-          >
-            Generate Reports
-          </button> */}
         </div>
+        <div className="main-content">
+          <div className="GeneralDiv-Header"></div>
+          <div className="GeneralDiv">
+            {"ProxyURL: "}
+            <InputText
+              type="text"
+              targetElement="ProxyURL"
+              placeholder={this.state.ProxyURL}
+              onChange={this.handleInputChange}
+            />
+            {" UserID: "}
+            <InputText
+              type="text"
+              targetElement="UserID"
+              placeholder={this.state.UserID}
+              onChange={this.handleInputChange}
+            />
+          </div>
 
-        <div className="GlobalTestDiv">
-          <GlobalTest
-            key="0"
-            test={this.state.tests.filter(test => test.id === 0)[0]}
-            onRemoveElement={this.handleRemoveElement}
-            onInputChange={this.handleInputChange}
-            onAddParameterElement={this.handleAddParameter}
-            onAddOutputElement={this.handleAddOutput}
-            onChangeType={this.handleChangeType}
+          <div className="GlobalTestDiv">
+            <GlobalTest
+              key="0"
+              test={this.state.tests.filter(test => test.id === 0)[0]}
+              onRemoveElement={this.handleRemoveElement}
+              onInputChange={this.handleInputChange}
+              onAddParameterElement={this.handleAddParameter}
+              onAddOutputElement={this.handleAddOutput}
+              onChangeType={this.handleChangeType}
+            />
+          </div>
+          <div className="TestDiv">
+            {this.state.tests
+              .filter(test => test.id !== 0)
+              .map(test => (
+                <Test
+                  key={test.id}
+                  test={test}
+                  onRemoveElement={this.handleRemoveElement}
+                  onInputChange={this.handleInputChange}
+                  onAddParameterElement={this.handleAddParameter}
+                  onAddOutputElement={this.handleAddOutput}
+                  onChangeType={this.handleChangeType}
+                />
+              ))}
+          </div>
+          <AddElementButton
+            onAddElement={this.handleAddTest}
+            label="Test"
+            testId={null}
           />
         </div>
-        <div className="TestDiv">
-          {this.state.tests
-            .filter(test => test.id !== 0)
-            .map(test => (
-              <Test
-                key={test.id}
-                test={test}
-                onRemoveElement={this.handleRemoveElement}
-                onInputChange={this.handleInputChange}
-                onAddParameterElement={this.handleAddParameter}
-                onAddOutputElement={this.handleAddOutput}
-                onChangeType={this.handleChangeType}
-              />
-            ))}
-        </div>
-        <AddElementButton
-          onAddElement={this.handleAddTest}
-          label="Test"
-          testId={null}
-        />
       </div>
     );
   }

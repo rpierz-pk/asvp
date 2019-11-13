@@ -59,6 +59,7 @@
 
 .sidebar-upper label {
   font-size: 36pt;
+  text-shadow: -2px 2px 3px #000088;
 }
 
 .sidebar-middle {
@@ -74,8 +75,12 @@
 }
 
 .container {
-  margin-left: 13.5% !important;
+  margin-left: 0px !important;
   background-color: #f1f5ff;
+}
+
+.main-content {
+  margin-left: 150px;
 }
 
 .server-response {
@@ -173,9 +178,16 @@
   margin-top: 5px;
 }
 
+.GeneralDiv-Header {
+  left: 0px;
+  background: linear-gradient(to right, #0022ff 0%, #0022ff 20%, #001188 80%);
+  width: 150%;
+  height: 25px;
+}
+
 .GeneralDiv {
   margin-left: 5%;
-  padding-top: 5px;
+  margin-top: 10px;
 }
 
 ul {
