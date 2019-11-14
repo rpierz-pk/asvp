@@ -119,14 +119,15 @@ class Test extends Component {
             onAddElement={this.props.onAddOutputElement}
           />
         </div>
-        <Modal
-          test={test}
-          show={this.state.show}
-          toggleModal={this.toggleModal}
-          onRemoveElement={this.props.onRemoveElement}
-        >
-          <h3>Are you sure you want to delete {test.metadata.name}?</h3>
-        </Modal>
+        {this.state.show && (
+          <Modal
+            test={test}
+            toggleModal={this.toggleModal}
+            onRemoveElement={this.props.onRemoveElement}
+          >
+            <h3>Are you sure you want to delete {test.metadata.name}?</h3>
+          </Modal>
+        )}
       </div>
     );
   }
