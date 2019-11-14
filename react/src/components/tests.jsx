@@ -387,6 +387,7 @@ class Tests extends Component {
               {" UserID: "}
               <InputText
                 type="text"
+                className="InputText-UserID"
                 targetElement="UserID"
                 placeholder={this.state.UserID}
                 onChange={this.handleInputChange}
@@ -395,6 +396,7 @@ class Tests extends Component {
           </div>
 
           <div className="GlobalTestDiv">
+            <h1 style={{ textAlign: "right", height: "0" }}>Global</h1>
             <GlobalTest
               key="0"
               test={this.state.tests.filter(test => test.id === 0)[0]}
@@ -406,6 +408,7 @@ class Tests extends Component {
             />
           </div>
           <div className="TestDiv">
+            <h1 style={{ textAlign: "right", height: "0" }}>Tests</h1>
             <TransitionGroup>
               {this.state.tests
                 .filter(test => test.id !== 0)
