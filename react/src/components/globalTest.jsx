@@ -3,7 +3,6 @@ import AddElementButton from "./addElementButton";
 import InputText from "./inputText";
 import Parameter from "./parameter/parameter";
 import ExpectedOutput from "./expectedOutput";
-import Modal from "./modal";
 import "../App.css";
 import { CSSTransition, TransitionGroup } from "react-transition-group";
 

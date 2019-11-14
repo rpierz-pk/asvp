@@ -51,7 +51,6 @@
 
 .container {
   margin-left: 0px !important;
-  background-color: #f1f5ff;
   height: 100%;
 }
 
@@ -114,7 +113,7 @@
   height: 356px;
 }
 .testTransition-exit-active {
-  height: 0px;
+  height: -0px;
   overflow: hidden;
   transition: height 500ms;
 }

@@ -6,10 +6,14 @@ import ApigeeShield from "../img/apigee-shield.png";
 class Sidebar extends Component {
   state = {};
 
+  scrollToTop = () => {
+    window.scrollTo(0, 0);
+  };
+
   render() {
     return (
       <nav className="navbar navbar-dark flex-column sidebar">
-        <div className="sidebar-upper">
+        <div className="sidebar-upper" onClick={() => this.scrollToTop()}>
           <div>
             <img
               src={ApigeeShield}
@@ -21,6 +25,9 @@ class Sidebar extends Component {
           <div>
             <label>ASVP</label>
           </div>
+          <div>
+            <label style={{ fontSize: "14pt" }}>by ProKarma</label>
+          </div>
         </div>
 
         <div className="sidebar-middle">
@@ -30,7 +37,7 @@ class Sidebar extends Component {
               this.props.onSubmitRequest();
             }}
           >
-            Make Request
+            Generate Tests
           </button>
           <button
             className="btn btn-outline-light btn-sm m-2"
@@ -50,7 +57,7 @@ class Sidebar extends Component {
 
         <div className="sidebar-lower">
           <a href="https://www.github.com/rpierz-pk/asvp">
-            <button className="btn btn-outline-light">GitHub Repo</button>
+            <button className="btn btn-outline-light">GitHub</button>
           </a>
         </div>
       </nav>
