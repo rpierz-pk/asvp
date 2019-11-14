@@ -1,26 +1,3 @@
-.App {
-  text-align: center;
-}
-
-.App-logo {
-  height: 40vmin;
-}
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
-}
-
-.App-link {
-  color: #09d3ac;
-}
-
 .topbar {
   position: fixed !important;
   top: 0;
@@ -37,11 +14,9 @@
 
 .sidebar {
   position: fixed !important;
-  /* width: 175px; */
   left: 0;
   height: 100%;
   display: flex !important;
-  /* align-content: flex-start !important; */
   align-items: center;
   justify-content: center;
   justify-content: space-between !important;
@@ -77,6 +52,7 @@
 .container {
   margin-left: 0px !important;
   background-color: #f1f5ff;
+  height: 100%;
 }
 
 .main-content {
@@ -123,6 +99,24 @@
 .Test label {
   padding-top: 5px;
   margin-bottom: 2px;
+}
+
+.testTransition-enter {
+  height: 0px;
+  overflow: hidden;
+}
+.testTransition-enter-active {
+  height: 356px;
+  overflow: hidden;
+  transition: height 300ms;
+}
+.testTransition-exit {
+  height: 356px;
+}
+.testTransition-exit-active {
+  height: 0px;
+  overflow: hidden;
+  transition: height 500ms;
 }
 
 .GlobalTest label {
@@ -189,7 +183,7 @@
 }
 
 .testElement-enter {
-  height: 0;
+  height: 0px;
   overflow: hidden;
 }
 .testElement-enter-active {

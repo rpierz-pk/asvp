@@ -62,7 +62,6 @@ class Test extends Component {
           />
         </div>
         <div className="TestElementDiv">
-          parameters
           <ul>
             <TransitionGroup>
               {test.parameters.map(param => (
@@ -92,7 +91,6 @@ class Test extends Component {
           />
         </div>
         <div className="TestElementDiv">
-          outputs
           <ul>
             <TransitionGroup>
               {test.outputs.map(output => (

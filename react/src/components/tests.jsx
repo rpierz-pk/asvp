@@ -5,6 +5,7 @@ import InputText from "./inputText";
 import axios from "axios";
 import GlobalTest from "./globalTest";
 import Sidebar from "./sidebar";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class Tests extends Component {
   url = "http://localhost:8000";
@@ -405,19 +406,27 @@ class Tests extends Component {
             />
           </div>
           <div className="TestDiv">
-            {this.state.tests
-              .filter(test => test.id !== 0)
-              .map(test => (
-                <Test
-                  key={test.id}
-                  test={test}
-                  onRemoveElement={this.handleRemoveElement}
-                  onInputChange={this.handleInputChange}
-                  onAddParameterElement={this.handleAddParameter}
-                  onAddOutputElement={this.handleAddOutput}
-                  onChangeType={this.handleChangeType}
-                />
-              ))}
+            <TransitionGroup>
+              {this.state.tests
+                .filter(test => test.id !== 0)
+                .map(test => (
+                  <CSSTransition
+                    timeout={500}
+                    classNames="testTransition"
+                    key={test.id}
+                  >
+                    <Test
+                      key={test.id}
+                      test={test}
+                      onRemoveElement={this.handleRemoveElement}
+                      onInputChange={this.handleInputChange}
+                      onAddParameterElement={this.handleAddParameter}
+                      onAddOutputElement={this.handleAddOutput}
+                      onChangeType={this.handleChangeType}
+                    />
+                  </CSSTransition>
+                ))}
+            </TransitionGroup>
           </div>
           <AddElementButton
             type="AddElementButton-Test"
