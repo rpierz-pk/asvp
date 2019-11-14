@@ -15,7 +15,7 @@ class InputText extends Component {
 
     return (
       <input
-        className="InputText"
+        className={this.props.className || "InputText"}
         type={this.props.password === true ? "password" : "text"}
         placeholder={placeholder}
         disabled={disabled}

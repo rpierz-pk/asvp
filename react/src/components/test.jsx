@@ -6,6 +6,7 @@ import Parameter from "./parameter/parameter";
 import ExpectedOutput from "./expectedOutput";
 import Modal from "./modal";
 import "../App.css";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class Test extends Component {
   state = {
@@ -22,14 +23,15 @@ class Test extends Component {
     return (
       <div className="Test">
         <RemoveElementButton
+          type="RemoveElementButton-Test"
           label="Test"
           onRemoveElement={this.toggleModal}
           elementId={test.id}
           test={test}
           elementType="test"
         />
-        Name:
         <InputText
+          className="InputText-Name"
           placeholder="New Test"
           targetAttribute="name"
           elementId={test.id}
@@ -37,8 +39,8 @@ class Test extends Component {
           testId={test.id}
           targetElement="metadata"
         />
-        <div>
-          Endpoint:
+        <div style={{ display: "block" }}>
+          <label>Endpoint</label>
           <InputText
             placeholder="/url"
             targetAttribute="endpoint"
@@ -49,7 +51,7 @@ class Test extends Component {
           />
         </div>
         <div>
-          Method:
+          <label>Method</label>
           <InputText
             placeholder="GET"
             targetAttribute="method"
@@ -61,18 +63,26 @@ class Test extends Component {
         </div>
         <div className="TestElementDiv">
           <ul>
-            {test.parameters.map(param => (
-              <li key={param.id}>
-                <Parameter
+            <TransitionGroup>
+              {test.parameters.map(param => (
+                <CSSTransition
+                  timeout={500}
+                  classNames="testElement"
                   key={param.id}
-                  testId={test.id}
-                  onRemoveElement={this.props.onRemoveElement}
-                  onChangeType={this.props.onChangeType}
-                  param={param}
-                  onInputChange={this.props.onInputChange}
-                />
-              </li>
-            ))}
+                >
+                  <li key={param.id}>
+                    <Parameter
+                      key={param.id}
+                      testId={test.id}
+                      onRemoveElement={this.props.onRemoveElement}
+                      onChangeType={this.props.onChangeType}
+                      param={param}
+                      onInputChange={this.props.onInputChange}
+                    />
+                  </li>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </ul>
           <AddElementButton
             testId={test.id}
@@ -82,18 +92,26 @@ class Test extends Component {
         </div>
         <div className="TestElementDiv">
           <ul>
-            {test.outputs.map(output => (
-              <li key={output.id}>
-                <ExpectedOutput
+            <TransitionGroup>
+              {test.outputs.map(output => (
+                <CSSTransition
+                  timeout={500}
+                  classNames="testElement"
                   key={output.id}
-                  testId={test.id}
-                  onRemoveElement={this.props.onRemoveElement}
-                  onChangeType={this.props.onChangeType}
-                  output={output}
-                  onInputChange={this.props.onInputChange}
-                />
-              </li>
-            ))}
+                >
+                  <li key={output.id}>
+                    <ExpectedOutput
+                      key={output.id}
+                      testId={test.id}
+                      onRemoveElement={this.props.onRemoveElement}
+                      onChangeType={this.props.onChangeType}
+                      output={output}
+                      onInputChange={this.props.onInputChange}
+                    />
+                  </li>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </ul>
           <AddElementButton
             testId={test.id}

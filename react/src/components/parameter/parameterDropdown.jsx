@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import DropdownItem from "../dropdownItem";
+import "../../App.css";
 
 class ParameterDropdown extends Component {
   state = {
@@ -31,7 +32,7 @@ class ParameterDropdown extends Component {
     return (
       <div className="dropdown" onClick={this.toggleOpen}>
         <button
-          className="btn btn-dark dropdown-toggle"
+          className="btn btn-dark btn-sm dropdown-toggle"
           type="button"
           id="dropdownMenuButton"
           data-toggle="dropdown"
@@ -39,7 +40,10 @@ class ParameterDropdown extends Component {
         >
           {param.type}
         </button>
-        <div className={menuClass} aria-labelledby="dropdownMenuButton">
+        <div
+          className={menuClass + " dropdownList"}
+          aria-labelledby="dropdownMenuButton"
+        >
           {this.state.items.map(parameterType => (
             <DropdownItem
               testId={testId}

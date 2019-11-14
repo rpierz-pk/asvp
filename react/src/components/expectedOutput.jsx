@@ -17,7 +17,7 @@ class ExpectedOutput extends Component {
       <div>
         <div className="TestElement">
           <RemoveElementButton
-            label="Output"
+            label=""
             testId={testId}
             onRemoveElement={onRemoveElement}
             elementId={output.id}

@@ -3,8 +3,8 @@ import AddElementButton from "./addElementButton";
 import InputText from "./inputText";
 import Parameter from "./parameter/parameter";
 import ExpectedOutput from "./expectedOutput";
-import Modal from "./modal";
 import "../App.css";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class GlobalTest extends Component {
   state = {
@@ -21,8 +21,8 @@ class GlobalTest extends Component {
     return (
       <div className="Test">
         <div>
-          <h1>Global Configuration</h1>
-          Endpoint:
+          <h2>Global Configuration</h2>
+          <label>Endpoint</label>
           <InputText
             placeholder="/url"
             targetAttribute="endpoint"
@@ -33,7 +33,7 @@ class GlobalTest extends Component {
           />
         </div>
         <div>
-          Method:
+          <label>Method</label>
           <InputText
             placeholder="GET"
             targetAttribute="method"
@@ -45,18 +45,26 @@ class GlobalTest extends Component {
         </div>
         <div className="TestElementDiv">
           <ul>
-            {test.parameters.map(param => (
-              <li key={param.id}>
-                <Parameter
+            <TransitionGroup>
+              {test.parameters.map(param => (
+                <CSSTransition
+                  timeout={500}
+                  classNames="testElement"
                   key={param.id}
-                  testId={test.id}
-                  onRemoveElement={this.props.onRemoveElement}
-                  onChangeType={this.props.onChangeType}
-                  param={param}
-                  onInputChange={this.props.onInputChange}
-                />
-              </li>
-            ))}
+                >
+                  <li key={param.id}>
+                    <Parameter
+                      key={param.id}
+                      testId={test.id}
+                      onRemoveElement={this.props.onRemoveElement}
+                      onChangeType={this.props.onChangeType}
+                      param={param}
+                      onInputChange={this.props.onInputChange}
+                    />
+                  </li>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </ul>
           <AddElementButton
             testId={test.id}
@@ -66,18 +74,26 @@ class GlobalTest extends Component {
         </div>
         <div className="TestElementDiv">
           <ul>
-            {test.outputs.map(output => (
-              <li key={output.id}>
-                <ExpectedOutput
+            <TransitionGroup>
+              {test.outputs.map(output => (
+                <CSSTransition
+                  timeout={500}
+                  classNames="testElement"
                   key={output.id}
-                  testId={test.id}
-                  onRemoveElement={this.props.onRemoveElement}
-                  onChangeType={this.props.onChangeType}
-                  output={output}
-                  onInputChange={this.props.onInputChange}
-                />
-              </li>
-            ))}
+                >
+                  <li key={output.id}>
+                    <ExpectedOutput
+                      key={output.id}
+                      testId={test.id}
+                      onRemoveElement={this.props.onRemoveElement}
+                      onChangeType={this.props.onChangeType}
+                      output={output}
+                      onInputChange={this.props.onInputChange}
+                    />
+                  </li>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </ul>
           <AddElementButton
             testId={test.id}

@@ -15,40 +15,38 @@ class Parameter extends Component {
     } = this.props;
 
     return (
-      <div>
-        <div className="TestElement">
-          <RemoveElementButton
-            label="Parameter"
-            testId={testId}
-            elementId={param.id}
-            onRemoveElement={onRemoveElement}
-            elementType="parameters"
-          />
-          <ParameterDropdown
-            param={param}
-            testId={testId}
-            onChangeType={onChangeType}
-          />
-          <InputText
-            placeholder={param.type === "Body" ? "N/A" : param.key}
-            disabled={param.type === "Body" ? "disabled" : undefined}
-            onChange={onInputChange}
-            elementId={param.id}
-            targetAttribute="key"
-            testId={testId}
-            targetElement="parameters"
-          />
-          =
-          <InputText
-            placeholder={param.value}
-            onChange={onInputChange}
-            password={param.type === "BasicAuth" ? true : undefined}
-            elementId={param.id}
-            testId={testId}
-            targetAttribute="value"
-            targetElement="parameters"
-          />
-        </div>
+      <div className="TestElement">
+        <RemoveElementButton
+          label=""
+          testId={testId}
+          elementId={param.id}
+          onRemoveElement={onRemoveElement}
+          elementType="parameters"
+        />
+        <ParameterDropdown
+          param={param}
+          testId={testId}
+          onChangeType={onChangeType}
+        />
+        <InputText
+          placeholder={param.type === "Body" ? "N/A" : param.key}
+          disabled={param.type === "Body" ? "disabled" : undefined}
+          onChange={onInputChange}
+          elementId={param.id}
+          targetAttribute="key"
+          testId={testId}
+          targetElement="parameters"
+        />
+        =
+        <InputText
+          placeholder={param.value}
+          onChange={onInputChange}
+          password={param.type === "BasicAuth" ? true : undefined}
+          elementId={param.id}
+          testId={testId}
+          targetAttribute="value"
+          targetElement="parameters"
+        />
       </div>
     );
   }

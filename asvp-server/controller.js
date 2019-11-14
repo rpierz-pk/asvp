@@ -24,7 +24,7 @@ router.get("/report", (req, res) => {
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       Error:
-        "No ID was included in the request. Please refer to the documentation for more help.",
+        "No ID was included in the request.",
       Reference: "https://www.github.com/rpierz-pk/asv"
     });
   }
@@ -58,14 +58,15 @@ router.get("/feature", (req, res) => {
 //  run the cucumber tests (should fail if test not configured)
 router.get("/run", (req, res) => {
   // Check for ID
-  if (req.query.id != null) {
+  if (req.query.id != "") {
     var id = req.query.id;
   } else {
     // No request was included
+    console.log(`Request failure --> No ID was included in the request`)
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
       Error:
-        "No ID was included in the request. Please refer to the documentation for more help.",
+        "No ID was included in the request.",
       Reference: "https://www.github.com/rpierz-pk/asvp"
     });
   }
@@ -80,11 +81,11 @@ router.get("/run", (req, res) => {
       var script = exec(
         `cd ${__dirname} && npx cucumber-js ${featureFilePath} -f json:output/${id}/report.json`,
         (error, stdout, stderr) => {
-          return res.sendFile(`${__dirname}/output/${id}/report.json`);
-          console.log(stderr);
           if (error !== null) {
             console.log(`exec error: ${error}`);
           }
+          return res.sendFile(`${__dirname}/output/${id}/report.json`);
+          
         }
       );
     } catch (err) {
@@ -92,9 +93,10 @@ router.get("/run", (req, res) => {
     }
   } else {
     // No feature file was found
+    console.log(`Request failure --> No feature file was found for the given ID (${id})`)
     return res.status(400).json({
       "Status Code": "400 BAD REQUEST",
-      Error: `No feature file was found for the given ID (${id}). Please generate the test file first and receive your ID. Please refer to the documentation for more help`,
+      Error: `No feature file was found for the given ID (${id}). Please generate the test file first and receive your ID.`,
       Reference: "https://www.github.com/rpierz-pk/asvp"
     });
   }
@@ -401,7 +403,7 @@ router.post("/generate", (req, res) => {
     if (Object.entries(parameters).length === 0) {
       return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
-        Error: `No Parameters were found to apply to test ${test}. Please refer to the documentation for more information`,
+        Error: `No Parameters were found to apply to test ${test}.`,
         Reference: "https://www.github.com/rpierz-pk/asvp"
       });
     }
@@ -475,7 +477,7 @@ router.post("/generate", (req, res) => {
     if (!currentTest.method || !currentTest.endpoint) {
       return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
-        Error: `No Method/Endpoint could be applied to test ${test}. Please refer to the documentation for more information`,
+        Error: `No Method/Endpoint could be applied to test ${test}.`,
         Reference: "https://www.github.com/rpierz-pk/asvp"
       });
     }
@@ -499,7 +501,7 @@ router.post("/generate", (req, res) => {
     if (Object.entries(output).length === 0) {
       return res.status(400).json({
         "Status Code": "400 BAD REQUEST",
-        Error: `No Expected output were found to apply to test ${test}. Please refer to the documentation for more information`,
+        Error: `No Expected Output was found to apply to test ${test}.`,
         Reference: "https://www.github.com/rpierz-pk/asvp"
       });
     }
@@ -536,7 +538,7 @@ router.post("/generate", (req, res) => {
   // Bootstrap the folder structure required for each user
   console.log(`Server --> Bootstrapping folder structure`);
   var id =
-    req.query.id != null
+    req.query.id != ""
       ? req.query.id
       : `user${Math.floor(Math.random() * 100000)}`;
   console.log(`The user ID is ${id}`);

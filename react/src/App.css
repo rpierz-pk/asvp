@@ -1,29 +1,136 @@
-.App {
-  text-align: center;
+.topbar {
+  position: fixed !important;
+  top: 0;
+  width: 100%;
+  z-index: 2001;
+  background: linear-gradient(
+    to bottom,
+    #5aa6ff 0%,
+    #447bbb 12%,
+    #447bbb 90%,
+    #4422bb 100%
+  );
 }
 
-.App-logo {
-  height: 40vmin;
+.sidebar {
+  position: fixed !important;
+  left: 0;
+  height: 100%;
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  justify-content: space-between !important;
+  z-index: 2000;
+  background: linear-gradient(to right, #007bff 0%, #007bff 95%, #0022ff 100%);
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.sidebar-upper {
+  color: white;
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  align-items: center;
+}
+
+.sidebar-upper label {
+  font-size: 36pt;
+  text-shadow: -2px 2px 3px #000088;
+}
+
+.sidebar-middle {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-lower {
   display: flex;
   flex-direction: column;
   align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  width: 100%;
 }
 
-.App-link {
-  color: #09d3ac;
+.container {
+  margin-left: 0px !important;
+  height: 100%;
+}
+
+.main-content {
+  margin-left: 160px;
+  padding-top: 10px;
+}
+
+.server-response {
+  display: block;
+  padding: 10px;
+  border: 1px solid rgb(93, 91, 122);
+  border-radius: 10px;
+  color: white;
+  margin-top: 10%;
+  width: 150px;
+  text-align: center;
+}
+
+.server-response-error {
+  background: #880000;
+}
+
+.Test h2 {
+  font-weight: bold;
+}
+
+@keyframes newTestLoad {
+  from {
+    background-color: #ffffff;
+    top: -500px;
+  }
+  to {
+    background-color: #add8e6;
+    top: 0px;
+  }
 }
 
 .Test {
   padding: 10px;
-  border-bottom: 2px solid gray;
+  font-weight: bold;
+  margin-bottom: 25px;
+}
+
+.Test label {
+  padding-top: 5px;
+  margin-bottom: 2px;
+}
+
+.testTransition-enter {
+  height: 0px;
+  overflow: hidden;
+}
+.testTransition-enter-active {
+  height: 356px;
+  overflow: hidden;
+  transition: height 300ms;
+}
+.testTransition-exit {
+  height: 356px;
+}
+.testTransition-exit-active {
+  height: -0px;
+  overflow: hidden;
+  transition: height 500ms;
+}
+
+.GlobalTest label {
+  padding-top: 5px;
+  margin-bottom: 2px;
+}
+
+.Test input {
+  margin-left: 10px;
+  margin-right: 10px;
+}
+
+.GlobalTest input {
+  margin-left: 10px;
+  margin-right: 10px;
 }
 
 .TestElement {
@@ -34,6 +141,11 @@
 
 .InputText {
   width: 40%;
+}
+
+.InputText-Name {
+  width: 20%;
+  font-size: 20px;
 }
 
 .GlobalTestDiv {
@@ -47,21 +159,98 @@
 .TestDiv {
   border: 3px inset;
   border-radius: 10px;
+  position: relative;
   background-color: #add8e6;
   margin: 20px;
   padding: 10px;
 }
 
 .TestElementDiv {
-  border: 1px solid gray;
   border-radius: 10px;
-  margin-top: 5px;
+  margin-top: 20px;
+}
+
+.GeneralDiv-Header {
+  left: 0px;
+  background: linear-gradient(to right, #0022ff 0%, #0022ff 20%, #001188 80%);
+  width: 150%;
+  height: 25px;
 }
 
 .GeneralDiv {
-  font-weight: bold;
+  margin-left: 5%;
+}
+
+.testElement-enter {
+  height: 0px;
+  overflow: hidden;
+}
+.testElement-enter-active {
+  overflow: hidden;
+  height: 47px;
+  transition: height 300ms ease-in;
+}
+.testElement-exit {
+  height: 47px;
+  overflow: hidden;
+}
+.testElement-exit-active {
+  overflow: hidden;
+  height: 0px;
+  transition: height 500ms;
+}
+
+.RemoveElementButton-Test {
+  background-color: #dc3545;
+  border-color: #dc3545;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  color: #fff;
+}
+
+.AddElementButton-Test {
+  background-color: #007bff;
+  border-color: #007bff;
+  padding: 0.5rem;
+  border-radius: 0.2rem;
+  margin-left: 5%;
+  color: #fff;
+}
+
+.removeElementButton {
+  border-radius: 15px !important;
+}
+
+.addElementButton {
+  margin-left: 2%;
+  border-radius: 15px !important;
 }
 
 ul {
   list-style: none;
+  padding-left: 2%;
+}
+
+@keyframes list-reveal {
+  from {
+    height: 0;
+    overflow-y: hidden;
+  }
+  to {
+    height: 47px;
+    overflow-y: hidden;
+  }
+}
+
+li {
+  max-height: 47px;
+}
+
+.dropdownListItem:nth-child(odd) {
+  background: #eee;
+}
+
+.dropdownListItem:hover {
+  background-color: #007bdd !important;
+  color: #ffffff !important;
 }

@@ -4,11 +4,18 @@ import AddElementButton from "./addElementButton";
 import InputText from "./inputText";
 import axios from "axios";
 import GlobalTest from "./globalTest";
+import Sidebar from "./sidebar";
+import { TransitionGroup, CSSTransition } from "react-transition-group";
 
 class Tests extends Component {
   url = "http://localhost:8000";
 
   state = {
+    httpStatus: {
+      error: false,
+      code: "",
+      message: "Server Response"
+    },
     UserID: "",
     ProxyURL: "(org)-(env).apigee.net/(basepath)",
     tests: [
@@ -186,6 +193,26 @@ class Tests extends Component {
     );
   };
 
+  setPendingServerResponse = message => {
+    this.setState({
+      httpStatus: {
+        code: message,
+        message: "Request is processing",
+        error: false
+      }
+    });
+  };
+
+  handleServerResponseChange = (code, message, error) => {
+    this.setState({
+      httpStatus: {
+        code: code,
+        message: message,
+        error: error
+      }
+    });
+  };
+
   parseParameters = test => {
     let QueryParams = {};
     let Headers = {};
@@ -237,7 +264,8 @@ class Tests extends Component {
     };
   };
 
-  submitRequest = () => {
+  handleSubmitRequest = () => {
+    this.setPendingServerResponse("Submit Request");
     const { tests } = this.state;
     let req = { global: { ProxyURL: this.state.ProxyURL }, tests: {} };
     for (var test in tests) {
@@ -284,92 +312,129 @@ class Tests extends Component {
       .post(`${this.url}/generate?id=${this.state.UserID}`, req)
       .then(res => {
         console.log(res);
+        this.handleServerResponseChange(
+          res.status,
+          `Tests generated.\nUserID: ${res.data.id}`,
+          false
+        );
+        this.setState({ UserID: res.data.id });
+      })
+      .catch(err => {
+        console.log(err);
+        if (!err.status)
+          this.handleServerResponseChange(
+            500,
+            "The server appears to be down",
+            true
+          );
+        if (err.response)
+          this.handleServerResponseChange(
+            err.response.status,
+            err.response.data.Error,
+            true
+          );
       });
   };
 
-  runTests = () => {
-    axios.get(`${this.url}/run?id=${this.state.UserID}`).then(res => {
-      console.log(res);
-    });
-  };
-
-  generateReport = () => {
-    axios.get(`${this.url}/report?id=${this.state.UserID}`).then(res => {
-      console.log(res);
-    });
+  handleHttpGetRequest = endpoint => {
+    this.setPendingServerResponse("--");
+    axios
+      .get(`${this.url}/${endpoint}?id=${this.state.UserID}`)
+      .then(res => {
+        console.log(res);
+        this.handleServerResponseChange(
+          `${res.status} ${res.statusText}`,
+          "Success",
+          false
+        );
+      })
+      .catch(err => {
+        if (!err.status)
+          this.handleServerResponseChange(
+            500,
+            "The server appears to be down",
+            true
+          );
+        if (err.response)
+          this.handleServerResponseChange(
+            err.response.status,
+            err.response.data.Error,
+            true
+          );
+      });
   };
 
   render() {
     return (
-      <div className="m-2">
-        <div className="GeneralDiv">
-          Proxy URL:
-          <InputText
-            type="text"
-            targetElement="ProxyURL"
-            placeholder={this.state.ProxyURL}
-            onChange={this.handleInputChange}
-          />
-          User ID:
-          <InputText
-            type="text"
-            targetElement="UserID"
-            placeholder={this.state.UserID}
-            onChange={this.handleInputChange}
-          />
-          <button
-            className="btn btn-primary btn-lg m-2"
-            onClick={() => {
-              this.submitRequest();
-            }}
-          >
-            Make Request
-          </button>
-          <button
-            className="btn btn-primary btn-lg m-2"
-            onClick={() => this.runTests()}
-          >
-            Run Tests
-          </button>
-          <button
-            className="btn btn-primary btn-lg m-2"
-            onClick={() => this.generateReport()}
-          >
-            Generate Reports
-          </button>
-        </div>
-
-        <div className="GlobalTestDiv">
-          <GlobalTest
-            key="0"
-            test={this.state.tests.filter(test => test.id === 0)[0]}
-            onRemoveElement={this.handleRemoveElement}
-            onInputChange={this.handleInputChange}
-            onAddParameterElement={this.handleAddParameter}
-            onAddOutputElement={this.handleAddOutput}
-            onChangeType={this.handleChangeType}
+      <div>
+        <div>
+          <Sidebar
+            httpStatus={this.state.httpStatus}
+            onHttpGetRequest={this.handleHttpGetRequest}
+            onSubmitRequest={this.handleSubmitRequest}
           />
         </div>
-        <div className="TestDiv">
-          {this.state.tests
-            .filter(test => test.id !== 0)
-            .map(test => (
-              <Test
-                key={test.id}
-                test={test}
-                onRemoveElement={this.handleRemoveElement}
-                onInputChange={this.handleInputChange}
-                onAddParameterElement={this.handleAddParameter}
-                onAddOutputElement={this.handleAddOutput}
-                onChangeType={this.handleChangeType}
+        <div className="main-content">
+          <div className="GeneralDiv">
+            <div>
+              {"ProxyURL: "}
+              <InputText
+                type="text"
+                targetElement="ProxyURL"
+                placeholder={this.state.ProxyURL}
+                onChange={this.handleInputChange}
               />
-            ))}
+              {" UserID: "}
+              <InputText
+                type="text"
+                targetElement="UserID"
+                placeholder={this.state.UserID}
+                onChange={this.handleInputChange}
+              />
+            </div>
+          </div>
+
+          <div className="GlobalTestDiv">
+            <GlobalTest
+              key="0"
+              test={this.state.tests.filter(test => test.id === 0)[0]}
+              onRemoveElement={this.handleRemoveElement}
+              onInputChange={this.handleInputChange}
+              onAddParameterElement={this.handleAddParameter}
+              onAddOutputElement={this.handleAddOutput}
+              onChangeType={this.handleChangeType}
+            />
+          </div>
+          <div className="TestDiv">
+            <TransitionGroup>
+              {this.state.tests
+                .filter(test => test.id !== 0)
+                .map(test => (
+                  <CSSTransition
+                    timeout={500}
+                    classNames="testTransition"
+                    key={test.id}
+                  >
+                    <Test
+                      key={test.id}
+                      test={test}
+                      onRemoveElement={this.handleRemoveElement}
+                      onInputChange={this.handleInputChange}
+                      onAddParameterElement={this.handleAddParameter}
+                      onAddOutputElement={this.handleAddOutput}
+                      onChangeType={this.handleChangeType}
+                    />
+                  </CSSTransition>
+                ))}
+            </TransitionGroup>
+          </div>
+          <AddElementButton
+            type="AddElementButton-Test"
+            onAddElement={this.handleAddTest}
+            label="Test"
+            testId={null}
+          />
         </div>
-        <AddElementButton
-          onAddElement={this.handleAddTest}
-          label="Test"
-          testId={null}
-        />
       </div>
     );
   }
