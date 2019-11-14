@@ -2,11 +2,8 @@ import React, { Component } from "react";
 import "../App.css";
 
 class ServerResponse extends Component {
-  state = { show: true };
+  state = {};
 
-  toggleModal = () => {
-    this.setState({ show: !this.state.show });
-  };
   render() {
     const { code, message, error } = this.props.httpStatus;
     return (

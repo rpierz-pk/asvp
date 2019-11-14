@@ -12,7 +12,9 @@ class RemoveElementButton extends Component {
 
     return (
       <button
-        className={this.props.type || "btn btn-danger btn-sm m-2"}
+        className={
+          this.props.type || "btn btn-danger btn-sm m-2 removeElementButton"
+        }
         onClick={event => onRemoveElement(event, testId, elementId)}
         name={elementType}
       >

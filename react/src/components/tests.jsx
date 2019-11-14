@@ -376,7 +376,7 @@ class Tests extends Component {
         <div className="main-content">
           <div className="GeneralDiv">
             <div>
-              {"ProxyURL: "}
+              ProxyURL<text style={{ color: "red" }}>*</text>:
               <InputText
                 type="text"
                 targetElement="ProxyURL"

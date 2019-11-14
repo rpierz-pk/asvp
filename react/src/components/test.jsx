@@ -38,7 +38,7 @@ class Test extends Component {
           testId={test.id}
           targetElement="metadata"
         />
-        <div>
+        <div style={{ display: "block" }}>
           <label>Endpoint</label>
           <InputText
             placeholder="/url"
@@ -61,6 +61,7 @@ class Test extends Component {
           />
         </div>
         <div className="TestElementDiv">
+          parameters
           <ul>
             {test.parameters.map(param => (
               <li key={param.id}>
@@ -82,6 +83,7 @@ class Test extends Component {
           />
         </div>
         <div className="TestElementDiv">
+          outputs
           <ul>
             {test.outputs.map(output => (
               <li key={output.id}>

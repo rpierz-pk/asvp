@@ -116,7 +116,6 @@
 
 .Test {
   padding: 10px;
-  border-bottom: 2px solid gray;
   font-weight: bold;
   margin-bottom: 25px;
 }
@@ -174,9 +173,8 @@
 }
 
 .TestElementDiv {
-  border: 1px solid gray;
   border-radius: 10px;
-  margin-top: 5px;
+  margin-top: 20px;
 }
 
 .GeneralDiv-Header {
@@ -203,7 +201,17 @@
   border-color: #007bff;
   padding: 0.5rem;
   border-radius: 0.2rem;
+  margin-left: 5%;
   color: #fff;
+}
+
+.removeElementButton {
+  border-radius: 15px !important;
+}
+
+.addElementButton {
+  margin-left: 2%;
+  border-radius: 15px !important;
 }
 
 ul {
@@ -211,20 +219,21 @@ ul {
   padding-left: 2%;
 }
 
-@keyframes list-slide-in {
+@keyframes list-reveal {
   from {
-    opacity: 0;
-    transform: translateX(10%);
+    height: 0;
+    overflow-y: hidden;
   }
   to {
-    opacity: 1;
-    transform: translateX(0%);
+    height: 47px;
+    overflow-y: hidden;
   }
 }
 
 li {
-  animation-name: list-slide-in;
+  animation-name: list-reveal;
   animation-duration: 0.5s;
+  max-height: 47px;
 }
 
 .dropdownListItem:nth-child(odd) {
