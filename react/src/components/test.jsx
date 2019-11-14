@@ -6,6 +6,7 @@ import Parameter from "./parameter/parameter";
 import ExpectedOutput from "./expectedOutput";
 import Modal from "./modal";
 import "../App.css";
+import { CSSTransition, TransitionGroup } from "react-transition-group";
 
 class Test extends Component {
   state = {
@@ -63,18 +64,26 @@ class Test extends Component {
         <div className="TestElementDiv">
           parameters
           <ul>
-            {test.parameters.map(param => (
-              <li key={param.id}>
-                <Parameter
+            <TransitionGroup>
+              {test.parameters.map(param => (
+                <CSSTransition
+                  timeout={500}
+                  classNames="testElement"
                   key={param.id}
-                  testId={test.id}
-                  onRemoveElement={this.props.onRemoveElement}
-                  onChangeType={this.props.onChangeType}
-                  param={param}
-                  onInputChange={this.props.onInputChange}
-                />
-              </li>
-            ))}
+                >
+                  <li key={param.id}>
+                    <Parameter
+                      key={param.id}
+                      testId={test.id}
+                      onRemoveElement={this.props.onRemoveElement}
+                      onChangeType={this.props.onChangeType}
+                      param={param}
+                      onInputChange={this.props.onInputChange}
+                    />
+                  </li>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </ul>
           <AddElementButton
             testId={test.id}
@@ -85,18 +94,26 @@ class Test extends Component {
         <div className="TestElementDiv">
           outputs
           <ul>
-            {test.outputs.map(output => (
-              <li key={output.id}>
-                <ExpectedOutput
+            <TransitionGroup>
+              {test.outputs.map(output => (
+                <CSSTransition
+                  timeout={500}
+                  classNames="testElement"
                   key={output.id}
-                  testId={test.id}
-                  onRemoveElement={this.props.onRemoveElement}
-                  onChangeType={this.props.onChangeType}
-                  output={output}
-                  onInputChange={this.props.onInputChange}
-                />
-              </li>
-            ))}
+                >
+                  <li key={output.id}>
+                    <ExpectedOutput
+                      key={output.id}
+                      testId={test.id}
+                      onRemoveElement={this.props.onRemoveElement}
+                      onChangeType={this.props.onChangeType}
+                      output={output}
+                      onInputChange={this.props.onInputChange}
+                    />
+                  </li>
+                </CSSTransition>
+              ))}
+            </TransitionGroup>
           </ul>
           <AddElementButton
             testId={test.id}

@@ -188,6 +188,25 @@
   margin-left: 5%;
 }
 
+.testElement-enter {
+  height: 0;
+  overflow: hidden;
+}
+.testElement-enter-active {
+  overflow: hidden;
+  height: 47px;
+  transition: height 300ms ease-in;
+}
+.testElement-exit {
+  height: 47px;
+  overflow: hidden;
+}
+.testElement-exit-active {
+  overflow: hidden;
+  height: 0px;
+  transition: height 500ms;
+}
+
 .RemoveElementButton-Test {
   background-color: #dc3545;
   border-color: #dc3545;
@@ -231,8 +250,6 @@ ul {
 }
 
 li {
-  animation-name: list-reveal;
-  animation-duration: 0.5s;
   max-height: 47px;
 }
 
