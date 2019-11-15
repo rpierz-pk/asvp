@@ -153,13 +153,14 @@
 
 .GlobalTestDiv {
   background-color: #adffd0;
+  border: 3px inset;
   margin: 0px 20px;
   margin-bottom: 0px;
   padding: 10px;
 }
 
 .TestDiv {
-  /* border: 3px inset; */
+  border: 3px inset;
   border-radius: 10px;
   position: relative;
   background-color: #add8e6;
@@ -168,10 +169,6 @@
   padding: 10px;
   top: -10px;
 }
-
-/* .Test:nth-child(odd) {
-  background-color: #8cafbb;
-} */
 
 .TestElementDiv {
   border-radius: 10px;

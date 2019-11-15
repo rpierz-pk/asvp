@@ -3,9 +3,13 @@ import "../modal.css";
 
 class Modal extends Component {
   render() {
+    const showHideClassName = this.props.show
+      ? "modal-window display-block"
+      : "modal-window display-none";
+
     if (!this.props.show) return null;
     return (
-      <div className="modal-window display-block">
+      <div className={showHideClassName}>
         <section className="modal-main">
           {this.props.children}
           <div className="actions">
