@@ -12,6 +12,10 @@ class Tests extends Component {
 
   state = {
     pending: false,
+    validationError: {
+      exist: false,
+      message: ""
+    },
     httpStatus: {
       error: false,
       code: "",
@@ -155,6 +159,14 @@ class Tests extends Component {
   };
 
   handleInputChange = (event, testId, elementType, elementId) => {
+    this.clearValidationError();
+    if (event.target.name !== "key" && event.target.name !== "value") {
+      if (!this.validateInput(event.target.value)) {
+        this.setValidationError(
+          "Validation Error: Only alphanumeric characters are allowed"
+        );
+      }
+    }
     if (elementType === "UserID") {
       this.setState({ UserID: event.target.value });
     } else if (elementType === "ProxyURL") {
@@ -194,6 +206,28 @@ class Tests extends Component {
     );
   };
 
+  validateInput = text => {
+    return /^[a-zA-Z0-9]*$/.test(text);
+  };
+
+  setValidationError = message => {
+    this.setState({
+      validationError: {
+        exist: true,
+        message
+      }
+    });
+  };
+
+  clearValidationError = () => {
+    this.setState({
+      validationError: {
+        exist: false,
+        message: ""
+      }
+    });
+  };
+
   setPendingServerResponse = () => {
     this.setState({
       pending: true,
@@ -209,9 +243,9 @@ class Tests extends Component {
     this.setState({
       pending: false,
       httpStatus: {
-        code: code,
-        message: message,
-        error: error
+        code,
+        message,
+        error
       }
     });
   };
@@ -372,6 +406,7 @@ class Tests extends Component {
       <div>
         <div>
           <Sidebar
+            validationError={this.state.validationError}
             pending={this.state.pending}
             httpStatus={this.state.httpStatus}
             onHttpGetRequest={this.handleHttpGetRequest}

@@ -27,7 +27,6 @@ class Test extends Component {
           label="Test"
           onRemoveElement={this.toggleModal}
           elementId={test.id}
-          test={test}
           elementType="test"
         />
         <InputText
