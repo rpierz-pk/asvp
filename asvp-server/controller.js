@@ -84,7 +84,9 @@ router.get("/run", (req, res) => {
           if (error !== null) {
             console.log(`exec error: ${error}`);
           }
-          return res.sendFile(`${__dirname}/output/${id}/report.json`);
+          return res.status(200).json({
+            message: "Tests completed"
+          })
           
         }
       );

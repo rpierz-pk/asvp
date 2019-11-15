@@ -56,6 +56,7 @@
 
 .main-content {
   margin-left: 135px;
+  margin-bottom: 15px;
 }
 
 .server-response {
@@ -209,7 +210,7 @@
 .testElement-exit-active {
   overflow: hidden;
   height: 0px;
-  transition: height 500ms;
+  transition: height 500ms ease-out;
 }
 
 .RemoveElementButton-Test {

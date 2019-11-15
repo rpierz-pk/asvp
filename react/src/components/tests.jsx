@@ -160,7 +160,12 @@ class Tests extends Component {
 
   handleInputChange = (event, testId, elementType, elementId) => {
     this.clearValidationError();
-    if (event.target.name !== "key" && event.target.name !== "value") {
+    if (
+      event.target.name !== "key" &&
+      event.target.name !== "value" &&
+      event.target.name !== "ProxyURL" &&
+      event.target.name !== "endpoint"
+    ) {
       if (!this.validateInput(event.target.value)) {
         this.setValidationError(
           "Validation Error: Only alphanumeric characters are allowed"
@@ -207,7 +212,7 @@ class Tests extends Component {
   };
 
   validateInput = text => {
-    return /^[a-zA-Z0-9]*$/.test(text);
+    return /^[a-zA-Z0-9\s]*$/.test(text);
   };
 
   setValidationError = message => {
@@ -381,7 +386,7 @@ class Tests extends Component {
         console.log(res);
         this.handleServerResponseChange(
           `${res.status} ${res.statusText}`,
-          "Success",
+          `${res.data.message ? res.data.message : "Success"}`,
           false
         );
       })
@@ -420,6 +425,7 @@ class Tests extends Component {
               <InputText
                 type="text"
                 targetElement="ProxyURL"
+                targetAttribute="ProxyURL"
                 placeholder={this.state.ProxyURL}
                 onChange={this.handleInputChange}
               />
