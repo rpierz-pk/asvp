@@ -419,6 +419,7 @@ class Tests extends Component {
           />
         </div>
         <div className="main-content">
+          <div className="MainHeader" />
           <div className="GeneralDiv">
             <div>
               {"ProxyURL: "}
@@ -482,6 +483,7 @@ class Tests extends Component {
             label="Test"
             testId={null}
           />
+          <div className="MainFooter"></div>
         </div>
       </div>
     );

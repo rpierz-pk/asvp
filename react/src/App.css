@@ -91,12 +91,15 @@
 @keyframes flash-error {
   0% {
     background-color: #880000;
+    color: white;
   }
   50% {
     background-color: #ff8888;
+    color: black;
   }
   100% {
     background-color: #880000;
+    color: white;
   }
 }
 
@@ -202,8 +205,13 @@
   margin-top: 20px;
 }
 
+.MainHeader {
+  height: 80px;
+  background-color: #002f99;
+  margin-right: 20px;
+}
+
 .GeneralDiv {
-  border-top: 10px solid #0022ff;
   margin-left: 5%;
   background-color: #e99fa6f6;
   padding: 10px;
@@ -212,23 +220,34 @@
   font-weight: bold;
 }
 
+.MainFooter {
+  height: 100px;
+  margin-right: 20px;
+  /* background-color: #000000; */
+}
+
 .testElement-enter {
   height: 0px;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0);
 }
 .testElement-enter-active {
   overflow: hidden;
   height: 47px;
+  background-color: rgba(80, 175, 80, 0.5);
   transition: height 300ms ease-in;
+  transition: background-color 500ms;
 }
 .testElement-exit {
   height: 47px;
   overflow: hidden;
+  background-color: rgba(0, 0, 0, 0);
 }
 .testElement-exit-active {
   overflow: hidden;
   height: 0px;
-  transition: height 500ms ease-out;
+  transition: height 300ms;
+  background-color: rgba(175, 80, 80, 0.5);
 }
 
 .RemoveElementButton-Test {
