@@ -72,6 +72,9 @@
 
 .server-response-error {
   background: #880000;
+
+  animation-name: flash-error;
+  animation-duration: 250ms;
 }
 
 .error-panel {
@@ -81,7 +84,20 @@
   word-wrap: normal;
   width: 150px;
   text-align: center;
-  background: #880000;
+  background-color: #880000;
+  animation-name: flash-error;
+  animation-duration: 250ms;
+}
+@keyframes flash-error {
+  0% {
+    background-color: #880000;
+  }
+  50% {
+    background-color: #ff8888;
+  }
+  100% {
+    background-color: #880000;
+  }
 }
 
 .Test h2 {
@@ -187,11 +203,13 @@
 }
 
 .GeneralDiv {
+  border-top: 10px solid #0022ff;
   margin-left: 5%;
   background-color: #e99fa6f6;
   padding: 10px;
   margin: 0px 20px;
   padding-left: 30px;
+  font-weight: bold;
 }
 
 .testElement-enter {

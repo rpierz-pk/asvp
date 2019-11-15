@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import "../App.css";
+import { CSSTransition } from "react-transition-group";
 
 class ErrorPanel extends Component {
   state = {};
