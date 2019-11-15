@@ -11,7 +11,7 @@ class ServerResponse extends Component {
         className={`server-response ${error ? "server-response-error" : ""}`}
       >
         <div>
-          Response Code:{" "}
+          Response Code
           <label
             style={
               code >= 300
@@ -19,6 +19,7 @@ class ServerResponse extends Component {
                 : { color: "white" }
             }
           >
+            {this.props.children}
             {code}
           </label>
         </div>

@@ -11,6 +11,7 @@ class Tests extends Component {
   url = "http://localhost:8000";
 
   state = {
+    pending: false,
     httpStatus: {
       error: false,
       code: "",
@@ -193,10 +194,11 @@ class Tests extends Component {
     );
   };
 
-  setPendingServerResponse = message => {
+  setPendingServerResponse = () => {
     this.setState({
+      pending: true,
       httpStatus: {
-        code: message,
+        code: "",
         message: "Request is processing",
         error: false
       }
@@ -205,6 +207,7 @@ class Tests extends Component {
 
   handleServerResponseChange = (code, message, error) => {
     this.setState({
+      pending: false,
       httpStatus: {
         code: code,
         message: message,
@@ -265,7 +268,7 @@ class Tests extends Component {
   };
 
   handleSubmitRequest = () => {
-    this.setPendingServerResponse("Submit Request");
+    this.setPendingServerResponse();
     const { tests } = this.state;
     let req = { global: { ProxyURL: this.state.ProxyURL }, tests: {} };
     for (var test in tests) {
@@ -337,7 +340,7 @@ class Tests extends Component {
   };
 
   handleHttpGetRequest = endpoint => {
-    this.setPendingServerResponse("--");
+    this.setPendingServerResponse();
     axios
       .get(`${this.url}/${endpoint}?id=${this.state.UserID}`)
       .then(res => {
@@ -369,6 +372,7 @@ class Tests extends Component {
       <div>
         <div>
           <Sidebar
+            pending={this.state.pending}
             httpStatus={this.state.httpStatus}
             onHttpGetRequest={this.handleHttpGetRequest}
             onSubmitRequest={this.handleSubmitRequest}

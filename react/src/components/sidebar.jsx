@@ -2,6 +2,7 @@ import React, { Component } from "react";
 import "../App.css";
 import ServerResponse from "./serverResponse";
 import ApigeeShield from "../img/apigee-shield.png";
+import Spinner from "react-bootstrap/Spinner";
 
 class Sidebar extends Component {
   state = {};
@@ -52,7 +53,9 @@ class Sidebar extends Component {
             Generate Reports
           </button>
 
-          <ServerResponse httpStatus={this.props.httpStatus} />
+          <ServerResponse httpStatus={this.props.httpStatus}>
+            {this.props.pending && <Spinner animation="border" />}
+          </ServerResponse>
         </div>
 
         <div className="sidebar-lower">
