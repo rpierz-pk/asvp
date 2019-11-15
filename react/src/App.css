@@ -1,17 +1,9 @@
-.topbar {
-  position: fixed !important;
-  top: 0;
-  width: 100%;
-  z-index: 2001;
-  background: linear-gradient(
-    to bottom,
-    #5aa6ff 0%,
-    #447bbb 12%,
-    #447bbb 90%,
-    #4422bb 100%
-  );
+.container {
+  margin-left: 0px !important;
+  height: 100%;
 }
 
+/*    SIDEBAR      */
 .sidebar {
   position: fixed !important;
   left: 0;
@@ -35,28 +27,6 @@
 .sidebar-upper label {
   font-size: 36pt;
   text-shadow: -2px 2px 3px #000088;
-}
-
-.sidebar-middle {
-  display: flex;
-  flex-direction: column;
-}
-
-.sidebar-lower {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.container {
-  margin-left: 0px !important;
-  height: 100%;
-}
-
-.main-content {
-  margin-left: 135px;
-  margin-bottom: 15px;
 }
 
 .server-response {
@@ -103,21 +73,67 @@
   }
 }
 
-.Test h2 {
+.sidebar-middle {
+  display: flex;
+  flex-direction: column;
+}
+
+.sidebar-lower {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+}
+
+/*        MAIN SECTION        */
+.main-content {
+  margin-left: 135px;
+}
+
+/*      MAIN HEADER           */
+.MainHeader {
+  height: 80px;
+  background-color: #002f99;
+}
+
+/*    General Configuration     */
+.GeneralConfigDiv {
+  margin-left: 20px;
+  padding: 10px;
+  margin-left: 20px;
+  padding-left: 30px;
   font-weight: bold;
 }
 
-@keyframes newTestLoad {
-  from {
-    background-color: #ffffff;
-    top: -500px;
-  }
-  to {
-    background-color: #add8e6;
-    top: 0px;
-  }
+/*    Global Test Configuration   */
+.GlobalTestDiv {
+  background-color: #adffd0;
+  border: 3px inset;
+  margin-left: 20px;
+  margin-bottom: 0px;
+  padding: 10px;
 }
 
+.GlobalTest label {
+  padding-top: 5px;
+  margin-bottom: 2px;
+}
+
+.GlobalTest input {
+  margin-left: 10px;
+}
+
+/*    TEST SECTION      */
+.TestDiv {
+  border: 3px inset;
+  border-radius: 10px;
+  position: relative;
+  background-color: #add8e6;
+  margin-left: 20px;
+  margin-top: 0;
+  padding: 10px;
+  top: -10px;
+}
 .Test {
   padding: 10px;
   font-weight: bold;
@@ -125,107 +141,48 @@
   padding-left: 20px;
 }
 
+.Test h2 {
+  font-weight: bold;
+}
 .Test label {
   padding-top: 5px;
   margin-bottom: 2px;
 }
+.Test input {
+  margin-left: 10px;
+}
 
-.testTransition-enter {
+/*  Test Animation  */
+.test-enter {
   height: 0px;
   overflow: hidden;
 }
-.testTransition-enter-active {
+.test-enter-active {
   height: 356px;
   overflow: hidden;
   transition: height 300ms;
 }
-.testTransition-exit {
+.test-exit {
   height: 356px;
 }
-.testTransition-exit-active {
+.test-exit-active {
   height: 0px;
   overflow: hidden;
   transition: height 500ms;
 }
-.GlobalTest label {
-  padding-top: 5px;
-  margin-bottom: 2px;
-}
 
-.Test input {
-  margin-left: 10px;
-  margin-right: 10px;
+/* Test Element */
+.TestElementDiv {
+  border-radius: 10px;
+  margin-top: 20px;
 }
-
-.GlobalTest input {
-  margin-left: 10px;
-  margin-right: 10px;
-}
-
 .TestElement {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
-.InputText {
-  width: 40%;
-}
-
-.InputText-Name {
-  width: 20%;
-  font-size: 20px;
-}
-
-.InputText-UserID {
-  width: 20%;
-}
-
-.GlobalTestDiv {
-  background-color: #adffd0;
-  border: 3px inset;
-  margin: 0px 20px;
-  margin-bottom: 0px;
-  padding: 10px;
-}
-
-.TestDiv {
-  border: 3px inset;
-  border-radius: 10px;
-  position: relative;
-  background-color: #add8e6;
-  margin: 20px;
-  margin-top: 0;
-  padding: 10px;
-  top: -10px;
-}
-
-.TestElementDiv {
-  border-radius: 10px;
-  margin-top: 20px;
-}
-
-.MainHeader {
-  height: 80px;
-  background-color: #002f99;
-  margin-right: 20px;
-}
-
-.GeneralDiv {
-  margin-left: 5%;
-  background-color: #e99fa6f6;
-  padding: 10px;
-  margin: 0px 20px;
-  padding-left: 30px;
-  font-weight: bold;
-}
-
-.MainFooter {
-  height: 100px;
-  margin-right: 20px;
-  /* background-color: #000000; */
-}
-
+/* Test Element animation */
 .testElement-enter {
   height: 0px;
   overflow: hidden;
@@ -236,7 +193,6 @@
   height: 47px;
   background-color: rgba(80, 175, 80, 0.5);
   transition: height 300ms ease-in;
-  transition: background-color 500ms;
 }
 .testElement-exit {
   height: 47px;
@@ -250,12 +206,53 @@
   background-color: rgba(175, 80, 80, 0.5);
 }
 
+/* Dropdown Component */
+.dropdownListItem:nth-child(odd) {
+  background: #eee;
+}
+
+.dropdownListItem:hover {
+  background-color: #007bdd !important;
+  color: #ffffff !important;
+}
+
+/*      FOOTER SECTION      */
+.MainFooter {
+  margin-top: 20px;
+  height: 150px;
+}
+
+/* Input Text component */
+.InputText {
+  width: 40%;
+}
+
+.InputText-Name {
+  width: 20%;
+  font-size: 20px;
+}
+
+.InputText-UserID {
+  width: 20%;
+}
+
+/* RemoveElement component */
+.removeElementButton {
+  border-radius: 15px !important;
+}
+
 .RemoveElementButton-Test {
   background-color: #dc3545;
   border-color: #dc3545;
   padding: 0.5rem;
   border-radius: 0.2rem;
   color: #fff;
+}
+
+/* AddElement Component */
+.addElementButton {
+  margin-left: 2%;
+  border-radius: 15px !important;
 }
 
 .AddElementButton-Test {
@@ -267,40 +264,12 @@
   color: #fff;
 }
 
-.removeElementButton {
-  border-radius: 15px !important;
-}
-
-.addElementButton {
-  margin-left: 2%;
-  border-radius: 15px !important;
-}
-
+/* List CSS */
 ul {
   list-style: none;
   padding-left: 2%;
 }
 
-@keyframes list-reveal {
-  from {
-    height: 0;
-    overflow-y: hidden;
-  }
-  to {
-    height: 47px;
-    overflow-y: hidden;
-  }
-}
-
 li {
   max-height: 47px;
-}
-
-.dropdownListItem:nth-child(odd) {
-  background: #eee;
-}
-
-.dropdownListItem:hover {
-  background-color: #007bdd !important;
-  color: #ffffff !important;
 }

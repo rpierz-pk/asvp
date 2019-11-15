@@ -420,7 +420,7 @@ class Tests extends Component {
         </div>
         <div className="main-content">
           <div className="MainHeader" />
-          <div className="GeneralDiv">
+          <div className="GeneralConfigDiv">
             <div>
               {"ProxyURL: "}
               <InputText
@@ -442,7 +442,11 @@ class Tests extends Component {
           </div>
 
           <div className="GlobalTestDiv">
-            <h1 style={{ textAlign: "right", height: "0" }}>Global</h1>
+            <h1
+              style={{ textAlign: "right", height: "0", paddingRight: "10px" }}
+            >
+              Global
+            </h1>
             <GlobalTest
               key="0"
               test={this.state.tests.filter(test => test.id === 0)[0]}
@@ -454,16 +458,16 @@ class Tests extends Component {
             />
           </div>
           <div className="TestDiv">
-            <h1 style={{ textAlign: "right", height: "0" }}>Tests</h1>
+            <h1
+              style={{ textAlign: "right", height: "0", paddingRight: "10px" }}
+            >
+              Tests
+            </h1>
             <TransitionGroup>
               {this.state.tests
                 .filter(test => test.id !== 0)
                 .map(test => (
-                  <CSSTransition
-                    timeout={500}
-                    classNames="testTransition"
-                    key={test.id}
-                  >
+                  <CSSTransition timeout={500} classNames="test" key={test.id}>
                     <Test
                       key={test.id}
                       test={test}
