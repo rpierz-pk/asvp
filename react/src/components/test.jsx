@@ -21,16 +21,16 @@ class Test extends Component {
     const { test } = this.props;
 
     return (
-      <div className="Test">
+      <div className="test">
         <RemoveElementButton
-          type="RemoveElementButton-Test"
+          type="remove-element-button-Test"
           label="Test"
           onRemoveElement={this.toggleModal}
           elementId={test.id}
           elementType="test"
         />
         <InputText
-          className="InputText-Name"
+          className="input-text-Name"
           placeholder="New Test"
           targetAttribute="name"
           elementId={test.id}
@@ -60,13 +60,13 @@ class Test extends Component {
             targetElement="metadata"
           />
         </div>
-        <div className="TestElementDiv">
+        <div className="test-element-div">
           <ul>
             <TransitionGroup>
               {test.parameters.map(param => (
                 <CSSTransition
                   timeout={500}
-                  classNames="testElement"
+                  classNames="test-element"
                   key={param.id}
                 >
                   <li key={param.id}>
@@ -89,13 +89,13 @@ class Test extends Component {
             onAddElement={this.props.onAddParameterElement}
           />
         </div>
-        <div className="TestElementDiv">
+        <div className="test-element-div">
           <ul>
             <TransitionGroup>
               {test.outputs.map(output => (
                 <CSSTransition
                   timeout={500}
-                  classNames="testElement"
+                  classNames="test-element"
                   key={output.id}
                 >
                   <li key={output.id}>

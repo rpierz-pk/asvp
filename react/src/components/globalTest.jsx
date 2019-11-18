@@ -19,7 +19,7 @@ class GlobalTest extends Component {
     const { test } = this.props;
 
     return (
-      <div className="Test">
+      <div className="test">
         <div>
           <label>Endpoint</label>
           <InputText
@@ -42,13 +42,13 @@ class GlobalTest extends Component {
             targetElement="metadata"
           />
         </div>
-        <div className="TestElementDiv">
+        <div className="test-element-div">
           <ul>
             <TransitionGroup>
               {test.parameters.map(param => (
                 <CSSTransition
                   timeout={500}
-                  classNames="testElement"
+                  classNames="test-element"
                   key={param.id}
                 >
                   <li key={param.id}>
@@ -71,13 +71,13 @@ class GlobalTest extends Component {
             onAddElement={this.props.onAddParameterElement}
           />
         </div>
-        <div className="TestElementDiv">
+        <div className="test-element-div">
           <ul>
             <TransitionGroup>
               {test.outputs.map(output => (
                 <CSSTransition
                   timeout={500}
-                  classNames="testElement"
+                  classNames="test-element"
                   key={output.id}
                 >
                   <li key={output.id}>

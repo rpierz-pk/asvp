@@ -419,8 +419,8 @@ class Tests extends Component {
           />
         </div>
         <div className="main-content">
-          <div className="MainHeader" />
-          <div className="GeneralConfigDiv">
+          <div className="main-header" />
+          <div className="general-config-div">
             <div>
               {"ProxyURL: "}
               <InputText
@@ -433,7 +433,7 @@ class Tests extends Component {
               {" UserID: "}
               <InputText
                 type="text"
-                className="InputText-UserID"
+                className="input-text-UserID"
                 targetElement="UserID"
                 placeholder={this.state.UserID}
                 onChange={this.handleInputChange}
@@ -441,7 +441,7 @@ class Tests extends Component {
             </div>
           </div>
 
-          <div className="GlobalTestDiv">
+          <div className="global-test-div">
             <h1
               style={{ textAlign: "right", height: "0", paddingRight: "10px" }}
             >
@@ -457,7 +457,7 @@ class Tests extends Component {
               onChangeType={this.handleChangeType}
             />
           </div>
-          <div className="TestDiv">
+          <div className="test-div">
             <h1
               style={{ textAlign: "right", height: "0", paddingRight: "10px" }}
             >
@@ -482,12 +482,12 @@ class Tests extends Component {
             </TransitionGroup>
           </div>
           <AddElementButton
-            type="AddElementButton-Test"
+            type="add-element-button-Test"
             onAddElement={this.handleAddTest}
             label="Test"
             testId={null}
           />
-          <div className="MainFooter"></div>
+          <div className="main-footer"></div>
         </div>
       </div>
     );

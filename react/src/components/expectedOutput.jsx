@@ -15,7 +15,7 @@ class ExpectedOutput extends Component {
     } = this.props;
     return (
       <div>
-        <div className="TestElement">
+        <div className="test-element">
           <RemoveElementButton
             label=""
             testId={testId}

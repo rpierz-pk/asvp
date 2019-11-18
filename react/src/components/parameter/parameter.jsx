@@ -15,7 +15,7 @@ class Parameter extends Component {
     } = this.props;
 
     return (
-      <div className="TestElement">
+      <div className="test-element">
         <RemoveElementButton
           label=""
           testId={testId}

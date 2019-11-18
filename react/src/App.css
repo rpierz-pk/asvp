@@ -91,7 +91,7 @@
 }
 
 /*      MAIN HEADER           */
-.MainHeader {
+.main-header {
   height: 60px;
   background-color: #002f99;
   border-bottom: 3px solid #000630;
@@ -100,7 +100,7 @@
 }
 
 /*    General Configuration     */
-.GeneralConfigDiv {
+.general-config-div {
   margin-left: 20px;
   padding: 10px;
   margin-left: 20px;
@@ -109,7 +109,7 @@
 }
 
 /*    Global Test Configuration   */
-.GlobalTestDiv {
+.global-test-div {
   background-color: #adffd0;
   border: 3px inset;
   margin-left: 20px;
@@ -117,17 +117,17 @@
   padding: 10px;
 }
 
-.GlobalTest label {
+.global-test label {
   padding-top: 5px;
   margin-bottom: 2px;
 }
 
-.GlobalTest input {
+.global-test input {
   margin-left: 10px;
 }
 
 /*    TEST SECTION      */
-.TestDiv {
+.test-div {
   border: 3px inset;
   border-radius: 10px;
   position: relative;
@@ -137,21 +137,21 @@
   padding: 10px;
   top: -10px;
 }
-.Test {
+.test {
   padding: 10px;
   font-weight: bold;
   margin-bottom: 25px;
   padding-left: 20px;
 }
 
-.Test h2 {
+.test h2 {
   font-weight: bold;
 }
-.Test label {
+.test label {
   padding-top: 5px;
   margin-bottom: 2px;
 }
-.Test input {
+.test input {
   margin-left: 10px;
 }
 
@@ -175,34 +175,34 @@
 }
 
 /* Test Element */
-.TestElementDiv {
+.test-element-div {
   border-radius: 10px;
   margin-top: 20px;
 }
-.TestElement {
+.test-element {
   display: flex;
   justify-content: space-around;
   align-items: center;
 }
 
 /* Test Element animation */
-.testElement-enter {
+.test-element-enter {
   height: 0px;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0);
 }
-.testElement-enter-active {
+.test-element-enter-active {
   overflow: hidden;
   height: 47px;
   background-color: rgba(80, 175, 80, 0.5);
   transition: height 300ms ease-in;
 }
-.testElement-exit {
+.test-element-exit {
   height: 47px;
   overflow: hidden;
   background-color: rgba(0, 0, 0, 0);
 }
-.testElement-exit-active {
+.test-element-exit-active {
   overflow: hidden;
   height: 0px;
   transition: height 300ms;
@@ -210,41 +210,41 @@
 }
 
 /* Dropdown Component */
-.dropdownListItem:nth-child(odd) {
+.dropdown-list-item:nth-child(odd) {
   background: #eee;
 }
 
-.dropdownListItem:hover {
+.dropdown-list-item:hover {
   background-color: #007bdd !important;
   color: #ffffff !important;
 }
 
 /*      FOOTER SECTION      */
-.MainFooter {
+.main-footer {
   margin-top: 20px;
   height: 150px;
 }
 
 /* Input Text component */
-.InputText {
+.input-text {
   width: 40%;
 }
 
-.InputText-Name {
+.input-text-Name {
   width: 20%;
   font-size: 20px;
 }
 
-.InputText-UserID {
+.input-text-UserID {
   width: 20%;
 }
 
 /* RemoveElement component */
-.removeElementButton {
+.remove-element-button {
   border-radius: 15px !important;
 }
 
-.RemoveElementButton-Test {
+.remove-element-button-Test {
   background-color: #dc3545;
   border-color: #dc3545;
   padding: 0.5rem;
@@ -253,12 +253,12 @@
 }
 
 /* AddElement Component */
-.addElementButton {
+.add-element-button {
   margin-left: 2%;
   border-radius: 15px !important;
 }
 
-.AddElementButton-Test {
+.add-element-button-Test {
   background-color: #007bff;
   border-color: #007bff;
   padding: 0.5rem;

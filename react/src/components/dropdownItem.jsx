@@ -7,7 +7,7 @@ class DropdownItem extends Component {
 
     return (
       <button
-        className="dropdown-item btn-sm dropdownListItem"
+        className="dropdown-item btn-sm dropdown-list-item"
         onClick={event => onChangeType(event, testId, elementId, type)}
         name={elementType}
       >
