@@ -201,18 +201,18 @@
   overflow: hidden;
   height: 47px;
   background-color: rgba(80, 175, 80, 0.5);
-  transition: height 300ms ease-in;
+  transition: all 300ms ease-in;
 }
 .test-element-exit {
   height: 47px;
   overflow: hidden;
-  background-color: rgba(0, 0, 0, 0);
+  background-color: rgba(175, 80, 80, 0.5);
 }
 .test-element-exit-active {
   overflow: hidden;
   height: 0px;
-  transition: height 300ms;
-  background-color: rgba(175, 80, 80, 0.5);
+  transition: all 300ms;
+  background-color: rgba(0, 0, 0, 0);
 }
 
 /* Dropdown Component */
