@@ -34,7 +34,7 @@ class ParameterDropdown extends Component {
         <button
           className="btn btn-dark btn-sm dropdown-toggle"
           type="button"
-          id="dropdownMenuButton"
+          id="dropdown-menu-button"
           data-toggle="dropdown"
           aria-haspopup="true"
         >
@@ -42,7 +42,7 @@ class ParameterDropdown extends Component {
         </button>
         <div
           className={menuClass + " dropdownList"}
-          aria-labelledby="dropdownMenuButton"
+          aria-labelledby="dropdown-menu-button"
         >
           {this.state.items.map(parameterType => (
             <DropdownItem

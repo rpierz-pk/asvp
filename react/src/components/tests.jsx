@@ -419,7 +419,7 @@ class Tests extends Component {
           />
         </div>
         <div className="main-content">
-          <div className="main-header" />
+          <div className="main-header">ensure your proxies are protected</div>
           <div className="general-config-div">
             <div>
               {"ProxyURL: "}
