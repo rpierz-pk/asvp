@@ -27,14 +27,14 @@ class ExpectedOutputDropdown extends Component {
         <button
           className="btn btn-success btn-sm dropdown-toggle"
           type="button"
-          id="dropdownMenuButton"
+          id="dropdown-menu-button"
           data-toggle="dropdown"
           aria-haspopup="true"
         >
           {output.type}
         </button>
 
-        <div className={menuClass} aria-labelledby="dropdownMenuButton">
+        <div className={menuClass} aria-labelledby="dropdown-menu-button">
           {this.state.items.map(outputType => (
             <DropdownItem
               testId={testId}
