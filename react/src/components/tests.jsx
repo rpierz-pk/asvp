@@ -287,22 +287,22 @@ class Tests extends Component {
 
   parseOutputs = test => {
     let ResponseCode = {};
-    let Headers = {};
-    let BodyPath = {};
+    let ResponseHeader = {};
+    let ResponseBody = {};
     for (var output in test.outputs) {
       const { type, key, value } = test.outputs[output];
       if (type === "Status Code") {
         ResponseCode = value;
       } else if (type === "Header") {
-        Headers[key] = value;
+        ResponseHeader[key] = value;
       } else if (type === "Body-Path") {
-        BodyPath[key] = value;
+        ResponseBody[key] = value;
       }
     }
     return {
       ResponseCode,
-      Headers,
-      BodyPath
+      ResponseHeader,
+      ResponseBody
     };
   };
 
